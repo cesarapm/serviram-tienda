@@ -56,7 +56,7 @@ class AuthController
 
     public function register(Request $request)
     {
-         Log::info('📩 Registro iniciado', $request->all()); // 🔍 Verifica lo que llega
+        //  Log::info('📩 Registro iniciado', $request->all()); // 🔍 Verifica lo que llega
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',

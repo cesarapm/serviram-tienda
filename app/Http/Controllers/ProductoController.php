@@ -144,7 +144,7 @@ class ProductoController
             return response()->json(['message' => 'Producto no encontrado'], 404);
         }
 
-        Log::info('Producto encontrado', $producto->toArray());
+        // Log::info('Producto encontrado', $producto->toArray());
 
         return response()->json($this->formatearProducto($producto));
     }
@@ -209,9 +209,9 @@ class ProductoController
     }
     public function buscarPorTexto(Request $request)
     {
-        Log::info('Búsqueda de productos por texto', [
-            'request' => $request->all()
-        ]);
+        // Log::info('Búsqueda de productos por texto', [
+        //     'request' => $request->all()
+        // ]);
         try {
             $textoBusqueda = $request->input('q', '');
 
