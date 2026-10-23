@@ -1,285 +1,190 @@
 <template>
-  <div class="ramex-home">
-    <!-- Hero Section con Carrusel -->
-    <section class="hero-section">
-      <div class="hero-carousel">
-        <div 
-          v-for="(slide, index) in heroSlides" 
-          :key="index"
-          :class="['hero-slide', { 'active': activeSlide === index }]"
-          :style="{ backgroundImage: `url(${slide.image})` }"
-        >
-          <div class="hero-overlay"></div>
-          <div class="hero-content">
-            <div class="hero-text" data-aos="fade-right">
-              <h1>{{ slide.title }}</h1>
-              <p>{{ slide.subtitle }}</p>
-              <div class="hero-buttons">
-                <button class="btn btn-primary" @click="$router.push('/productos')">
-                  Ver Catálogo
-                </button>
-                <button class="btn btn-outlined" @click="scrollTo('categories')">
-                  Explorar
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
+  <div class="ramex-home-alakarta">
+    <!-- Noticia Bar -->
+    <div class="notice-bar">
+      <p>Contacta a un agente, sólo da click aquí. Llámanos al (33) 3614 1891</p>
+      <i class="fas fa-times" @click="noticeVisible = false"></i>
+    </div>
 
-        <div class="carousel-controls">
-          <button 
-            v-for="(_, index) in heroSlides" 
-            :key="index"
-            :class="['dot', { 'active': activeSlide === index }]"
-            @click="activeSlide = index"
-          ></button>
-        </div>
-      </div>
-    </section>
-
-    <!-- Categorías Principales -->
-    <section class="categories-section" ref="categoriesRef">
-      <div class="container">
-        <h2 class="section-title">Nuestras Categorías</h2>
-        <div class="categories-grid">
-          <router-link 
-            v-for="cat in mainCategories" 
-            :key="cat.id"
-            :to="`/productos?cat=${cat.slug}`"
-            class="category-card"
-          >
-            <div class="category-icon">
-              <i :class="cat.icon"></i>
-            </div>
-            <h3>{{ cat.name }}</h3>
-            <p>{{ cat.count }} productos</p>
+    <!-- Navbar Mejorado -->
+    <nav class="navbar-top">
+      <div class="navbar-container">
+        <div class="navbar-brand">
+          <router-link to="/" class="logo">
+            <span>RAMEX KITCHEN</span>
           </router-link>
         </div>
-      </div>
-    </section>
 
-    <!-- Búsqueda Destacada -->
-    <section class="search-section">
-      <div class="container">
-        <div class="search-wrapper">
+        <div class="navbar-search">
           <input 
             v-model="searchQuery"
             type="text"
-            placeholder="Buscar equipos profesionales..."
+            placeholder="Buscar productos"
             @keydown.enter="search"
-            class="search-input"
           />
           <button @click="search" class="search-btn">
-            <i class="fas fa-search"></i>
+            <i class="fas fa-search"></i> Búsqueda
           </button>
         </div>
-      </div>
-    </section>
 
-    <!-- Productos Destacados -->
-    <section class="products-section">
-      <div class="container">
-        <div class="section-header">
-          <h2 class="section-title">Productos Destacados</h2>
-          <router-link to="/productos" class="see-all">
-            Ver todo →
-          </router-link>
-        </div>
-
-        <div v-if="loadingProducts" class="loading-state">
-          <v-progress-circular indeterminate></v-progress-circular>
-        </div>
-
-        <div v-else-if="featuredProducts.length === 0" class="empty-state">
-          <p>No hay productos disponibles en este momento</p>
-        </div>
-
-        <div v-else class="products-grid">
-          <div 
-            v-for="product in featuredProducts"
-            :key="product.id"
-            class="product-card"
-            @mouseenter="hoveredProduct = product.id"
-            @mouseleave="hoveredProduct = null"
-          >
-            <div class="product-image">
-              <img 
-                :src="product.galeria_imagenes?.[0] || '/images/placeholder.webp'"
-                :alt="product.name"
-              />
-              <div v-if="hoveredProduct === product.id" class="product-overlay">
-                <router-link :to="`/producto/${product.id}`" class="btn btn-primary">
-                  Ver Detalles
-                </router-link>
-              </div>
+        <div class="navbar-right">
+          <div class="contact-info">
+            <i class="fab fa-whatsapp"></i>
+            <div>
+              <p>WhatsApp</p>
+              <a href="tel:+5233614891">Llámanos</a>
             </div>
-            <div class="product-info">
-              <p class="product-brand">{{ product.brand?.nombre || 'Sin marca' }}</p>
-              <h3 class="product-name">{{ product.name }}</h3>
-              <p class="product-category">{{ product.category?.nombre || 'General' }}</p>
-              <div class="product-footer">
-                <span class="product-price">${{ formatPrice(product.price) }}</span>
-              </div>
-            </div>
+          </div>
+          <div class="navbar-icons">
+            <a href="#" title="Idioma"><i class="fas fa-globe"></i> ES</a>
+            <a href="#" title="Mi cuenta"><i class="fas fa-user"></i></a>
+            <a href="#" title="Carrito"><i class="fas fa-shopping-cart"></i></a>
           </div>
         </div>
       </div>
-    </section>
+    </nav>
 
-    <!-- Por qué elegirnos -->
-    <section class="benefits-section">
-      <div class="container">
-        <h2 class="section-title">¿Por qué elegir RAMEX KITCHEN?</h2>
-        <div class="benefits-grid">
-          <div v-for="(benefit, index) in benefits" :key="index" class="benefit-card">
-            <div class="benefit-icon">
-              <i :class="benefit.icon"></i>
-            </div>
-            <h3>{{ benefit.title }}</h3>
-            <p>{{ benefit.description }}</p>
-          </div>
+    <!-- Menú de Navegación Oscuro -->
+    <nav class="navbar-menu">
+      <div class="navbar-container">
+        <ul class="menu-list">
+          <li v-for="item in menuItems" :key="item.id">
+            <router-link :to="item.path">{{ item.name }}</router-link>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Banner de Categoría -->
+    <section class="category-banner" v-if="currentCategory">
+      <div class="banner-image" :style="{ backgroundImage: `url(${currentCategory.image})` }">
+        <div class="banner-overlay"></div>
+        <div class="banner-content">
+          <h1>{{ currentCategory.title }}</h1>
+          <p>{{ currentCategory.description }}</p>
         </div>
       </div>
     </section>
 
-    <!-- Testimonios -->
-    <section class="testimonials-section">
-      <div class="container">
-        <h2 class="section-title">Lo que dicen nuestros clientes</h2>
-        <div class="testimonials-grid">
-          <div v-for="testimonial in testimonials" :key="testimonial.id" class="testimonial-card">
-            <div class="testimonial-stars">
-              <i v-for="n in 5" :key="n" class="fas fa-star"></i>
+    <!-- Contenedor Filtros + Productos -->
+    <div class="products-container">
+      <div class="navbar-container">
+        <div class="products-wrapper">
+          <!-- Sidebar Filtros -->
+          <aside class="products-sidebar">
+            <div class="filter-group">
+              <h3>PRECIO</h3>
+              <div class="price-filter">
+                <input v-model="priceMin" type="number" placeholder="Min" />
+                <span>-</span>
+                <input v-model="priceMax" type="number" placeholder="Max" />
+              </div>
+              <p class="price-note">El precio más alto es $999,999,999.00</p>
             </div>
-            <p class="testimonial-text">{{ testimonial.text }}</p>
-            <div class="testimonial-author">
-              <div class="author-avatar">{{ testimonial.initials }}</div>
-              <div class="author-info">
-                <h4>{{ testimonial.name }}</h4>
-                <p>{{ testimonial.company }}</p>
+
+            <div class="filter-group">
+              <h3>MARCA</h3>
+              <div class="brand-filter">
+                <label v-for="brand in brands" :key="brand.id">
+                  <input type="checkbox" :value="brand.id" v-model="selectedBrands" />
+                  {{ brand.name }}
+                </label>
               </div>
             </div>
-          </div>
-        </div>
-      </div>
-    </section>
+          </aside>
 
-    <!-- CTA Final -->
-    <section class="cta-section">
-      <div class="container">
-        <div class="cta-content">
-          <h2>¿Listo para equipar tu cocina?</h2>
-          <p>Explora nuestro catálogo completo de 500+ productos de las mejores marcas</p>
-          <button class="btn btn-primary btn-lg" @click="$router.push('/productos')">
-            Ver Catálogo Completo
-          </button>
+          <!-- Grid de Productos -->
+          <main class="products-main">
+            <div class="products-header">
+              <div class="products-count">
+                <strong>{{ featuredProducts.length }}</strong> Productos
+              </div>
+              <div class="products-sort">
+                <label>Ordenar por:</label>
+                <select v-model="sortBy">
+                  <option value="az">Alfabéticamente, A-Z</option>
+                  <option value="za">Alfabéticamente, Z-A</option>
+                  <option value="price-asc">Precio, menor a mayor</option>
+                  <option value="price-desc">Precio, mayor a menor</option>
+                </select>
+              </div>
+            </div>
+
+            <div v-if="loadingProducts" class="loading">
+              <v-progress-circular indeterminate></v-progress-circular>
+            </div>
+
+            <div v-else-if="featuredProducts.length === 0" class="empty-state">
+              <p>No hay productos disponibles</p>
+            </div>
+
+            <div v-else class="products-grid-alakarta">
+              <div v-for="product in featuredProducts" :key="product.id" class="product-card-alakarta">
+                <div class="product-image">
+                  <img 
+                    :src="product.galeria_imagenes?.[0] || 'https://via.placeholder.com/200?text=No+Imagen'"
+                    :alt="product.name"
+                  />
+                </div>
+                <div class="product-info">
+                  <p class="product-brand">{{ product.brand?.nombre || 'Sin marca' }}</p>
+                  <h4 class="product-name">{{ product.name }}</h4>
+                  <p class="product-price">${{ formatPrice(product.price) }}</p>
+                  <router-link :to="`/producto/${product.id}`" class="product-link">
+                    Ver detalles →
+                  </router-link>
+                </div>
+              </div>
+            </div>
+          </main>
         </div>
       </div>
-    </section>
+    </div>
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted, nextTick } from 'vue'
 import { useRouter } from 'vue-router'
-import AOS from 'aos'
-import 'aos/dist/aos.css'
 
 const router = useRouter()
-const categoriesRef = ref(null)
-
-// Estado reactivo
+const noticeVisible = ref(true)
 const activeSlide = ref(0)
-const hoveredProduct = ref(null)
 const searchQuery = ref('')
-const featuredProducts = ref([])
+const sortBy = ref('az')
+const priceMin = ref('')
+const priceMax = ref('')
+const selectedBrands = ref([])
 const loadingProducts = ref(false)
+const featuredProducts = ref([])
 
-// Hero Slides
-const heroSlides = ref([
-  {
-    title: 'RAMEX KITCHEN',
-    subtitle: 'Equipo Profesional para Cocinas',
-    image: '/images/portadas/portadahome.webp'
-  },
-  {
-    title: 'Soluciones Integrales',
-    subtitle: 'Equipamiento gastronómico de calidad',
-    image: '/images/portadas/hero2.webp'
-  }
+const currentCategory = ref({
+  title: 'RAMEX KITCHEN',
+  description: 'Equipo Profesional para Cocinas - Soluciones integrales de equipamiento gastronómico',
+  image: 'https://via.placeholder.com/1200x300?text=RAMEX+KITCHEN'
+})
+
+const menuItems = ref([
+  { id: 1, name: 'TODAS LAS MARCAS', path: '/productos' },
+  { id: 2, name: 'ACERO INOXIDABLE', path: '/productos?cat=acero' },
+  { id: 3, name: 'COCCIONES', path: '/productos?cat=coccion' },
+  { id: 4, name: 'CAFETERAS', path: '/productos?cat=cafeteras' },
+  { id: 5, name: 'LAVADO', path: '/productos?cat=lavado' },
+  { id: 6, name: 'PREPARACIÓN DE ALIMENTOS', path: '/productos?cat=preparacion' },
+  { id: 7, name: 'REFRIGERACIÓN', path: '/productos?cat=refrigeracion' },
+  { id: 8, name: 'EQUIPOS PARA HELADO', path: '/productos?cat=helado' },
+  { id: 9, name: 'INSUMOS', path: '/productos?cat=insumos' },
+  { id: 10, name: 'MARCAS', path: '/marcas' },
+  { id: 11, name: 'SOBRE NOSOTROS', path: '/nosotros' },
 ])
 
-// Categorías principales
-const mainCategories = ref([
-  { id: 1, name: 'Cocción', slug: 'coccion', icon: 'fas fa-fire', count: 45 },
-  { id: 2, name: 'Refrigeración', slug: 'refrigeracion', icon: 'fas fa-snowflake', count: 38 },
-  { id: 3, name: 'Preparación', slug: 'preparacion', icon: 'fas fa-utensils', count: 52 },
-  { id: 4, name: 'Cafeteras', slug: 'cafeteras', icon: 'fas fa-mug-hot', count: 24 },
-  { id: 5, name: 'Acero Inoxidable', slug: 'acero', icon: 'fas fa-cube', count: 30 },
-  { id: 6, name: 'Accesorios', slug: 'accesorios', icon: 'fas fa-tools', count: 40 }
+const brands = ref([
+  { id: 1, name: 'Rational' },
+  { id: 2, name: 'Unox' },
+  { id: 3, name: 'Winterhalter' },
+  { id: 4, name: 'Euroquip' },
+  { id: 5, name: 'MIGSA' },
 ])
-
-// Beneficios
-const benefits = ref([
-  {
-    icon: 'fas fa-truck-fast',
-    title: 'Envío Rápido',
-    description: 'Entrega en toda la República Mexicana'
-  },
-  {
-    icon: 'fas fa-shield-alt',
-    title: 'Garantía',
-    description: 'Garantía del fabricante en todos los productos'
-  },
-  {
-    icon: 'fas fa-headset',
-    title: 'Soporte 24/7',
-    description: 'Asesoría técnica especializada'
-  },
-  {
-    icon: 'fas fa-undo',
-    title: 'Devoluciones',
-    description: '30 días para cambios y devoluciones'
-  }
-])
-
-// Testimonios
-const testimonials = ref([
-  {
-    id: 1,
-    text: 'Excelente servicio y productos de alta calidad. El equipo funcionó perfectamente desde el primer día.',
-    name: 'Carlos Mendoza',
-    company: 'Restaurante La Cocina',
-    initials: 'CM'
-  },
-  {
-    id: 2,
-    text: 'La atención al cliente es excepcional. Me asesoraron perfectamente en la elección del equipo.',
-    name: 'María González',
-    company: 'Panadería Don Pan',
-    initials: 'MG'
-  },
-  {
-    id: 3,
-    text: 'Servicio post-venta impecable. Cualquier duda técnica me la resuelven rápidamente.',
-    name: 'Roberto Silva',
-    company: 'Hotel Plaza Central',
-    initials: 'RS'
-  }
-])
-
-// Métodos
-const scrollTo = (ref) => {
-  if (ref === 'categories' && categoriesRef.value) {
-    categoriesRef.value.scrollIntoView({ behavior: 'smooth' })
-  }
-}
-
-const search = () => {
-  if (searchQuery.value.trim()) {
-    router.push(`/productos?q=${encodeURIComponent(searchQuery.value)}`)
-  }
-}
 
 const formatPrice = (price) => {
   return parseFloat(price).toLocaleString('es-MX', {
@@ -288,15 +193,19 @@ const formatPrice = (price) => {
   })
 }
 
-const fetchFeaturedProducts = async () => {
+const search = () => {
+  if (searchQuery.value.trim()) {
+    router.push(`/productos?q=${encodeURIComponent(searchQuery.value)}`)
+  }
+}
+
+const fetchProducts = async () => {
   loadingProducts.value = true
   try {
-    const response = await fetch('/api/productos/destacado?limit=6')
+    const response = await fetch('/api/productos/destacado?limit=12')
     if (response.ok) {
       const data = await response.json()
       featuredProducts.value = data.data || []
-      await nextTick()
-      AOS.refresh()
     }
   } catch (error) {
     console.error('Error cargando productos:', error)
@@ -305,17 +214,8 @@ const fetchFeaturedProducts = async () => {
   }
 }
 
-// Carrusel automático
-const startCarousel = () => {
-  setInterval(() => {
-    activeSlide.value = (activeSlide.value + 1) % heroSlides.value.length
-  }, 5000)
-}
-
 onMounted(() => {
-  AOS.init({ duration: 500, once: true })
-  fetchFeaturedProducts()
-  startCarousel()
+  fetchProducts()
 })
 </script>
 
@@ -325,7 +225,7 @@ onMounted(() => {
   --color-dark: #383838;
   --color-gray: #BABABA;
   --color-light: #f5f5f5;
-  --color-white: #ffffff;
+  --color-black: #1a1a1a;
 }
 
 * {
@@ -334,10 +234,9 @@ onMounted(() => {
   box-sizing: border-box;
 }
 
-.ramex-home {
-  background: var(--color-light);
+.ramex-home-alakarta {
+  background: white;
   color: var(--color-dark);
-  overflow-x: hidden;
 }
 
 .container {
@@ -346,476 +245,414 @@ onMounted(() => {
   padding: 0 20px;
 }
 
-/* Hero Section */
-.hero-section {
-  margin-top: 70px;
-  height: 100vh;
-  position: relative;
-  overflow: hidden;
-}
-
-.hero-carousel {
-  position: relative;
-  height: 100%;
-}
-
-.hero-slide {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background-size: cover;
-  background-position: center;
-  opacity: 0;
-  transition: opacity 0.8s ease;
-}
-
-.hero-slide.active {
-  opacity: 1;
-}
-
-.hero-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, rgba(0, 0, 0, 0.4), rgba(200, 70, 23, 0.3));
-}
-
-.hero-content {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  padding: 40px;
-  z-index: 2;
-}
-
-.hero-text {
-  max-width: 500px;
+/* Notice Bar */
+.notice-bar {
+  background: var(--color-black);
   color: white;
-  text-align: left;
-}
-
-.hero-text h1 {
-  font-size: clamp(2.5rem, 6vw, 4rem);
-  font-weight: 800;
-  margin-bottom: 20px;
-  letter-spacing: -1px;
-}
-
-.hero-text p {
-  font-size: 1.2rem;
-  margin-bottom: 30px;
-  opacity: 0.95;
-  line-height: 1.6;
-}
-
-.hero-buttons {
-  display: flex;
-  gap: 15px;
-  flex-wrap: wrap;
-}
-
-.carousel-controls {
-  position: absolute;
-  bottom: 30px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 12px;
-  z-index: 10;
-}
-
-.dot {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.5);
-  border: none;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.dot.active {
-  width: 30px;
-  border-radius: 6px;
-  background: var(--color-primary);
-}
-
-/* Categorías */
-.categories-section {
-  padding: 80px 0;
-  background: white;
-}
-
-.categories-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 20px;
-  margin-top: 40px;
-}
-
-.category-card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 15px;
-  padding: 20px;
-  border-radius: 12px;
-  background: var(--color-light);
-  text-decoration: none;
-  color: inherit;
-  transition: all 0.3s ease;
+  padding: 12px 0;
   text-align: center;
-}
-
-.category-card:hover {
-  background: var(--color-primary);
-  color: white;
-  transform: translateY(-5px);
-}
-
-.category-icon {
-  font-size: 32px;
-  width: 60px;
-  height: 60px;
+  font-size: 0.9rem;
   display: flex;
-  align-items: center;
   justify-content: center;
-  border-radius: 50%;
-  background: rgba(200, 70, 23, 0.1);
-  transition: all 0.3s ease;
+  align-items: center;
+  gap: 20px;
 }
 
-.category-card:hover .category-icon {
-  background: rgba(255, 255, 255, 0.2);
+.notice-bar p {
+  margin: 0;
 }
 
-.category-card h3 {
-  font-size: 1rem;
-  font-weight: 600;
-}
-
-.category-card p {
-  font-size: 0.85rem;
+.notice-bar i {
+  cursor: pointer;
   opacity: 0.7;
 }
 
-/* Búsqueda */
-.search-section {
-  padding: 40px 0;
+/* Navbar Top */
+.navbar-top {
   background: white;
-  border-bottom: 1px solid var(--color-gray);
+  border-bottom: 1px solid var(--color-light);
+  padding: 15px 0;
 }
 
-.search-wrapper {
+.navbar-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 40px;
+}
+
+.navbar-brand {
+  flex-shrink: 0;
+}
+
+.navbar-brand .logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: var(--color-dark);
+  font-weight: 700;
+  font-size: 1.2rem;
+}
+
+.navbar-brand img {
+  height: 40px;
+  width: auto;
+}
+
+.navbar-search {
+  flex: 1;
   display: flex;
   gap: 0;
-  max-width: 500px;
-  margin: 0 auto;
 }
 
-.search-input {
+.navbar-search input {
   flex: 1;
-  padding: 12px 20px;
+  padding: 10px 15px;
   border: 1px solid var(--color-gray);
-  border-radius: 4px 0 0 4px;
-  font-size: 1rem;
-  outline: none;
-}
-
-.search-input:focus {
-  border-color: var(--color-primary);
+  border-radius: 0;
+  font-size: 0.95rem;
 }
 
 .search-btn {
-  padding: 12px 24px;
-  background: var(--color-primary);
+  padding: 10px 20px;
+  background: #D4A574;
   color: white;
   border: none;
-  border-radius: 0 4px 4px 0;
   cursor: pointer;
-  transition: all 0.3s ease;
+  font-weight: 600;
+  transition: background 0.3s;
 }
 
 .search-btn:hover {
-  background: #a83512;
+  background: #c99559;
 }
 
-/* Productos */
-.products-section {
-  padding: 80px 0;
-  background: white;
-}
-
-.section-header {
+.navbar-right {
   display: flex;
-  justify-content: space-between;
+  gap: 30px;
   align-items: center;
-  margin-bottom: 40px;
+  flex-shrink: 0;
 }
 
-.section-title {
-  font-size: 2.2rem;
-  font-weight: 700;
-  color: var(--color-dark);
-  margin-bottom: 10px;
-}
-
-.see-all {
-  color: var(--color-primary);
-  text-decoration: none;
-  font-weight: 600;
-  transition: all 0.3s ease;
-}
-
-.see-all:hover {
+.contact-info {
+  display: flex;
   gap: 10px;
-}
-
-.products-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 24px;
-}
-
-.product-card {
-  background: white;
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  transition: all 0.3s ease;
-}
-
-.product-card:hover {
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-  transform: translateY(-4px);
-}
-
-.product-image {
-  position: relative;
-  height: 250px;
-  overflow: hidden;
-  background: var(--color-light);
-}
-
-.product-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  padding: 20px;
-}
-
-.product-overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.6);
-  display: flex;
   align-items: center;
-  justify-content: center;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.product-card:hover .product-overlay {
-  opacity: 1;
-}
-
-.product-info {
-  padding: 16px;
-}
-
-.product-brand {
-  font-size: 0.85rem;
-  color: var(--color-primary);
-  font-weight: 600;
-  margin-bottom: 4px;
-}
-
-.product-name {
-  font-size: 1rem;
-  font-weight: 600;
-  color: var(--color-dark);
-  margin-bottom: 4px;
-  line-height: 1.3;
-}
-
-.product-category {
-  font-size: 0.85rem;
-  color: var(--color-gray);
-  margin-bottom: 12px;
-}
-
-.product-footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.product-price {
-  font-size: 1.3rem;
-  font-weight: 700;
-  color: var(--color-primary);
-}
-
-/* Beneficios */
-.benefits-section {
-  padding: 80px 0;
-  background: linear-gradient(135deg, var(--color-light), white);
-}
-
-.benefits-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 30px;
-  margin-top: 40px;
-}
-
-.benefit-card {
-  text-align: center;
-  padding: 20px;
-}
-
-.benefit-icon {
-  font-size: 2.5rem;
-  color: var(--color-primary);
-  margin-bottom: 15px;
-}
-
-.benefit-card h3 {
-  font-size: 1.1rem;
-  font-weight: 600;
-  margin-bottom: 10px;
-  color: var(--color-dark);
-}
-
-.benefit-card p {
-  color: var(--color-gray);
-  line-height: 1.6;
-}
-
-/* Testimonios */
-.testimonials-section {
-  padding: 80px 0;
-  background: white;
-}
-
-.testimonials-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 30px;
-  margin-top: 40px;
-}
-
-.testimonial-card {
-  background: var(--color-light);
-  padding: 24px;
-  border-radius: 8px;
-  border-left: 4px solid var(--color-primary);
-}
-
-.testimonial-stars {
-  color: var(--color-primary);
-  margin-bottom: 12px;
-}
-
-.testimonial-text {
-  font-style: italic;
-  color: var(--color-dark);
-  margin-bottom: 16px;
-  line-height: 1.6;
-}
-
-.testimonial-author {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-}
-
-.author-avatar {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  background: var(--color-primary);
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 600;
   font-size: 0.9rem;
 }
 
-.author-info h4 {
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: var(--color-dark);
-  margin-bottom: 2px;
+.contact-info i {
+  font-size: 1.5rem;
+  color: var(--color-primary);
 }
 
-.author-info p {
-  font-size: 0.85rem;
-  color: var(--color-gray);
+.contact-info p {
+  margin: 0;
+  font-size: 0.8rem;
 }
 
-/* CTA */
-.cta-section {
-  background: linear-gradient(135deg, var(--color-primary), #a83512);
-  color: white;
-  padding: 80px 0;
-  text-align: center;
-}
-
-.cta-content h2 {
-  font-size: 2.5rem;
-  margin-bottom: 15px;
-}
-
-.cta-content p {
-  font-size: 1.1rem;
-  margin-bottom: 30px;
-  opacity: 0.9;
-}
-
-/* Botones */
-.btn {
-  padding: 12px 28px;
-  border: none;
-  border-radius: 4px;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
+.contact-info a {
+  color: var(--color-primary);
   text-decoration: none;
-  display: inline-block;
+  font-weight: 600;
 }
 
-.btn-primary {
+.navbar-icons {
+  display: flex;
+  gap: 20px;
+}
+
+.navbar-icons a {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--color-dark);
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: color 0.3s;
+}
+
+.navbar-icons a:hover {
+  color: var(--color-primary);
+}
+
+/* Menu Oscuro */
+.navbar-menu {
+  background: var(--color-black);
+  padding: 0;
+}
+
+.navbar-menu .navbar-container {
+  gap: 0;
+}
+
+.menu-list {
+  display: flex;
+  list-style: none;
+  gap: 0;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.menu-list li {
+  flex: 0 1 auto;
+}
+
+.menu-list a {
+  display: block;
+  padding: 15px 18px;
+  color: white;
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: background 0.3s, color 0.3s;
+}
+
+.menu-list a:hover {
   background: var(--color-primary);
   color: white;
 }
 
-.btn-primary:hover {
-  background: #a83512;
-  transform: translateY(-2px);
+/* Banner */
+.category-banner {
+  height: 300px;
+  overflow: hidden;
+  margin-bottom: 40px;
 }
 
-.btn-outlined {
-  background: transparent;
+.banner-image {
+  position: relative;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding-left: 60px;
+}
+
+.banner-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.banner-content {
+  position: relative;
+  z-index: 2;
   color: white;
-  border: 2px solid white;
+  max-width: 600px;
 }
 
-.btn-outlined:hover {
+.banner-content h1 {
+  font-size: 2.5rem;
+  margin-bottom: 15px;
+  font-weight: 700;
+}
+
+.banner-content p {
+  font-size: 1rem;
+  line-height: 1.6;
+  opacity: 0.95;
+}
+
+/* Productos */
+.products-container {
+  padding: 0 0 60px 0;
   background: white;
+}
+
+.products-wrapper {
+  display: grid;
+  grid-template-columns: 250px 1fr;
+  gap: 40px;
+}
+
+.products-sidebar {
+  background: var(--color-light);
+  padding: 20px;
+  border-radius: 4px;
+  height: fit-content;
+  top: 20px;
+  position: sticky;
+}
+
+.filter-group {
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--color-gray);
+}
+
+.filter-group:last-child {
+  border-bottom: none;
+}
+
+.filter-group h3 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  margin-bottom: 15px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.price-filter {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.price-filter input {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid var(--color-gray);
+  border-radius: 3px;
+  font-size: 0.9rem;
+}
+
+.price-note {
+  font-size: 0.8rem;
+  color: var(--color-gray);
+  margin-top: 10px;
+}
+
+.brand-filter label {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  align-items: center;
+}
+
+.brand-filter input {
+  cursor: pointer;
+}
+
+/* Header Productos */
+.products-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--color-light);
+}
+
+.products-count {
+  font-size: 0.95rem;
+}
+
+.products-count strong {
+  font-weight: 700;
+  color: var(--color-dark);
+}
+
+.products-sort {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.products-sort label {
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.products-sort select {
+  padding: 8px 12px;
+  border: 1px solid var(--color-gray);
+  border-radius: 3px;
+  background: white;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+/* Grid Alakarta */
+.products-grid-alakarta {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.product-card-alakarta {
+  background: white;
+  border: 1px solid var(--color-light);
+  border-radius: 4px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.product-card-alakarta:hover {
+  border-color: var(--color-primary);
+  box-shadow: 0 4px 12px rgba(200, 70, 23, 0.1);
+}
+
+.product-image {
+  height: 200px;
+  background: var(--color-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.product-image img {
+  max-width: 90%;
+  max-height: 90%;
+  object-fit: contain;
+}
+
+.product-info {
+  padding: 15px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.product-brand {
+  font-size: 0.8rem;
   color: var(--color-primary);
+  font-weight: 600;
+  margin-bottom: 5px;
+  text-transform: uppercase;
 }
 
-.btn-lg {
-  padding: 16px 48px;
-  font-size: 1.1rem;
+.product-name {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+  line-height: 1.3;
+  color: var(--color-dark);
 }
 
-/* Loading */
-.loading-state {
+.product-price {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin-bottom: 10px;
+}
+
+.product-link {
+  color: var(--color-primary);
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-top: auto;
+  transition: all 0.3s;
+}
+
+.product-link:hover {
+  gap: 8px;
+}
+
+.loading {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -826,74 +663,80 @@ onMounted(() => {
   text-align: center;
   padding: 60px 20px;
   color: var(--color-gray);
-  font-size: 1.1rem;
 }
 
 /* Responsive */
 @media (max-width: 768px) {
-  .hero-text {
-    max-width: 100%;
+  .navbar-container {
+    gap: 15px;
+    flex-wrap: wrap;
   }
 
-  .hero-buttons {
-    flex-direction: column;
-  }
-
-  .btn {
+  .navbar-search {
+    order: 3;
     width: 100%;
   }
 
-  .section-title {
-    font-size: 1.8rem;
-  }
-
-  .categories-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-
-  .products-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .section-header {
-    flex-direction: column;
-    align-items: flex-start;
+  .navbar-right {
     gap: 15px;
   }
 
-  .cta-content h2 {
+  .contact-info {
+    display: none;
+  }
+
+  .menu-list {
+    gap: 0;
+  }
+
+  .menu-list a {
+    padding: 12px 10px;
+    font-size: 0.75rem;
+  }
+
+  .banner-content h1 {
     font-size: 1.8rem;
+  }
+
+  .products-wrapper {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .products-sidebar {
+    order: 2;
+  }
+
+  .products-main {
+    order: 1;
+  }
+
+  .products-grid-alakarta {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
 @media (max-width: 480px) {
-  .hero-content {
-    padding: 20px;
+  .notice-bar {
+    display: none;
   }
 
-  .hero-text h1 {
-    font-size: 1.8rem;
-  }
-
-  .hero-text p {
-    font-size: 1rem;
-  }
-
-  .categories-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .products-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .search-wrapper {
-    flex-direction: column;
-  }
-
-  .search-input,
+  .navbar-search input,
   .search-btn {
-    border-radius: 4px;
+    font-size: 0.85rem;
+    padding: 8px 10px;
+  }
+
+  .banner-content h1 {
+    font-size: 1.3rem;
+  }
+
+  .banner-content p {
+    font-size: 0.9rem;
+  }
+
+  .products-grid-alakarta {
+    grid-template-columns: 1fr;
   }
 }
 </style>
