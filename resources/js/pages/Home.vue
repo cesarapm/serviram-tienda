@@ -1,1221 +1,899 @@
 <template>
-  <div class="serviram-home">
-    <!-- Hero Section -->
-    <v-container fluid class="hero-section pa-0">
-      <div class="hero-backdrop" :style="heroBackdropStyle"></div>
-      <div class="hero-overlay"></div>
-      
-      <v-row no-gutters align="center" justify="center" class="fill-height hero-content hero-grid">
-        <v-col cols="12" md="10" lg="8" class="text-center py-16 px-4">
-          <div class="hero-copy-shell">
-          <!-- Logo emblemático -->
-          <div class="brand-emblem mb-8" data-aos="fade-in">
-            <h1 class="brand-name">SERVIRAM</h1>
-            <p class="brand-tagline">Equipos Profesionales para tu Cocina</p>
-          </div>
-
-          <!-- Mensaje principal -->
-          <div class="hero-message mb-10" data-aos="fade-in" data-aos-delay="150">
-            <h2 class="elegant-title mb-6">
-              Los mejores equipos<br>
-              <span class="accent-whisper">para cocinas profesionales</span>
-            </h2>
-            <p class="essence-text">
-              Soluciones completas en equipos, refacciones y accesorios<br>
-              de las marcas más confiables del mercado.
-            </p>
-          </div>
-
-          <!-- CTA Principal -->
-          <div class="hero-actions" data-aos="fade-in" data-aos-delay="300">
-            <v-btn
-              class="discover-btn px-12 py-3"
-              @click="$router.push('/productos')"
-              elevation="0"
-            >
-              <span>Ver Catálogo</span>
-              <div class="btn-glow"></div>
-            </v-btn>
-            <div class="whisper-text mt-4">
-              <small>15+ años sirviendo a restaurantes, hoteles y empresas en México</small>
-            </div>
-          </div>
-          </div>
-        </v-col>
-      </v-row>
-    </v-container>
-
-    <!-- Productos Destacados Section -->
-    <v-container class="featured-section py-20">
-      <v-row justify="center">
-        <v-col cols="12" md="10" class="text-center">
-          <h3 class="section-title mb-12" data-aos="fade-in">
-            Productos Destacados
-          </h3>
-          
-          <div class="products-grid">
-            <div 
-              v-if="featuredLoading"
-              class="product-card product-card--status"
-              data-aos="fade-in"
-            >
-              <div class="product-info">
-                <h4 class="product-name">Cargando productos...</h4>
+  <div class="ramex-home">
+    <!-- Hero Section con Carrusel -->
+    <section class="hero-section">
+      <div class="hero-carousel">
+        <div 
+          v-for="(slide, index) in heroSlides" 
+          :key="index"
+          :class="['hero-slide', { 'active': activeSlide === index }]"
+          :style="{ backgroundImage: `url(${slide.image})` }"
+        >
+          <div class="hero-overlay"></div>
+          <div class="hero-content">
+            <div class="hero-text" data-aos="fade-right">
+              <h1>{{ slide.title }}</h1>
+              <p>{{ slide.subtitle }}</p>
+              <div class="hero-buttons">
+                <button class="btn btn-primary" @click="$router.push('/productos')">
+                  Ver Catálogo
+                </button>
+                <button class="btn btn-outlined" @click="scrollTo('categories')">
+                  Explorar
+                </button>
               </div>
             </div>
-            <div 
-              v-else-if="featuredProducts.length === 0"
-              class="product-card product-card--status"
-              data-aos="fade-in"
-            >
-              <div class="product-info">
-                <h4 class="product-name">Explora nuestro catálogo completo</h4>
-                <p class="product-description">500+ productos disponibles</p>
-              </div>
-            </div>
-            <template v-else>
-              <div 
-                v-for="product in featuredProducts" 
-                :key="product.id" 
-                class="product-card" 
-                data-aos="fade-in" 
-                :data-aos-delay="(product.id % 6) * 50"
-              >
-                <div class="product-image">
-                  <v-img
-                    v-if="product.galeria_imagenes && product.galeria_imagenes.length > 0"
-                    :src="product.galeria_imagenes[0]"
-                    :alt="product.name"
-                    class="product-card__image"
-                    contain
-                    height="280"
-                  />
-                  <div v-else class="placeholder-product">
-                    {{ product.name.charAt(0) }}
-                  </div>
-                  <div class="product-overlay">
-                    <v-btn 
-                      class="view-btn" 
-                      variant="outlined" 
-                      @click="viewProduct(product.id)"
-                    >
-                      Ver Detalles
-                    </v-btn>
-                  </div>
-                </div>
-                <div class="product-info">
-                  <p v-if="product.brand" class="product-brand">{{ typeof product.brand === 'string' ? product.brand : product.brand?.nombre }}</p>
-                  <h4 class="product-name">{{ product.name }}</h4>
-                  <p class="product-category">{{ typeof product.category === 'string' ? product.category : product.category?.nombre }}</p>
-                  <div class="product-price">
-                    <span class="price">${{ formatearPrecio(product.price) }}</span>
-                  </div>
-                </div>
-              </div>
-            </template>
           </div>
-        </v-col>
-      </v-row>
+        </div>
 
-      <div v-if="!loading && totalPages > 1 && featuredProducts.length > 0" class="pagination-shell">
-        <v-pagination
-          v-model="currentPage"
-          :length="totalPages"
-          :total-visible="$vuetify.display.smAndDown ? 4 : 7"
-          rounded="circle"
-          active-color="primary"
-        />
+        <div class="carousel-controls">
+          <button 
+            v-for="(_, index) in heroSlides" 
+            :key="index"
+            :class="['dot', { 'active': activeSlide === index }]"
+            @click="activeSlide = index"
+          ></button>
+        </div>
       </div>
-    </v-container>
+    </section>
 
-    <!-- Por qué elegir Serviram -->
-    <v-container class="why-serviram py-20">
-      <v-row justify="center">
-        <v-col cols="12" md="10" class="text-center mb-12">
-          <h3 class="section-title" data-aos="fade-in">
-            ¿Por qué elegir SERVIRAM?
-          </h3>
-          <p class="section-subtitle" data-aos="fade-in" data-aos-delay="100">
-            Comprometidos con tu satisfacción
-          </p>
-        </v-col>
-      </v-row>
+    <!-- Categorías Principales -->
+    <section class="categories-section" ref="categoriesRef">
+      <div class="container">
+        <h2 class="section-title">Nuestras Categorías</h2>
+        <div class="categories-grid">
+          <router-link 
+            v-for="cat in mainCategories" 
+            :key="cat.id"
+            :to="`/productos?cat=${cat.slug}`"
+            class="category-card"
+          >
+            <div class="category-icon">
+              <i :class="cat.icon"></i>
+            </div>
+            <h3>{{ cat.name }}</h3>
+            <p>{{ cat.count }} productos</p>
+          </router-link>
+        </div>
+      </div>
+    </section>
 
-      <v-row justify="center">
-        <v-col v-for="(benefit, index) in benefits" :key="index" cols="12" sm="6" md="3" class="mb-8">
-          <div class="benefit-card" data-aos="fade-in" :data-aos-delay="index * 50">
+    <!-- Búsqueda Destacada -->
+    <section class="search-section">
+      <div class="container">
+        <div class="search-wrapper">
+          <input 
+            v-model="searchQuery"
+            type="text"
+            placeholder="Buscar equipos profesionales..."
+            @keydown.enter="search"
+            class="search-input"
+          />
+          <button @click="search" class="search-btn">
+            <i class="fas fa-search"></i>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Productos Destacados -->
+    <section class="products-section">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">Productos Destacados</h2>
+          <router-link to="/productos" class="see-all">
+            Ver todo →
+          </router-link>
+        </div>
+
+        <div v-if="loadingProducts" class="loading-state">
+          <v-progress-circular indeterminate></v-progress-circular>
+        </div>
+
+        <div v-else-if="featuredProducts.length === 0" class="empty-state">
+          <p>No hay productos disponibles en este momento</p>
+        </div>
+
+        <div v-else class="products-grid">
+          <div 
+            v-for="product in featuredProducts"
+            :key="product.id"
+            class="product-card"
+            @mouseenter="hoveredProduct = product.id"
+            @mouseleave="hoveredProduct = null"
+          >
+            <div class="product-image">
+              <img 
+                :src="product.galeria_imagenes?.[0] || '/images/placeholder.webp'"
+                :alt="product.name"
+              />
+              <div v-if="hoveredProduct === product.id" class="product-overlay">
+                <router-link :to="`/producto/${product.id}`" class="btn btn-primary">
+                  Ver Detalles
+                </router-link>
+              </div>
+            </div>
+            <div class="product-info">
+              <p class="product-brand">{{ product.brand?.nombre || 'Sin marca' }}</p>
+              <h3 class="product-name">{{ product.name }}</h3>
+              <p class="product-category">{{ product.category?.nombre || 'General' }}</p>
+              <div class="product-footer">
+                <span class="product-price">${{ formatPrice(product.price) }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Por qué elegirnos -->
+    <section class="benefits-section">
+      <div class="container">
+        <h2 class="section-title">¿Por qué elegir RAMEX KITCHEN?</h2>
+        <div class="benefits-grid">
+          <div v-for="(benefit, index) in benefits" :key="index" class="benefit-card">
             <div class="benefit-icon">
-              <v-icon :icon="benefit.icon" size="48"></v-icon>
+              <i :class="benefit.icon"></i>
             </div>
-            <h4 class="benefit-title">{{ benefit.title }}</h4>
-            <p class="benefit-description">{{ benefit.description }}</p>
+            <h3>{{ benefit.title }}</h3>
+            <p>{{ benefit.description }}</p>
           </div>
-        </v-col>
-      </v-row>
-    </v-container>
+        </div>
+      </div>
+    </section>
 
-    <!-- Marcas de Confianza -->
-    <v-container class="brands-section py-20">
-      <v-row justify="center">
-        <v-col cols="12" md="10" class="text-center mb-12">
-          <h3 class="section-title" data-aos="fade-in">
-            Marcas de Confianza
-          </h3>
-          <p class="section-subtitle" data-aos="fade-in" data-aos-delay="100">
-            Trabajamos con las mejores marcas del mercado
-          </p>
-        </v-col>
-      </v-row>
-
-      <v-row justify="center" align="center">
-        <v-col v-for="(brand, index) in brands" :key="index" cols="6" sm="4" md="2" class="text-center brand-item">
-          <div class="brand-card" data-aos="fade-in" :data-aos-delay="index * 30">
-            <img 
-              v-if="brand.logo" 
-              :src="brand.logo" 
-              :alt="brand.name"
-              class="brand-image"
-            />
-            <div v-else class="brand-logo">{{ brand.name }}</div>
-          </div>
-        </v-col>
-      </v-row>
-    </v-container>
-
-    <!-- Testimonios de Clientes -->
-    <v-container class="testimonials-section py-20">
-      <v-row justify="center">
-        <v-col cols="12" md="10" class="text-center mb-12">
-          <h3 class="section-title" data-aos="fade-in">
-            Lo que dicen nuestros clientes
-          </h3>
-          <p class="section-subtitle" data-aos="fade-in" data-aos-delay="100">
-            Más de 1,000 clientes satisfechos confían en nosotros
-          </p>
-        </v-col>
-      </v-row>
-
-      <v-row justify="center">
-        <v-col v-for="(testimonial, index) in testimonials" :key="index" cols="12" sm="6" md="4" class="mb-8">
-          <div class="testimonial-card" data-aos="fade-in" :data-aos-delay="index * 50">
-            <div class="testimonial-quote">
-              <span class="quote-icon">"</span>
-              <p class="testimonial-text">{{ testimonial.text }}</p>
-              <span class="quote-icon closing">"</span>
+    <!-- Testimonios -->
+    <section class="testimonials-section">
+      <div class="container">
+        <h2 class="section-title">Lo que dicen nuestros clientes</h2>
+        <div class="testimonials-grid">
+          <div v-for="testimonial in testimonials" :key="testimonial.id" class="testimonial-card">
+            <div class="testimonial-stars">
+              <i v-for="n in 5" :key="n" class="fas fa-star"></i>
             </div>
-            
-            <div class="testimonial-rating">
-              <v-icon 
-                v-for="star in 5" 
-                :key="star" 
-                icon="mdi-star" 
-                size="24" 
-                class="star-icon"
-              ></v-icon>
-            </div>
-
+            <p class="testimonial-text">{{ testimonial.text }}</p>
             <div class="testimonial-author">
-              <div class="author-avatar" :style="{ backgroundColor: testimonial.avatarColor }">
-                {{ testimonial.initials }}
-              </div>
+              <div class="author-avatar">{{ testimonial.initials }}</div>
               <div class="author-info">
-                <h4 class="author-name">{{ testimonial.name }}</h4>
-                <p class="author-company">{{ testimonial.company }}</p>
+                <h4>{{ testimonial.name }}</h4>
+                <p>{{ testimonial.company }}</p>
               </div>
             </div>
           </div>
-        </v-col>
-      </v-row>
-    </v-container>
+        </div>
+      </div>
+    </section>
 
-    <!-- Números que nos respaldan -->
-    <v-container class="stats-section py-20">
-      <v-row justify="center">
-        <v-col cols="12" md="10" class="text-center mb-12">
-          <h3 class="section-title" data-aos="fade-in">
-            Números que nos respaldan
-          </h3>
-          <p class="section-subtitle" data-aos="fade-in" data-aos-delay="100">
-            Años de experiencia construyendo confianza
-          </p>
-        </v-col>
-      </v-row>
-
-      <v-row justify="center">
-        <v-col v-for="(stat, index) in stats" :key="index" cols="12" sm="6" md="3" class="mb-8">
-          <div class="stat-card" data-aos="fade-in" :data-aos-delay="index * 50" :ref="el => { statsRefs[index] = el }">
-            <div class="stat-number" :class="{ 'animating': animatingIndices.includes(index) }">{{ animatedNumbers[index] || stat.number }}</div>
-            <h4 class="stat-label">{{ stat.label }}</h4>
-            <p class="stat-description">{{ stat.description }}</p>
-          </div>
-        </v-col>
-      </v-row>
-    </v-container>
-
-    <!-- Call to Action -->
-    <v-container class="final-cta py-20">
-      <v-row justify="center">
-        <v-col cols="12" md="8" class="text-center">
-          <div class="cta-content" data-aos="fade-in">
-            <h3 class="cta-title mb-6">
-              ¿Listo para mejorar tu cocina?
-            </h3>
-            <p class="cta-text mb-8">
-              Explora nuestro catálogo completo de 500+ productos y encuentra
-              exactamente lo que necesitas para tu negocio.
-            </p>
-            <v-btn 
-              class="cta-button px-12 py-3"
-              @click="$router.push('/productos')"
-              elevation="0"
-            >
-              Ver Todos los Productos
-            </v-btn>
-          </div>
-        </v-col>
-      </v-row>
-    </v-container>
+    <!-- CTA Final -->
+    <section class="cta-section">
+      <div class="container">
+        <div class="cta-content">
+          <h2>¿Listo para equipar tu cocina?</h2>
+          <p>Explora nuestro catálogo completo de 500+ productos de las mejores marcas</p>
+          <button class="btn btn-primary btn-lg" @click="$router.push('/productos')">
+            Ver Catálogo Completo
+          </button>
+        </div>
+      </div>
+    </section>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted, nextTick, watch } from 'vue'
+import { ref, onMounted, nextTick } from 'vue'
 import { useRouter } from 'vue-router'
 import AOS from 'aos'
 import 'aos/dist/aos.css'
 
 const router = useRouter()
-const heroCoverImage = '/images/portadas/portadahome.webp'
-const heroBackdropStyle = {
-  backgroundImage: `linear-gradient(135deg, rgba(11, 48, 102, 0.76), rgba(30, 90, 160, 0.58)), url(${heroCoverImage})`
-}
+const categoriesRef = ref(null)
 
-// Refs for animation
-const animatedNumbers = ref([])
-const statsRefs = ref([])
-const animatingIndices = ref([])
-const observedStats = new Set()
+// Estado reactivo
+const activeSlide = ref(0)
+const hoveredProduct = ref(null)
+const searchQuery = ref('')
+const featuredProducts = ref([])
+const loadingProducts = ref(false)
 
-// Benefits data
+// Hero Slides
+const heroSlides = ref([
+  {
+    title: 'RAMEX KITCHEN',
+    subtitle: 'Equipo Profesional para Cocinas',
+    image: '/images/portadas/portadahome.webp'
+  },
+  {
+    title: 'Soluciones Integrales',
+    subtitle: 'Equipamiento gastronómico de calidad',
+    image: '/images/portadas/hero2.webp'
+  }
+])
+
+// Categorías principales
+const mainCategories = ref([
+  { id: 1, name: 'Cocción', slug: 'coccion', icon: 'fas fa-fire', count: 45 },
+  { id: 2, name: 'Refrigeración', slug: 'refrigeracion', icon: 'fas fa-snowflake', count: 38 },
+  { id: 3, name: 'Preparación', slug: 'preparacion', icon: 'fas fa-utensils', count: 52 },
+  { id: 4, name: 'Cafeteras', slug: 'cafeteras', icon: 'fas fa-mug-hot', count: 24 },
+  { id: 5, name: 'Acero Inoxidable', slug: 'acero', icon: 'fas fa-cube', count: 30 },
+  { id: 6, name: 'Accesorios', slug: 'accesorios', icon: 'fas fa-tools', count: 40 }
+])
+
+// Beneficios
 const benefits = ref([
   {
-    icon: 'mdi-truck-fast',
-    title: 'Envío Gratis',
-    description: 'Envío gratuito en compras mayores a $1,500 en toda la República Mexicana'
+    icon: 'fas fa-truck-fast',
+    title: 'Envío Rápido',
+    description: 'Entrega en toda la República Mexicana'
   },
   {
-    icon: 'mdi-shield-check',
-    title: 'Garantía de Calidad',
-    description: 'Todos nuestros productos cuentan con garantía del fabricante'
+    icon: 'fas fa-shield-alt',
+    title: 'Garantía',
+    description: 'Garantía del fabricante en todos los productos'
   },
   {
-    icon: 'mdi-headset',
+    icon: 'fas fa-headset',
     title: 'Soporte 24/7',
-    description: 'Asesoría técnica especializada disponible todos los días'
+    description: 'Asesoría técnica especializada'
   },
   {
-    icon: 'mdi-undo',
-    title: 'Devoluciones Fáciles',
-    description: '30 días para cambios y devoluciones sin complicaciones'
+    icon: 'fas fa-undo',
+    title: 'Devoluciones',
+    description: '30 días para cambios y devoluciones'
   }
 ])
 
-// Brands data
-const brands = ref([
-  { name: 'Rational', logo: '/images/brands/rational.webp' },
-  { name: 'Unox', logo: '/images/brands/unox.webp' },
-  { name: 'Winterhalter', logo: '/images/brands/winterhalter.webp' },
-  { name: 'Euroquip', logo: '/images/brands/vario.webp' },
-  { name: 'MIGSA', logo: '/images/brands/migsa.webp' },
- 
-])
-
-// Testimonials data
+// Testimonios
 const testimonials = ref([
   {
-    text: 'Excelente servicio y productos de calidad. El equipo que compré para mi restaurante ha funcionado perfectamente durante más de un año.',
+    id: 1,
+    text: 'Excelente servicio y productos de alta calidad. El equipo funcionó perfectamente desde el primer día.',
     name: 'Carlos Mendoza',
     company: 'Restaurante La Cocina',
-    initials: 'CM',
-    avatarColor: '#1e5aa0'
+    initials: 'CM'
   },
   {
-    text: 'La atención al cliente es excepcional. Me ayudaron a elegir el equipo perfecto para mi panadería y el precio fue muy competitivo.',
+    id: 2,
+    text: 'La atención al cliente es excepcional. Me asesoraron perfectamente en la elección del equipo.',
     name: 'María González',
     company: 'Panadería Don Pan',
-    initials: 'MG',
-    avatarColor: '#4caf50'
+    initials: 'MG'
   },
   {
-    text: 'Rápida entrega y excelente post-venta. Cuando tuve una duda técnica, me resolvieron todo por WhatsApp en minutos.',
+    id: 3,
+    text: 'Servicio post-venta impecable. Cualquier duda técnica me la resuelven rápidamente.',
     name: 'Roberto Silva',
     company: 'Hotel Plaza Central',
-    initials: 'RS',
-    avatarColor: '#2196f3'
+    initials: 'RS'
   }
 ])
 
-// Stats data
-const stats = ref([
-  {
-    number: '15+',
-    label: 'Años de Experiencia',
-    description: 'Especialistas en equipos industriales'
-  },
-  {
-    number: '1,000+',
-    label: 'Clientes Satisfechos',
-    description: 'Restaurantes, hoteles y empresas'
-  },
-  {
-    number: '500+',
-    label: 'Productos Disponibles',
-    description: 'Las mejores marcas del mercado'
-  },
-  {
-    number: '24/7',
-    label: 'Soporte Técnico',
-    description: 'Asesoría especializada siempre disponible'
+// Métodos
+const scrollTo = (ref) => {
+  if (ref === 'categories' && categoriesRef.value) {
+    categoriesRef.value.scrollIntoView({ behavior: 'smooth' })
   }
-])
-
-const featuredProducts = ref([])
-const featuredLoading = ref(false)
-const currentPage = ref(1)
-const totalPages = ref(1)
-const loading = ref(false)
-
-const viewProduct = (id) => {
-  router.push(`/producto/${id}`)
 }
 
-const initAos = () => {
-  AOS.init({
-    duration: 500,
-    easing: 'ease-out-cubic',
-    once: true,
-    offset: 50
+const search = () => {
+  if (searchQuery.value.trim()) {
+    router.push(`/productos?q=${encodeURIComponent(searchQuery.value)}`)
+  }
+}
+
+const formatPrice = (price) => {
+  return parseFloat(price).toLocaleString('es-MX', {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 2
   })
-}
-
-const refreshAos = async () => {
-  await nextTick()
-  AOS.refresh()
-}
-
-const formatearPrecio = (precio) => {
-  const numero = parseFloat(precio)
-  if (isNaN(numero)) return '0'
-  
-  if (numero % 1 === 0) {
-    return numero.toString()
-  }
-  
-  return numero.toFixed(2).replace(/\.?0+$/, '')
-}
-
-const extractNumberFromStat = (statNumber) => {
-  // Extrae el número del string (ej: "15+" -> 15, "1,000+" -> 1000)
-  const cleaned = statNumber.toString().replace(/[^\d]/g, '')
-  return parseInt(cleaned) || 0
-}
-
-const animateNumber = (startValue, endValue, duration = 2000) => {
-  return new Promise((resolve) => {
-    let startTime = null
-    const animate = (currentTime) => {
-      if (!startTime) startTime = currentTime
-      const elapsed = currentTime - startTime
-      const progress = Math.min(elapsed / duration, 1)
-      
-      const currentValue = Math.floor(progress * (endValue - startValue) + startValue)
-      resolve(currentValue)
-      
-      if (progress < 1) {
-        requestAnimationFrame(animate)
-      }
-    }
-    requestAnimationFrame(animate)
-  })
-}
-
-const animateStatNumbers = async (index) => {
-  if (observedStats.has(index)) return
-  observedStats.add(index)
-  
-  const stat = stats.value[index]
-  const endValue = extractNumberFromStat(stat.number)
-  const duration = 2000
-  const steps = 60
-  const stepDuration = duration / steps
-  
-  // Marcar como animando
-  if (!animatingIndices.value.includes(index)) {
-    animatingIndices.value.push(index)
-  }
-  
-  for (let step = 0; step <= steps; step++) {
-    const progress = step / steps
-    const currentValue = Math.floor(progress * endValue)
-    
-    if (animatedNumbers.value[index] === undefined) {
-      animatedNumbers.value[index] = currentValue
-    } else {
-      animatedNumbers.value[index] = currentValue
-    }
-    
-    await new Promise(resolve => setTimeout(resolve, stepDuration))
-  }
-  
-  // Mostrar el valor final con formato original
-  animatedNumbers.value[index] = stat.number
-  
-  // Remover del índice de animando después de un pequeño delay
-  setTimeout(() => {
-    animatingIndices.value = animatingIndices.value.filter(i => i !== index)
-  }, 300)
 }
 
 const fetchFeaturedProducts = async () => {
-  loading.value = true
-  featuredLoading.value = true
-
+  loadingProducts.value = true
   try {
-    const params = new URLSearchParams()
-    params.append('page', currentPage.value)
-
-    const response = await fetch(`/api/productos/destacado?${params}`)
-
-    if (!response.ok) {
-      throw new Error('No se pudieron cargar los productos destacados')
+    const response = await fetch('/api/productos/destacado?limit=6')
+    if (response.ok) {
+      const data = await response.json()
+      featuredProducts.value = data.data || []
+      await nextTick()
+      AOS.refresh()
     }
-
-    const payload = await response.json()
-    featuredProducts.value = payload.data ?? []
-    currentPage.value = payload.current_page ?? 1
-    totalPages.value = payload.last_page ?? 1
-    
-    await refreshAos()
   } catch (error) {
-    console.error('Error al cargar productos destacados:', error)
-    featuredProducts.value = []
+    console.error('Error cargando productos:', error)
   } finally {
-    loading.value = false
-    featuredLoading.value = false
+    loadingProducts.value = false
   }
 }
 
-watch(currentPage, () => {
-  fetchFeaturedProducts()
-})
+// Carrusel automático
+const startCarousel = () => {
+  setInterval(() => {
+    activeSlide.value = (activeSlide.value + 1) % heroSlides.value.length
+  }, 5000)
+}
 
 onMounted(() => {
-  initAos()
+  AOS.init({ duration: 500, once: true })
   fetchFeaturedProducts()
-  
-  // Setup Intersection Observer para stats
-  const observerOptions = {
-    threshold: 0.5,
-    rootMargin: '0px'
-  }
-  
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        // Encontrar el índice del stat-card
-        const index = statsRefs.value.indexOf(entry.target)
-        if (index !== -1) {
-          animateStatNumbers(index)
-        }
-      }
-    })
-  }, observerOptions)
-  
-  // Observar todos los stat-cards después de que se rendericen
-  nextTick(() => {
-    statsRefs.value.forEach((el) => {
-      if (el) observer.observe(el)
-    })
-  })
+  startCarousel()
 })
 </script>
 
 <style scoped>
-.serviram-home {
-  background: linear-gradient(135deg, #f5f7fa 0%, #eef2f7 100%);
-  color: #2c2c2c;
+:root {
+  --color-primary: #C84617;
+  --color-dark: #383838;
+  --color-gray: #BABABA;
+  --color-light: #f5f5f5;
+  --color-white: #ffffff;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.ramex-home {
+  background: var(--color-light);
+  color: var(--color-dark);
   overflow-x: hidden;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
 }
 
 /* Hero Section */
 .hero-section {
   margin-top: 70px;
-  min-height: 120vh;
+  height: 100vh;
   position: relative;
-  display: flex;
-  align-items: center;
-  background: linear-gradient(135deg, #0b3066 0%, #1e5aa0 100%);
+  overflow: hidden;
 }
 
-.hero-backdrop {
+.hero-carousel {
+  position: relative;
+  height: 100%;
+}
+
+.hero-slide {
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #1e5aa0;
-  background-position: center;
-  background-repeat: no-repeat;
+  width: 100%;
+  height: 100%;
   background-size: cover;
-  transform: scale(1.03);
+  background-position: center;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+
+.hero-slide.active {
+  opacity: 1;
 }
 
 .hero-overlay {
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: 
-    radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.08) 0%, transparent 38%),
-    radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.06) 0%, transparent 34%),
-    linear-gradient(180deg, rgba(11, 48, 102, 0.2) 0%, rgba(11, 48, 102, 0.5) 100%);
+  inset: 0;
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.4), rgba(200, 70, 23, 0.3));
 }
 
 .hero-content {
-  position: relative;
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 40px;
   z-index: 2;
 }
 
-.hero-grid {
-  width: min(1200px, calc(100% - 2rem));
-  margin: 0 auto;
+.hero-text {
+  max-width: 500px;
+  color: white;
+  text-align: left;
 }
 
-.hero-copy-shell {
-  max-width: 760px;
-  margin: 0 auto;
-  padding: clamp(2rem, 4vw, 3rem);
-  border-radius: 32px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.06));
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  box-shadow: 0 24px 60px rgba(11, 48, 102, 0.3);
-  backdrop-filter: blur(10px);
+.hero-text h1 {
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  font-weight: 800;
+  margin-bottom: 20px;
+  letter-spacing: -1px;
 }
 
-.brand-emblem {
-  position: relative;
-}
-
-.brand-name {
-  font-family: var(--font-brand, sans-serif);
-  font-size: clamp(3rem, 8vw, 5rem);
-  font-weight: 700;
-  color: #ffffff;
-  letter-spacing: 0.08em;
-  margin: 0;
-  text-shadow: 0 4px 12px rgba(11, 48, 102, 0.3);
-}
-
-.brand-tagline {
-  font-size: 1.1rem;
-  color: rgba(255, 255, 255, 0.9);
-  margin: 0.5rem 0 0 0;
-  font-weight: 500;
-  letter-spacing: 0.02em;
-}
-
-.elegant-title {
-  font-family: var(--font-brand, sans-serif);
-  font-size: clamp(1.8rem, 4vw, 2.8rem);
-  font-weight: 600;
-  line-height: 1.4;
-  color: #ffffff;
-  letter-spacing: -0.02em;
-}
-
-.accent-whisper {
-  color: #64b5f6;
-  font-style: italic;
-  font-weight: 500;
-}
-
-.essence-text {
-  font-family: var(--font-brand, sans-serif);
+.hero-text p {
   font-size: 1.2rem;
-  line-height: 1.7;
-  color: rgba(255, 255, 255, 0.95);
-  max-width: 700px;
-  margin: 0 auto;
-  font-weight: 400;
+  margin-bottom: 30px;
+  opacity: 0.95;
+  line-height: 1.6;
 }
 
-.discover-btn {
-  background: linear-gradient(135deg, #1e5aa0, #2e7ab5) !important;
-  color: #ffffff !important;
-  font-family: var(--font-brand, sans-serif);
-  font-weight: 600;
-  font-size: 1rem;
-  letter-spacing: 0.02em;
-  position: relative;
-  overflow: hidden;
-  border-radius: 32px !important;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 20px rgba(30, 90, 160, 0.4);
+.hero-buttons {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
 }
 
-.discover-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 30px rgba(30, 90, 160, 0.5);
-  background: linear-gradient(135deg, #2e7ab5, #1e5aa0) !important;
-}
-
-.btn-glow {
+.carousel-controls {
   position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-  transition: left 0.5s ease;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 12px;
+  z-index: 10;
 }
 
-.discover-btn:hover .btn-glow {
-  left: 100%;
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
-.whisper-text {
-  color: rgba(255, 255, 255, 0.85);
-  font-family: var(--font-brand, sans-serif);
-  font-style: italic;
-  font-size: 0.9rem;
-  font-weight: 400;
+.dot.active {
+  width: 30px;
+  border-radius: 6px;
+  background: var(--color-primary);
 }
 
-/* Featured Products Section */
-.featured-section {
-  background: #fbfcfd;
-  position: relative;
-  overflow: hidden;
+/* Categorías */
+.categories-section {
+  padding: 80px 0;
+  background: white;
 }
 
-.why-serviram {
-  background: linear-gradient(135deg, #f5f7fa 0%, #eef2f7 100%);
+.categories-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 20px;
+  margin-top: 40px;
 }
 
-.brands-section {
-  background: #ffffff;
+.category-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  padding: 20px;
+  border-radius: 12px;
+  background: var(--color-light);
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.3s ease;
+  text-align: center;
 }
 
-.stats-section {
-  background: linear-gradient(135deg, #0b3066 0%, #1e5aa0 100%);
+.category-card:hover {
+  background: var(--color-primary);
+  color: white;
+  transform: translateY(-5px);
+}
+
+.category-icon {
+  font-size: 32px;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(200, 70, 23, 0.1);
+  transition: all 0.3s ease;
+}
+
+.category-card:hover .category-icon {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.category-card h3 {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.category-card p {
+  font-size: 0.85rem;
+  opacity: 0.7;
+}
+
+/* Búsqueda */
+.search-section {
+  padding: 40px 0;
+  background: white;
+  border-bottom: 1px solid var(--color-gray);
+}
+
+.search-wrapper {
+  display: flex;
+  gap: 0;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.search-input {
+  flex: 1;
+  padding: 12px 20px;
+  border: 1px solid var(--color-gray);
+  border-radius: 4px 0 0 4px;
+  font-size: 1rem;
+  outline: none;
+}
+
+.search-input:focus {
+  border-color: var(--color-primary);
+}
+
+.search-btn {
+  padding: 12px 24px;
+  background: var(--color-primary);
+  color: white;
+  border: none;
+  border-radius: 0 4px 4px 0;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.search-btn:hover {
+  background: #a83512;
+}
+
+/* Productos */
+.products-section {
+  padding: 80px 0;
+  background: white;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
 }
 
 .section-title {
-  font-family: var(--font-brand, sans-serif);
-  font-size: clamp(2rem, 5vw, 3rem);
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--color-dark);
+  margin-bottom: 10px;
+}
+
+.see-all {
+  color: var(--color-primary);
+  text-decoration: none;
   font-weight: 600;
-  color: #0b3066;
-  text-align: center;
-  position: relative;
-  margin-bottom: 2rem;
+  transition: all 0.3s ease;
 }
 
-.stats-section .section-title {
-  color: #ffffff;
-}
-
-.section-title::after {
-  content: '';
-  position: absolute;
-  bottom: -12px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 60px;
-  height: 3px;
-  background: linear-gradient(90deg, transparent, #1e5aa0, transparent);
-}
-
-.stats-section .section-title::after {
-  background: linear-gradient(90deg, transparent, #64b5f6, transparent);
-}
-
-.section-subtitle {
-  font-size: 1.1rem;
-  color: #666;
-  text-align: center;
-}
-
-.stats-section .section-subtitle {
-  color: rgba(255, 255, 255, 0.9);
+.see-all:hover {
+  gap: 10px;
 }
 
 .products-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 2rem;
-  margin-top: 3rem;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 24px;
 }
 
 .product-card {
-  background: #ffffff;
-  border: 1px solid rgba(30, 90, 160, 0.1);
-  border-radius: 16px;
-  transition: all 0.3s ease;
+  background: white;
+  border-radius: 8px;
   overflow: hidden;
-  box-shadow: 0 4px 20px rgba(30, 90, 160, 0.08);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
 }
 
 .product-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 12px 40px rgba(30, 90, 160, 0.15);
-  border-color: rgba(30, 90, 160, 0.2);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  transform: translateY(-4px);
 }
 
 .product-image {
   position: relative;
-  height: 360px;
+  height: 250px;
   overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 1.25rem;
-  background: linear-gradient(135deg, #f0f4f8 0%, #e8eef6 100%);
+  background: var(--color-light);
 }
 
-.placeholder-product {
-  width: min(100%, 240px);
+.product-image img {
+  width: 100%;
   height: 100%;
-  max-height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #ffffff;
-  font-family: var(--font-brand, sans-serif);
-  font-size: 4rem;
-  font-weight: 600;
-  transition: transform 0.3s ease;
-  border-radius: 18px;
-  background: linear-gradient(135deg, #1e5aa0, #2e7ab5);
-  box-shadow: 0 18px 36px rgba(30, 90, 160, 0.2);
+  object-fit: contain;
+  padding: 20px;
 }
 
 .product-overlay {
   position: absolute;
-  inset: 1.25rem;
-  background: rgba(11, 48, 102, 0.6);
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
   display: flex;
   align-items: center;
   justify-content: center;
   opacity: 0;
   transition: opacity 0.3s ease;
-  border-radius: 18px;
-  backdrop-filter: blur(4px);
 }
 
 .product-card:hover .product-overlay {
   opacity: 1;
 }
 
-.view-btn {
-  border-color: #ffffff !important;
-  color: #ffffff !important;
-  font-family: var(--font-brand, sans-serif);
-  font-weight: 600;
-  background: rgba(255, 255, 255, 0.1) !important;
-  backdrop-filter: blur(10px);
-  border-radius: 24px !important;
-}
-
-.view-btn:hover {
-  background: #ffffff !important;
-  color: #0b3066 !important;
-}
-
 .product-info {
-  padding: 1.5rem;
-}
-
-.product-card--status {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 220px;
+  padding: 16px;
 }
 
 .product-brand {
-  font-family: var(--font-brand, sans-serif);
   font-size: 0.85rem;
-  color: #1e5aa0;
-  margin-bottom: 0.5rem;
+  color: var(--color-primary);
   font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+  margin-bottom: 4px;
 }
 
 .product-name {
-  font-family: var(--font-brand, sans-serif);
-  font-size: 1.2rem;
+  font-size: 1rem;
   font-weight: 600;
-  color: #0b3066;
-  margin-bottom: 0.5rem;
+  color: var(--color-dark);
+  margin-bottom: 4px;
   line-height: 1.3;
 }
 
 .product-category {
-  font-family: var(--font-brand, sans-serif);
-  font-size: 0.9rem;
-  color: #666;
-  margin-bottom: 1rem;
-  font-weight: 400;
+  font-size: 0.85rem;
+  color: var(--color-gray);
+  margin-bottom: 12px;
 }
 
-.product-description {
-  font-size: 0.95rem;
-  line-height: 1.5;
-  color: #888;
-  margin-bottom: 1rem;
+.product-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .product-price {
-  display: flex;
-  align-items: baseline;
-  gap: 0.5rem;
-}
-
-.price {
-  font-family: var(--font-brand, sans-serif);
-  font-size: 1.8rem;
+  font-size: 1.3rem;
   font-weight: 700;
-  color: #1e5aa0;
+  color: var(--color-primary);
 }
 
-/* Benefits Section */
+/* Beneficios */
+.benefits-section {
+  padding: 80px 0;
+  background: linear-gradient(135deg, var(--color-light), white);
+}
+
+.benefits-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 30px;
+  margin-top: 40px;
+}
+
 .benefit-card {
-  background: #ffffff;
-  padding: 2rem 1.5rem;
-  border-radius: 16px;
   text-align: center;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 16px rgba(30, 90, 160, 0.08);
-  border: 1px solid rgba(30, 90, 160, 0.08);
-}
-
-.benefit-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 12px 32px rgba(30, 90, 160, 0.15);
-  border-color: rgba(30, 90, 160, 0.16);
+  padding: 20px;
 }
 
 .benefit-icon {
-  width: 70px;
-  height: 70px;
-  background: linear-gradient(135deg, #0b3066, #1e5aa0);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto 1.5rem;
-  color: #ffffff;
-  font-size: 2rem;
+  font-size: 2.5rem;
+  color: var(--color-primary);
+  margin-bottom: 15px;
 }
 
-.benefit-title {
-  font-family: var(--font-brand, sans-serif);
-  font-size: 1.2rem;
+.benefit-card h3 {
+  font-size: 1.1rem;
   font-weight: 600;
-  color: #0b3066;
-  margin-bottom: 0.75rem;
+  margin-bottom: 10px;
+  color: var(--color-dark);
 }
 
-.benefit-description {
-  font-size: 0.95rem;
-  color: #666;
+.benefit-card p {
+  color: var(--color-gray);
   line-height: 1.6;
 }
 
-/* Brands Section */
-.brand-item {
-  padding: 1rem;
-}
-
-.brand-card {
-  background: #ffffff;
-  padding: 2rem;
-  border-radius: 12px;
-  text-align: center;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(30, 90, 160, 0.08);
-  border: 1px solid rgba(30, 90, 160, 0.08);
-  min-height: 120px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.brand-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(30, 90, 160, 0.12);
-  border-color: rgba(30, 90, 160, 0.2);
-}
-
-.brand-logo {
-  font-family: var(--font-brand, sans-serif);
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: #0b3066;
-  letter-spacing: 0.02em;
-}
-
-.brand-image {
-  max-width: 100%;
-  max-height: 80px;
-  height: auto;
-  object-fit: contain;
-  filter: grayscale(100%);
-  transition: filter 0.3s ease, transform 0.3s ease;
-}
-
-.brand-card:hover .brand-image {
-  filter: grayscale(0%);
-  transform: scale(1.1);
-}
-
-/* Testimonials Section */
+/* Testimonios */
 .testimonials-section {
-  background: linear-gradient(135deg, #f5f7fa 0%, #eef2f7 100%);
+  padding: 80px 0;
+  background: white;
+}
+
+.testimonials-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+  margin-top: 40px;
 }
 
 .testimonial-card {
-  background: #ffffff;
-  padding: 2rem;
-  border-radius: 16px;
-  text-align: center;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 16px rgba(30, 90, 160, 0.08);
-  border: 1px solid rgba(30, 90, 160, 0.08);
-  display: flex;
-  flex-direction: column;
-  height: 100%;
+  background: var(--color-light);
+  padding: 24px;
+  border-radius: 8px;
+  border-left: 4px solid var(--color-primary);
 }
 
-.testimonial-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 12px 32px rgba(30, 90, 160, 0.15);
-  border-color: rgba(30, 90, 160, 0.16);
-}
-
-.testimonial-quote {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 1.5rem;
-  position: relative;
-}
-
-.quote-icon {
-  font-family: var(--font-brand, sans-serif);
-  font-size: 4rem;
-  font-weight: 700;
-  color: #1e5aa0;
-  line-height: 1;
-  opacity: 0.3;
-}
-
-.quote-icon.closing {
-  transform: scaleX(-1) scaleY(-1);
-  align-self: flex-end;
+.testimonial-stars {
+  color: var(--color-primary);
+  margin-bottom: 12px;
 }
 
 .testimonial-text {
-  font-family: var(--font-brand, sans-serif);
-  font-size: 1rem;
   font-style: italic;
-  color: #666;
+  color: var(--color-dark);
+  margin-bottom: 16px;
   line-height: 1.6;
-  margin: 0.5rem 0;
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.testimonial-rating {
-  display: flex;
-  justify-content: center;
-  gap: 0.25rem;
-  margin-bottom: 1.5rem;
-}
-
-.star-icon {
-  color: #ffc107 !important;
 }
 
 .testimonial-author {
   display: flex;
+  gap: 12px;
   align-items: center;
-  gap: 1rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid rgba(30, 90, 160, 0.1);
 }
 
 .author-avatar {
-  width: 50px;
-  height: 50px;
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
+  background: var(--color-primary);
+  color: white;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #ffffff;
-  font-family: var(--font-brand, sans-serif);
-  font-weight: 700;
-  font-size: 1.2rem;
-  flex-shrink: 0;
-}
-
-.author-info {
-  text-align: left;
-}
-
-.author-name {
-  font-family: var(--font-brand, sans-serif);
-  font-size: 1rem;
   font-weight: 600;
-  color: #0b3066;
-  margin: 0;
+  font-size: 0.9rem;
 }
 
-.author-company {
-  font-size: 0.85rem;
-  color: #999;
-  margin: 0.25rem 0 0 0;
-}
-
-/* Stats Section */
-.stat-card {
-  background: rgba(255, 255, 255, 0.12);
-  padding: 2.5rem 1.5rem;
-  border-radius: 16px;
-  text-align: center;
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  backdrop-filter: blur(10px);
-  transition: all 0.3s ease;
-}
-
-.stat-card:hover {
-  background: rgba(255, 255, 255, 0.16);
-  border-color: rgba(255, 255, 255, 0.32);
-  transform: translateY(-8px);
-}
-
-.stat-number {
-  font-family: var(--font-brand, sans-serif);
-  font-size: clamp(2.5rem, 6vw, 4rem);
-  font-weight: 700;
-  color: #64b5f6;
-  line-height: 1;
-  margin-bottom: 0.75rem;
-  transition: text-shadow 0.1s ease, transform 0.1s ease;
-}
-
-.stat-number.animating {
-  animation: numberPulse 0.3s ease-out;
-  text-shadow: 0 0 20px rgba(100, 181, 246, 0.6);
-}
-
-@keyframes numberPulse {
-  0% {
-    transform: scale(1);
-    text-shadow: 0 0 10px rgba(100, 181, 246, 0.3);
-  }
-  50% {
-    transform: scale(1.08);
-    text-shadow: 0 0 30px rgba(100, 181, 246, 0.8);
-  }
-  100% {
-    transform: scale(1);
-    text-shadow: 0 0 10px rgba(100, 181, 246, 0.3);
-  }
-}
-
-.stat-label {
-  font-family: var(--font-brand, sans-serif);
-  font-size: 1.2rem;
-  font-weight: 600;
-  color: #ffffff;
-  margin-bottom: 0.5rem;
-}
-
-.stat-description {
+.author-info h4 {
   font-size: 0.95rem;
-  color: rgba(255, 255, 255, 0.85);
-  line-height: 1.5;
+  font-weight: 600;
+  color: var(--color-dark);
+  margin-bottom: 2px;
 }
 
-/* Final CTA */
-.final-cta {
-  background: linear-gradient(135deg, #0b3066 0%, #1e5aa0 100%);
+.author-info p {
+  font-size: 0.85rem;
+  color: var(--color-gray);
 }
 
-.cta-content {
-  padding: 3rem 2rem;
+/* CTA */
+.cta-section {
+  background: linear-gradient(135deg, var(--color-primary), #a83512);
+  color: white;
+  padding: 80px 0;
   text-align: center;
 }
 
-.cta-title {
-  font-family: var(--font-brand, sans-serif);
-  font-size: clamp(2rem, 5vw, 3rem);
-  font-weight: 600;
-  color: #ffffff;
-  margin-bottom: 1rem;
+.cta-content h2 {
+  font-size: 2.5rem;
+  margin-bottom: 15px;
 }
 
-.cta-text {
+.cta-content p {
   font-size: 1.1rem;
-  color: rgba(255, 255, 255, 0.95);
-  line-height: 1.7;
-  max-width: 600px;
-  margin: 0 auto 1.5rem;
+  margin-bottom: 30px;
+  opacity: 0.9;
 }
 
-.cta-button {
-  background: linear-gradient(135deg, #ffffff, #f0f4f8) !important;
-  color: #0b3066 !important;
-  font-family: var(--font-brand, sans-serif);
-  font-weight: 600;
+/* Botones */
+.btn {
+  padding: 12px 28px;
+  border: none;
+  border-radius: 4px;
   font-size: 1rem;
-  letter-spacing: 0.02em;
-  border-radius: 32px !important;
+  font-weight: 600;
+  cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 20px rgba(255, 255, 255, 0.2);
+  text-decoration: none;
+  display: inline-block;
 }
 
-.cta-button:hover {
+.btn-primary {
+  background: var(--color-primary);
+  color: white;
+}
+
+.btn-primary:hover {
+  background: #a83512;
   transform: translateY(-2px);
-  box-shadow: 0 8px 30px rgba(255, 255, 255, 0.3);
 }
 
-.pagination-shell {
+.btn-outlined {
+  background: transparent;
+  color: white;
+  border: 2px solid white;
+}
+
+.btn-outlined:hover {
+  background: white;
+  color: var(--color-primary);
+}
+
+.btn-lg {
+  padding: 16px 48px;
+  font-size: 1.1rem;
+}
+
+/* Loading */
+.loading-state {
   display: flex;
   justify-content: center;
-  margin-top: 3rem;
+  align-items: center;
+  height: 300px;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--color-gray);
+  font-size: 1.1rem;
 }
 
 /* Responsive */
 @media (max-width: 768px) {
-  .hero-section {
-    min-height: 80vh;
+  .hero-text {
+    max-width: 100%;
   }
-  
+
+  .hero-buttons {
+    flex-direction: column;
+  }
+
+  .btn {
+    width: 100%;
+  }
+
+  .section-title {
+    font-size: 1.8rem;
+  }
+
+  .categories-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .products-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .section-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .cta-content h2 {
+    font-size: 1.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-content {
+    padding: 20px;
+  }
+
+  .hero-text h1 {
+    font-size: 1.8rem;
+  }
+
+  .hero-text p {
+    font-size: 1rem;
+  }
+
+  .categories-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
   .products-grid {
     grid-template-columns: 1fr;
   }
-  
-  .benefit-card,
-  .stat-card,
-  .brand-card {
-    padding: 1.5rem;
+
+  .search-wrapper {
+    flex-direction: column;
+  }
+
+  .search-input,
+  .search-btn {
+    border-radius: 4px;
   }
 }
 </style>
