@@ -77,12 +77,12 @@
           <a href="#" class="nav-link">ACERO INOXIDABLE</a>
           
           <!-- Menú desplegable COCCIÓN -->
-          <div class="nav-dropdown" :class="{ active: expandedMenus.coccion }">
+          <div class="nav-dropdown" :class="{ active: isMenuOpen('coccion') }">
             <button @click.prevent="toggleMenu('coccion')" class="nav-link dropdown-trigger">
               COCCIÓN 
-              <v-icon size="16" :class="{ 'rotate-icon': expandedMenus.coccion }">mdi-chevron-down</v-icon>
+              <v-icon size="16" :class="{ 'rotate-icon': isMenuOpen('coccion') }">mdi-chevron-down</v-icon>
             </button>
-            <div v-if="expandedMenus.coccion" class="dropdown-menu">
+            <div v-if="isMenuOpen('coccion')" class="dropdown-menu">
               <a href="#" class="dropdown-item">Cocinas Industriales</a>
               <a href="#" class="dropdown-item">Freidoras</a>
               <a href="#" class="dropdown-item">Planchas</a>
@@ -92,12 +92,12 @@
           </div>
           
           <!-- Menú desplegable CAFETERAS -->
-          <div class="nav-dropdown" :class="{ active: expandedMenus.cafeteras }">
+          <div class="nav-dropdown" :class="{ active: isMenuOpen('cafeteras') }">
             <button @click.prevent="toggleMenu('cafeteras')" class="nav-link dropdown-trigger">
               CAFETERAS 
-              <v-icon size="16" :class="{ 'rotate-icon': expandedMenus.cafeteras }">mdi-chevron-down</v-icon>
+              <v-icon size="16" :class="{ 'rotate-icon': isMenuOpen('cafeteras') }">mdi-chevron-down</v-icon>
             </button>
-            <div v-if="expandedMenus.cafeteras" class="dropdown-menu">
+            <div v-if="isMenuOpen('cafeteras')" class="dropdown-menu">
               <a href="#" class="dropdown-item">Cafeteras Automáticas</a>
               <a href="#" class="dropdown-item">Máquinas de Espresso</a>
               <a href="#" class="dropdown-item">Cafeteras de Filtro</a>
@@ -108,12 +108,12 @@
           <a href="#" class="nav-link">LAVADO</a>
           
           <!-- Menú desplegable PREPARACIÓN DE ALIMENTOS -->
-          <div class="nav-dropdown" :class="{ active: expandedMenus.preparacion }">
+          <div class="nav-dropdown" :class="{ active: isMenuOpen('preparacion') }">
             <button @click.prevent="toggleMenu('preparacion')" class="nav-link dropdown-trigger">
               PREPARACIÓN DE ALIMENTOS 
-              <v-icon size="16" :class="{ 'rotate-icon': expandedMenus.preparacion }">mdi-chevron-down</v-icon>
+              <v-icon size="16" :class="{ 'rotate-icon': isMenuOpen('preparacion') }">mdi-chevron-down</v-icon>
             </button>
-            <div v-if="expandedMenus.preparacion" class="dropdown-menu">
+            <div v-if="isMenuOpen('preparacion')" class="dropdown-menu">
               <a href="#" class="dropdown-item">Cortadoras</a>
               <a href="#" class="dropdown-item">Procesadoras</a>
               <a href="#" class="dropdown-item">Mezcladores</a>
@@ -122,12 +122,12 @@
           </div>
           
           <!-- Menú desplegable REFRIGERACIÓN -->
-          <div class="nav-dropdown" :class="{ active: expandedMenus.refrigeracion }">
+          <div class="nav-dropdown" :class="{ active: isMenuOpen('refrigeracion') }">
             <button @click.prevent="toggleMenu('refrigeracion')" class="nav-link dropdown-trigger">
               REFRIGERACIÓN 
-              <v-icon size="16" :class="{ 'rotate-icon': expandedMenus.refrigeracion }">mdi-chevron-down</v-icon>
+              <v-icon size="16" :class="{ 'rotate-icon': isMenuOpen('refrigeracion') }">mdi-chevron-down</v-icon>
             </button>
-            <div v-if="expandedMenus.refrigeracion" class="dropdown-menu">
+            <div v-if="isMenuOpen('refrigeracion')" class="dropdown-menu">
               <a href="#" class="dropdown-item">Refrigeradores</a>
               <a href="#" class="dropdown-item">Congeladores</a>
               <a href="#" class="dropdown-item">Vitrinas</a>
@@ -138,12 +138,12 @@
           <a href="#" class="nav-link">EQUIPOS PARA HELADO</a>
           
           <!-- Menú desplegable INSUMOS -->
-          <div class="nav-dropdown" :class="{ active: expandedMenus.insumos }">
+          <div class="nav-dropdown" :class="{ active: isMenuOpen('insumos') }">
             <button @click.prevent="toggleMenu('insumos')" class="nav-link dropdown-trigger">
               INSUMOS 
-              <v-icon size="16" :class="{ 'rotate-icon': expandedMenus.insumos }">mdi-chevron-down</v-icon>
+              <v-icon size="16" :class="{ 'rotate-icon': isMenuOpen('insumos') }">mdi-chevron-down</v-icon>
             </button>
-            <div v-if="expandedMenus.insumos" class="dropdown-menu">
+            <div v-if="isMenuOpen('insumos')" class="dropdown-menu">
               <a href="#" class="dropdown-item">Aceites y Grasas</a>
               <a href="#" class="dropdown-item">Condimentos</a>
               <a href="#" class="dropdown-item">Harinas</a>
@@ -159,12 +159,12 @@
       <div class="secondary-nav-container secondary-row">
         <div class="nav-links-secondary">
           <!-- Menú desplegable MARCAS -->
-          <div class="nav-dropdown" :class="{ active: expandedMenus.marcas }">
+          <div class="nav-dropdown" :class="{ active: isMenuOpen('marcas') }">
             <button @click.prevent="toggleMenu('marcas')" class="nav-link secondary dropdown-trigger">
               MARCAS 
-              <v-icon size="14" :class="{ 'rotate-icon': expandedMenus.marcas }">mdi-chevron-down</v-icon>
+              <v-icon size="14" :class="{ 'rotate-icon': isMenuOpen('marcas') }">mdi-chevron-down</v-icon>
             </button>
-            <div v-if="expandedMenus.marcas" class="dropdown-menu secondary-dropdown">
+            <div v-if="isMenuOpen('marcas')" class="dropdown-menu secondary-dropdown">
               <a href="#" class="dropdown-item">Marca A</a>
               <a href="#" class="dropdown-item">Marca B</a>
               <a href="#" class="dropdown-item">Marca C</a>
@@ -175,12 +175,12 @@
           <a href="#" class="nav-link secondary">SOBRE NOSOTROS</a>
           
           <!-- Menú desplegable UTENSILIOS -->
-          <div class="nav-dropdown" :class="{ active: expandedMenus.utensilios }">
+          <div class="nav-dropdown" :class="{ active: isMenuOpen('utensilios') }">
             <button @click.prevent="toggleMenu('utensilios')" class="nav-link secondary dropdown-trigger">
               UTENSILIOS 
-              <v-icon size="14" :class="{ 'rotate-icon': expandedMenus.utensilios }">mdi-chevron-down</v-icon>
+              <v-icon size="14" :class="{ 'rotate-icon': isMenuOpen('utensilios') }">mdi-chevron-down</v-icon>
             </button>
-            <div v-if="expandedMenus.utensilios" class="dropdown-menu secondary-dropdown">
+            <div v-if="isMenuOpen('utensilios')" class="dropdown-menu secondary-dropdown">
               <a href="#" class="dropdown-item">Cuchillos</a>
               <a href="#" class="dropdown-item">Tablas de Corte</a>
               <a href="#" class="dropdown-item">Ollas y Sartenes</a>
@@ -338,18 +338,18 @@ const { itemCount } = useCart();
 const drawer = ref(false);
 const navbar = ref(null);
 const logo = '/images/logo.webp';
-const expandedMenus = ref({
-  coccion: false,
-  cafeteras: false,
-  preparacion: false,
-  refrigeracion: false,
-  insumos: false,
-  marcas: false,
-  utensilios: false
-});
+const openMenuKey = ref(null);
 
 const toggleMenu = (menuKey) => {
-  expandedMenus.value[menuKey] = !expandedMenus.value[menuKey];
+  if (openMenuKey.value === menuKey) {
+    openMenuKey.value = null;
+  } else {
+    openMenuKey.value = menuKey;
+  }
+};
+
+const isMenuOpen = (menuKey) => {
+  return openMenuKey.value === menuKey;
 };
 
 // Scroll behavior with requestAnimationFrame for smooth performance
