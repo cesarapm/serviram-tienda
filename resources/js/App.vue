@@ -271,7 +271,7 @@
               </div>
             </div>
             <p class="footer-desc">
-              Joyería con tonos suaves, materiales nobles y una mirada contemporánea desde México.
+              Equipo Profesional para Cocinas - Soluciones integrales de equipamiento gastronómico.
             </p>
             <div class="social-links mt-4">
               <v-btn icon variant="text" class="footer-social" size="small" href="https://www.instagram.com/izaguirre.qu/" target="_blank">
@@ -322,7 +322,7 @@
         <v-divider class="footer-divider"></v-divider>
         <div class="text-center py-6">
           <p class="footer-copy text-body-2">
-            © {{ new Date().getFullYear() }} IzaguirreQu. Todos los derechos reservados.
+            © {{ new Date().getFullYear() }} RAMEX KITCHEN. Todos los derechos reservados.
           </p>
         </div>
       </v-container>
