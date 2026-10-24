@@ -75,23 +75,82 @@
         <div class="nav-links-primary">
           <a href="#" class="nav-link">TODAS LAS MARCAS</a>
           <a href="#" class="nav-link">ACERO INOXIDABLE</a>
-          <div class="nav-dropdown">
-            <a href="#" class="nav-link dropdown-trigger">COCCIÓN <v-icon size="16">mdi-chevron-down</v-icon></a>
+          
+          <!-- Menú desplegable COCCIÓN -->
+          <div class="nav-dropdown" :class="{ active: expandedMenus.coccion }">
+            <button @click.prevent="toggleMenu('coccion')" class="nav-link dropdown-trigger">
+              COCCIÓN 
+              <v-icon size="16" :class="{ 'rotate-icon': expandedMenus.coccion }">mdi-chevron-down</v-icon>
+            </button>
+            <div v-if="expandedMenus.coccion" class="dropdown-menu">
+              <a href="#" class="dropdown-item">Cocinas Industriales</a>
+              <a href="#" class="dropdown-item">Freidoras</a>
+              <a href="#" class="dropdown-item">Planchas</a>
+              <a href="#" class="dropdown-item">Hornos</a>
+              <a href="#" class="dropdown-item">Parrillas</a>
+            </div>
           </div>
-          <div class="nav-dropdown">
-            <a href="#" class="nav-link dropdown-trigger">CAFETERAS <v-icon size="16">mdi-chevron-down</v-icon></a>
+          
+          <!-- Menú desplegable CAFETERAS -->
+          <div class="nav-dropdown" :class="{ active: expandedMenus.cafeteras }">
+            <button @click.prevent="toggleMenu('cafeteras')" class="nav-link dropdown-trigger">
+              CAFETERAS 
+              <v-icon size="16" :class="{ 'rotate-icon': expandedMenus.cafeteras }">mdi-chevron-down</v-icon>
+            </button>
+            <div v-if="expandedMenus.cafeteras" class="dropdown-menu">
+              <a href="#" class="dropdown-item">Cafeteras Automáticas</a>
+              <a href="#" class="dropdown-item">Máquinas de Espresso</a>
+              <a href="#" class="dropdown-item">Cafeteras de Filtro</a>
+              <a href="#" class="dropdown-item">Accesorios</a>
+            </div>
           </div>
+          
           <a href="#" class="nav-link">LAVADO</a>
-          <div class="nav-dropdown">
-            <a href="#" class="nav-link dropdown-trigger">PREPARACIÓN DE ALIMENTOS <v-icon size="16">mdi-chevron-down</v-icon></a>
+          
+          <!-- Menú desplegable PREPARACIÓN DE ALIMENTOS -->
+          <div class="nav-dropdown" :class="{ active: expandedMenus.preparacion }">
+            <button @click.prevent="toggleMenu('preparacion')" class="nav-link dropdown-trigger">
+              PREPARACIÓN DE ALIMENTOS 
+              <v-icon size="16" :class="{ 'rotate-icon': expandedMenus.preparacion }">mdi-chevron-down</v-icon>
+            </button>
+            <div v-if="expandedMenus.preparacion" class="dropdown-menu">
+              <a href="#" class="dropdown-item">Cortadoras</a>
+              <a href="#" class="dropdown-item">Procesadoras</a>
+              <a href="#" class="dropdown-item">Mezcladores</a>
+              <a href="#" class="dropdown-item">Amasadoras</a>
+            </div>
           </div>
-          <div class="nav-dropdown">
-            <a href="#" class="nav-link dropdown-trigger">REFRIGERACIÓN <v-icon size="16">mdi-chevron-down</v-icon></a>
+          
+          <!-- Menú desplegable REFRIGERACIÓN -->
+          <div class="nav-dropdown" :class="{ active: expandedMenus.refrigeracion }">
+            <button @click.prevent="toggleMenu('refrigeracion')" class="nav-link dropdown-trigger">
+              REFRIGERACIÓN 
+              <v-icon size="16" :class="{ 'rotate-icon': expandedMenus.refrigeracion }">mdi-chevron-down</v-icon>
+            </button>
+            <div v-if="expandedMenus.refrigeracion" class="dropdown-menu">
+              <a href="#" class="dropdown-item">Refrigeradores</a>
+              <a href="#" class="dropdown-item">Congeladores</a>
+              <a href="#" class="dropdown-item">Vitrinas</a>
+              <a href="#" class="dropdown-item">Mesas Refrigeradas</a>
+            </div>
           </div>
+          
           <a href="#" class="nav-link">EQUIPOS PARA HELADO</a>
-          <div class="nav-dropdown">
-            <a href="#" class="nav-link dropdown-trigger">INSUMOS <v-icon size="16">mdi-chevron-down</v-icon></a>
+          
+          <!-- Menú desplegable INSUMOS -->
+          <div class="nav-dropdown" :class="{ active: expandedMenus.insumos }">
+            <button @click.prevent="toggleMenu('insumos')" class="nav-link dropdown-trigger">
+              INSUMOS 
+              <v-icon size="16" :class="{ 'rotate-icon': expandedMenus.insumos }">mdi-chevron-down</v-icon>
+            </button>
+            <div v-if="expandedMenus.insumos" class="dropdown-menu">
+              <a href="#" class="dropdown-item">Aceites y Grasas</a>
+              <a href="#" class="dropdown-item">Condimentos</a>
+              <a href="#" class="dropdown-item">Harinas</a>
+              <a href="#" class="dropdown-item">Bebidas</a>
+            </div>
           </div>
+          
           <a href="#" class="nav-link">CAFÉ EN GRANO</a>
         </div>
       </div>
@@ -99,12 +158,34 @@
       <!-- Segunda fila: Enlaces secundarios (más oscura) -->
       <div class="secondary-nav-container secondary-row">
         <div class="nav-links-secondary">
-          <div class="nav-dropdown">
-            <a href="#" class="nav-link secondary dropdown-trigger">MARCAS <v-icon size="14">mdi-chevron-down</v-icon></a>
+          <!-- Menú desplegable MARCAS -->
+          <div class="nav-dropdown" :class="{ active: expandedMenus.marcas }">
+            <button @click.prevent="toggleMenu('marcas')" class="nav-link secondary dropdown-trigger">
+              MARCAS 
+              <v-icon size="14" :class="{ 'rotate-icon': expandedMenus.marcas }">mdi-chevron-down</v-icon>
+            </button>
+            <div v-if="expandedMenus.marcas" class="dropdown-menu secondary-dropdown">
+              <a href="#" class="dropdown-item">Marca A</a>
+              <a href="#" class="dropdown-item">Marca B</a>
+              <a href="#" class="dropdown-item">Marca C</a>
+              <a href="#" class="dropdown-item">Marca D</a>
+            </div>
           </div>
+          
           <a href="#" class="nav-link secondary">SOBRE NOSOTROS</a>
-          <div class="nav-dropdown">
-            <a href="#" class="nav-link secondary dropdown-trigger">UTENSILIOS <v-icon size="14">mdi-chevron-down</v-icon></a>
+          
+          <!-- Menú desplegable UTENSILIOS -->
+          <div class="nav-dropdown" :class="{ active: expandedMenus.utensilios }">
+            <button @click.prevent="toggleMenu('utensilios')" class="nav-link secondary dropdown-trigger">
+              UTENSILIOS 
+              <v-icon size="14" :class="{ 'rotate-icon': expandedMenus.utensilios }">mdi-chevron-down</v-icon>
+            </button>
+            <div v-if="expandedMenus.utensilios" class="dropdown-menu secondary-dropdown">
+              <a href="#" class="dropdown-item">Cuchillos</a>
+              <a href="#" class="dropdown-item">Tablas de Corte</a>
+              <a href="#" class="dropdown-item">Ollas y Sartenes</a>
+              <a href="#" class="dropdown-item">Bandejas</a>
+            </div>
           </div>
         </div>
       </div>
@@ -256,10 +337,19 @@ import { useCart } from './composables/useCart';
 const { itemCount } = useCart();
 const drawer = ref(false);
 const navbar = ref(null);
-let lastScrollTop = 0;
-let ticking = false;
-const scrollThreshold = 5;
-const logo = '/images/logo.webp';
+const expandedMenus = ref({
+  coccion: false,
+  cafeteras: false,
+  preparacion: false,
+  refrigeracion: false,
+  insumos: false,
+  marcas: false,
+  utensilios: false
+});
+
+const toggleMenu = (menuKey) => {
+  expandedMenus.value[menuKey] = !expandedMenus.value[menuKey];
+};
 
 // Scroll behavior with requestAnimationFrame for smooth performance
 const handleScroll = () => {
@@ -874,6 +964,75 @@ input,
 
 .nav-link.dropdown-trigger {
   cursor: pointer;
+  border: none;
+  background: transparent;
+  font-family: inherit;
+}
+
+/* Dropdown Menu Styles */
+.nav-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.nav-dropdown.active .dropdown-trigger {
+  background: rgba(255, 255, 255, 0.2) !important;
+  color: #ffd700 !important;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: #2a2a2a;
+  border: 1px solid #404040;
+  border-top: none;
+  min-width: 220px;
+  z-index: 100;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  animation: slideDown 0.2s ease-out;
+}
+
+.dropdown-menu.secondary-dropdown {
+  background: #0a0a0a;
+  border-color: #1a1a1a;
+}
+
+.dropdown-item {
+  display: block;
+  padding: 12px 16px;
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 0.85rem;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  font-weight: 400;
+}
+
+.dropdown-item:hover {
+  background: rgba(255, 215, 0, 0.1);
+  color: #ffd700;
+  padding-left: 20px;
+}
+
+.dropdown-item:first-child {
+  border-top: none;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.rotate-icon {
+  transform: rotate(180deg) !important;
+  transition: transform 0.2s ease;
 }
 
 @media (max-width: 960px) {
