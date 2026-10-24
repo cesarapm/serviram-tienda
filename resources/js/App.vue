@@ -70,28 +70,44 @@
 
     <!-- Secondary Navigation (Black Menu) -->
     <nav class="secondary-navbar">
-      <v-container class="secondary-nav-container">
+      <!-- Primera fila: Categorías principales -->
+      <div class="secondary-nav-container primary-row">
         <div class="nav-links-primary">
           <a href="#" class="nav-link">TODAS LAS MARCAS</a>
           <a href="#" class="nav-link">ACERO INOXIDABLE</a>
-          <a href="#" class="nav-link">COCCIÓN</a>
-          <a href="#" class="nav-link">CAFETERAS</a>
+          <div class="nav-dropdown">
+            <a href="#" class="nav-link dropdown-trigger">COCCIÓN <v-icon size="16">mdi-chevron-down</v-icon></a>
+          </div>
+          <div class="nav-dropdown">
+            <a href="#" class="nav-link dropdown-trigger">CAFETERAS <v-icon size="16">mdi-chevron-down</v-icon></a>
+          </div>
           <a href="#" class="nav-link">LAVADO</a>
-          <a href="#" class="nav-link">PREPARACIÓN DE ALIMENTOS</a>
-          <a href="#" class="nav-link">REFRIGERACIÓN</a>
+          <div class="nav-dropdown">
+            <a href="#" class="nav-link dropdown-trigger">PREPARACIÓN DE ALIMENTOS <v-icon size="16">mdi-chevron-down</v-icon></a>
+          </div>
+          <div class="nav-dropdown">
+            <a href="#" class="nav-link dropdown-trigger">REFRIGERACIÓN <v-icon size="16">mdi-chevron-down</v-icon></a>
+          </div>
           <a href="#" class="nav-link">EQUIPOS PARA HELADO</a>
-          <a href="#" class="nav-link">INSUMOS</a>
+          <div class="nav-dropdown">
+            <a href="#" class="nav-link dropdown-trigger">INSUMOS <v-icon size="16">mdi-chevron-down</v-icon></a>
+          </div>
           <a href="#" class="nav-link">CAFÉ EN GRANO</a>
         </div>
-      </v-container>
+      </div>
       
-      <v-container class="secondary-nav-container secondary-links">
+      <!-- Segunda fila: Enlaces secundarios (más oscura) -->
+      <div class="secondary-nav-container secondary-row">
         <div class="nav-links-secondary">
-          <a href="#" class="nav-link secondary">MARCAS</a>
+          <div class="nav-dropdown">
+            <a href="#" class="nav-link secondary dropdown-trigger">MARCAS <v-icon size="14">mdi-chevron-down</v-icon></a>
+          </div>
           <a href="#" class="nav-link secondary">SOBRE NOSOTROS</a>
-          <a href="#" class="nav-link secondary">UTENSILIOS</a>
+          <div class="nav-dropdown">
+            <a href="#" class="nav-link secondary dropdown-trigger">UTENSILIOS <v-icon size="14">mdi-chevron-down</v-icon></a>
+          </div>
         </div>
-      </v-container>
+      </div>
     </nav>
 
     <!-- Mobile Drawer -->
@@ -760,20 +776,31 @@ input,
 
 /* Secondary Navigation (Black Menu) */
 .secondary-navbar {
-  background: #2a2a2a;
-  border-top: 1px solid #1a1a1a;
-  border-bottom: 1px solid #1a1a1a;
+  background: transparent;
+  border: none;
   width: 100%;
   position: relative;
   z-index: 9;
   margin-top: 0;
 }
 
+.primary-row {
+  background: #3a3a3a;
+  padding: 0 !important;
+}
+
+.secondary-row {
+  background: #1a1a1a;
+  padding: 0 !important;
+  border-top: 1px solid #0a0a0a;
+}
+
 .secondary-nav-container {
   max-width: 100%;
-  padding: 0 16px !important;
+  padding: 0 !important;
   display: flex;
   align-items: center;
+  justify-content: flex-start;
 }
 
 .nav-links-primary {
@@ -781,7 +808,35 @@ input,
   flex-wrap: wrap;
   gap: 0;
   align-items: center;
-  padding: 12px 0;
+  padding: 14px 20px;
+  width: 100%;
+}
+
+.nav-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.nav-link {
+  color: #ffffff !important;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  margin: 0;
+  padding: 14px 16px;
+  border-radius: 0 !important;
+  font-size: 0.9rem;
+  text-decoration: none;
+  transition: background 0.2s ease, color 0.2s ease;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+}
+
+.nav-link:hover {
+  background: rgba(255, 255, 255, 0.15) !important;
+  color: #ffd700 !important;
 }
 
 .nav-links-primary .nav-link,
@@ -790,17 +845,16 @@ input,
   font-weight: 500;
   letter-spacing: 0.05em;
   margin: 0;
-  padding: 12px 16px;
   border-radius: 0 !important;
-  font-size: 0.9rem;
   text-decoration: none;
-  transition: background 0.2s ease;
+  transition: background 0.2s ease, color 0.2s ease;
   white-space: nowrap;
 }
 
 .nav-links-primary .nav-link:hover,
 .nav-links-secondary .nav-link:hover {
-  background: rgba(255, 255, 255, 0.1) !important;
+  background: rgba(255, 255, 255, 0.15) !important;
+  color: #ffd700 !important;
 }
 
 .nav-links-secondary {
@@ -808,29 +862,49 @@ input,
   flex-wrap: wrap;
   gap: 0;
   align-items: center;
-  padding: 10px 0;
+  padding: 12px 20px;
+  width: 100%;
 }
 
-.nav-links-secondary .nav-link.secondary {
-  padding: 10px 16px;
+.nav-link.secondary {
+  padding: 12px 16px;
   font-size: 0.85rem;
+  font-weight: 600;
 }
 
-.secondary-links {
-  background: #1a1a1a;
-  border-top: 1px solid #333;
+.nav-link.dropdown-trigger {
+  cursor: pointer;
 }
 
 @media (max-width: 960px) {
   .nav-links-primary,
   .nav-links-secondary {
     gap: 8px;
+    padding: 12px 16px;
   }
 
-  .nav-links-primary .nav-link,
-  .nav-links-secondary .nav-link {
+  .nav-link {
     padding: 10px 12px;
     font-size: 0.8rem;
+  }
+
+  .nav-link.secondary {
+    padding: 10px 12px;
+  }
+}
+
+@media (max-width: 768px) {
+  .nav-links-primary {
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding: 12px 16px;
+    flex-wrap: nowrap;
+  }
+
+  .nav-link {
+    padding: 10px 10px;
+    font-size: 0.75rem;
+    flex-shrink: 0;
   }
 }
 
