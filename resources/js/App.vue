@@ -4,7 +4,7 @@
     <v-app-bar
       ref="navbar"
       elevation="0"
-      height="auto"
+      height="100"
       class="py-0 main-navbar"
     >
       <v-container class="navbar-container">
@@ -114,7 +114,7 @@
     </v-navigation-drawer>
 
     <!-- Contenido principal -->
-    <v-main>
+    <v-main class="main-content">
       <router-view></router-view>
     </v-main>
 
@@ -338,6 +338,8 @@ input,
   display: flex !important;
   align-items: center !important;
   justify-content: space-between !important;
+  gap: 16px;
+  padding: 12px 20px !important;
 }
 
 .main-navbar.hidden {
@@ -372,10 +374,10 @@ input,
 
 .brand-mark,
 .footer-mark {
-  width: 100%;
+  width: auto;
   height: auto;
-  max-width: 246px;
-  max-height: 46px;
+  max-width: 180px;
+  max-height: 56px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -384,9 +386,9 @@ input,
   color: #fffaf4;
   font-size: 1rem;
   letter-spacing: 0.12em;
-  box-shadow: 0 8px 20px rgba(239, 213, 190, 0.18);
+  box-shadow: none;
   object-fit: contain;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .brand-mark img,
@@ -584,36 +586,24 @@ input,
 }
 
 @media (min-width: 600px) and (max-width: 959px) {
-  .drawerapp {
-    padding-top: 70px;
+  .navbar-container {
+    gap: 12px;
+    padding: 10px 16px !important;
   }
-}
 
-@media (min-width: 960px) {
-  .drawerapp {
-    padding-top: 80px;
+  .brand-mark,
+  .footer-mark {
+    max-width: 150px;
+    max-height: 45px;
   }
-}
-/* Ajuste de v-main para compensar navbar */
-:deep(.v-main) {
-  margin-top: 0 !important;
-}
 
-@media (min-width: 960px) {
-  :deep(.v-main) {
-    margin-top: 0 !important;
+  .search-bar {
+    height: 44px;
   }
-}
 
-@media (min-width: 600px) and (max-width: 959px) {
-  :deep(.v-main) {
-    margin-top: 0 !important;
-  }
-}
-
-@media (max-width: 600px) {
-  :deep(.v-main) {
-    margin-top: 0 !important;
+  .search-bar input,
+  .search-action {
+    height: 44px;
   }
 }
 
@@ -640,12 +630,13 @@ input,
 
   .brand-mark,
   .footer-mark {
-    width: 42px;
-    height: 42px;
-    min-width: 42px;
-    min-height: 42px;
-    max-width: 42px;
-    max-height: 42px;
+    width: auto;
+    height: auto;
+    max-width: 120px;
+    max-height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     flex-shrink: 0;
   }
 
@@ -663,6 +654,8 @@ input,
 
   .navbar-container {
     flex-wrap: nowrap !important;
+    gap: 8px;
+    padding: 8px 12px !important;
   }
 
   .v-app-bar-title {
@@ -681,12 +674,12 @@ input,
   }
 
   .search-bar {
-    height: 46px;
+    height: 40px;
   }
 
   .search-bar input,
   .search-action {
-    height: 46px;
+    height: 40px;
   }
 
   .search-action span {
