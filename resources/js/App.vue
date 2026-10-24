@@ -68,6 +68,32 @@
       </v-container>
     </v-app-bar>
 
+    <!-- Secondary Navigation (Black Menu) -->
+    <nav class="secondary-navbar">
+      <v-container class="secondary-nav-container">
+        <div class="nav-links-primary">
+          <a href="#" class="nav-link">TODAS LAS MARCAS</a>
+          <a href="#" class="nav-link">ACERO INOXIDABLE</a>
+          <a href="#" class="nav-link">COCCIÓN</a>
+          <a href="#" class="nav-link">CAFETERAS</a>
+          <a href="#" class="nav-link">LAVADO</a>
+          <a href="#" class="nav-link">PREPARACIÓN DE ALIMENTOS</a>
+          <a href="#" class="nav-link">REFRIGERACIÓN</a>
+          <a href="#" class="nav-link">EQUIPOS PARA HELADO</a>
+          <a href="#" class="nav-link">INSUMOS</a>
+          <a href="#" class="nav-link">CAFÉ EN GRANO</a>
+        </div>
+      </v-container>
+      
+      <v-container class="secondary-nav-container secondary-links">
+        <div class="nav-links-secondary">
+          <a href="#" class="nav-link secondary">MARCAS</a>
+          <a href="#" class="nav-link secondary">SOBRE NOSOTROS</a>
+          <a href="#" class="nav-link secondary">UTENSILIOS</a>
+        </div>
+      </v-container>
+    </nav>
+
     <!-- Mobile Drawer -->
     <v-navigation-drawer
       v-model="drawer"
@@ -728,6 +754,85 @@ input,
 .nav-cart,
 .mobile-nav-toggle {
   color: #6b5b47 !important;
+}
+
+/* Secondary Navigation (Black Menu) */
+.secondary-navbar {
+  background: #2a2a2a;
+  border-top: 1px solid #1a1a1a;
+  border-bottom: 1px solid #1a1a1a;
+  width: 100%;
+}
+
+.secondary-nav-container {
+  max-width: 100%;
+  padding: 0 16px !important;
+  display: flex;
+  align-items: center;
+}
+
+.nav-links-primary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0;
+  align-items: center;
+  padding: 12px 0;
+}
+
+.nav-links-primary .nav-link,
+.nav-links-secondary .nav-link {
+  color: #ffffff !important;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  margin: 0;
+  padding: 12px 16px;
+  border-radius: 0 !important;
+  font-size: 0.9rem;
+  text-decoration: none;
+  transition: background 0.2s ease;
+  white-space: nowrap;
+}
+
+.nav-links-primary .nav-link:hover,
+.nav-links-secondary .nav-link:hover {
+  background: rgba(255, 255, 255, 0.1) !important;
+}
+
+.nav-links-secondary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0;
+  align-items: center;
+  padding: 10px 0;
+}
+
+.nav-links-secondary .nav-link.secondary {
+  padding: 10px 16px;
+  font-size: 0.85rem;
+}
+
+.secondary-links {
+  background: #1a1a1a;
+  border-top: 1px solid #333;
+}
+
+@media (max-width: 960px) {
+  .nav-links-primary,
+  .nav-links-secondary {
+    gap: 8px;
+  }
+
+  .nav-links-primary .nav-link,
+  .nav-links-secondary .nav-link {
+    padding: 10px 12px;
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .secondary-navbar {
+    display: none;
+  }
 }
 
 /* Footer */
