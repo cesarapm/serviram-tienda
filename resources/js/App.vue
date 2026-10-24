@@ -337,6 +337,7 @@ import { useCart } from './composables/useCart';
 const { itemCount } = useCart();
 const drawer = ref(false);
 const navbar = ref(null);
+const logo = '/images/logo.webp';
 const expandedMenus = ref({
   coccion: false,
   cafeteras: false,
