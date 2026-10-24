@@ -69,7 +69,7 @@
     </v-app-bar>
 
     <!-- Secondary Navigation (Black Menu) -->
-    <nav class="secondary-navbar">
+    <nav class="secondary-navbar" @mouseleave="closeMenu">
       <!-- Primera fila: Categorías principales -->
       <div class="secondary-nav-container primary-row">
         <div class="nav-links-primary">
@@ -77,7 +77,7 @@
           <a href="#" class="nav-link">ACERO INOXIDABLE</a>
           
           <!-- Menú desplegable COCCIÓN -->
-          <div class="nav-dropdown" @mouseleave="closeMenu" :class="{ active: isMenuOpen('coccion') }">
+          <div class="nav-dropdown" :class="{ active: isMenuOpen('coccion') }">
             <button @mouseenter="toggleMenu('coccion')" class="nav-link dropdown-trigger">
               COCCIÓN 
               <v-icon size="16" :class="{ 'rotate-icon': isMenuOpen('coccion') }">mdi-chevron-down</v-icon>
@@ -92,7 +92,7 @@
           </div>
           
           <!-- Menú desplegable CAFETERAS -->
-          <div class="nav-dropdown" @mouseleave="closeMenu" :class="{ active: isMenuOpen('cafeteras') }">
+          <div class="nav-dropdown" :class="{ active: isMenuOpen('cafeteras') }">
             <button @mouseenter="toggleMenu('cafeteras')" class="nav-link dropdown-trigger">
               CAFETERAS 
               <v-icon size="16" :class="{ 'rotate-icon': isMenuOpen('cafeteras') }">mdi-chevron-down</v-icon>
@@ -108,7 +108,7 @@
           <a href="#" class="nav-link">LAVADO</a>
           
           <!-- Menú desplegable PREPARACIÓN DE ALIMENTOS -->
-          <div class="nav-dropdown" @mouseleave="closeMenu" :class="{ active: isMenuOpen('preparacion') }">
+          <div class="nav-dropdown" :class="{ active: isMenuOpen('preparacion') }">
             <button @mouseenter="toggleMenu('preparacion')" class="nav-link dropdown-trigger">
               PREPARACIÓN DE ALIMENTOS 
               <v-icon size="16" :class="{ 'rotate-icon': isMenuOpen('preparacion') }">mdi-chevron-down</v-icon>
@@ -122,7 +122,7 @@
           </div>
           
           <!-- Menú desplegable REFRIGERACIÓN -->
-          <div class="nav-dropdown" @mouseleave="closeMenu" :class="{ active: isMenuOpen('refrigeracion') }">
+          <div class="nav-dropdown" :class="{ active: isMenuOpen('refrigeracion') }">
             <button @mouseenter="toggleMenu('refrigeracion')" class="nav-link dropdown-trigger">
               REFRIGERACIÓN 
               <v-icon size="16" :class="{ 'rotate-icon': isMenuOpen('refrigeracion') }">mdi-chevron-down</v-icon>
@@ -138,7 +138,7 @@
           <a href="#" class="nav-link">EQUIPOS PARA HELADO</a>
           
           <!-- Menú desplegable INSUMOS -->
-          <div class="nav-dropdown" @mouseleave="closeMenu" :class="{ active: isMenuOpen('insumos') }">
+          <div class="nav-dropdown" :class="{ active: isMenuOpen('insumos') }">
             <button @mouseenter="toggleMenu('insumos')" class="nav-link dropdown-trigger">
               INSUMOS 
               <v-icon size="16" :class="{ 'rotate-icon': isMenuOpen('insumos') }">mdi-chevron-down</v-icon>
@@ -159,7 +159,7 @@
       <div class="secondary-nav-container secondary-row">
         <div class="nav-links-secondary">
           <!-- Menú desplegable MARCAS -->
-          <div class="nav-dropdown" @mouseleave="closeMenu" :class="{ active: isMenuOpen('marcas') }">
+          <div class="nav-dropdown" :class="{ active: isMenuOpen('marcas') }">
             <button @mouseenter="toggleMenu('marcas')" class="nav-link secondary dropdown-trigger">
               MARCAS 
               <v-icon size="14" :class="{ 'rotate-icon': isMenuOpen('marcas') }">mdi-chevron-down</v-icon>
@@ -175,7 +175,7 @@
           <a href="#" class="nav-link secondary">SOBRE NOSOTROS</a>
           
           <!-- Menú desplegable UTENSILIOS -->
-          <div class="nav-dropdown" @mouseleave="closeMenu" :class="{ active: isMenuOpen('utensilios') }">
+          <div class="nav-dropdown" :class="{ active: isMenuOpen('utensilios') }">
             <button @mouseenter="toggleMenu('utensilios')" class="nav-link secondary dropdown-trigger">
               UTENSILIOS 
               <v-icon size="14" :class="{ 'rotate-icon': isMenuOpen('utensilios') }">mdi-chevron-down</v-icon>
@@ -343,16 +343,29 @@ let lastScrollTop = 0;
 let ticking = false;
 const scrollThreshold = 5;
 
+let menuCloseTimeout = null;
+
 const toggleMenu = (menuKey) => {
-  if (openMenuKey.value === menuKey) {
-    openMenuKey.value = null;
-  } else {
-    openMenuKey.value = menuKey;
+  // Clear any pending close timeout when entering a new menu
+  if (menuCloseTimeout) {
+    clearTimeout(menuCloseTimeout);
+    menuCloseTimeout = null;
   }
+  
+  // Always open the menu on hover - no toggle logic
+  openMenuKey.value = menuKey;
 };
 
 const closeMenu = () => {
-  openMenuKey.value = null;
+  // Add minimal delay to prevent flickering when quickly moving between items
+  if (menuCloseTimeout) {
+    clearTimeout(menuCloseTimeout);
+  }
+  
+  menuCloseTimeout = setTimeout(() => {
+    openMenuKey.value = null;
+    menuCloseTimeout = null;
+  }, 30);
 };
 
 const isMenuOpen = (menuKey) => {
