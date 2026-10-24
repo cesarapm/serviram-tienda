@@ -8,75 +8,56 @@
       class="py-0 main-navbar"
     >
       <v-container class="navbar-container">
-        <v-app-bar-title class="pa-0">
+        <div class="brand-shell">
           <router-link to="/" class="brand-logo text-decoration-none">
             <div class="brand-lockup">
               <div class="brand-mark">
-                <img :src="logo" alt="Logo" />
+                <img :src="logo" alt="Ramex kitchen Logo" />
               </div>
-              <div class="brand-copy">
-                <span class="brand-wordmark">Serviram</span>
-                <span class="brand-note">Equipos Profesionales</span>
-              </div>
+              <!-- <div class="brand-copy">
+                <span class="brand-wordmark">ALAKARTA</span>
+                <span class="brand-note">COCINAS INDUSTRIALES</span>
+              </div> -->
             </div>
           </router-link>
-        </v-app-bar-title>
+        </div>
 
-        <v-spacer></v-spacer>
+        <div class="search-bar">
+          <input
+            type="text"
+            placeholder="Buscar productos"
+            aria-label="Buscar productos"
+          />
+          <button class="search-action" type="button">
+            <v-icon size="22">mdi-magnify</v-icon>
+            <span>Búsqueda</span>
+          </button>
+        </div>
 
-        <div class="nav-links d-none d-md-flex align-center">
-          <v-btn
-            :to="{ name: 'Home' }"
-            variant="text"
-            class="nav-link"
-          >
-            Inicio
-          </v-btn>
-          <v-btn
-            :to="{ name: 'About' }"
-            variant="text"
-            class="nav-link"
-          >
-            Nosotros
-          </v-btn>
-          <v-btn
-            :to="{ name: 'ProductList' }"
-            variant="text"
-            class="nav-link"
-          >
-            Colección
-          </v-btn>
-          <v-btn
-            :to="{ name: 'Contact' }"
-            variant="text"
-            class="nav-link"
-          >
-            Contacto
-          </v-btn>
-          <!-- <v-btn
-            :to="{ name: 'CustomerOrders' }"
-            variant="text"
-            class="nav-link"
-          >
-            Mis pedidos
-          </v-btn> -->
-          <v-btn
-            :to="{ name: 'Cart' }"
-            icon
-            variant="text"
-            class="nav-cart"
-            size="large"
-          >
-            <v-badge
-              v-if="itemCount > 0"
-              :content="itemCount"
-              color="#8c745f"
-              text-color="white"
-            >
-              <v-icon>mdi-shopping</v-icon>
-            </v-badge>
-            <v-icon v-else>mdi-shopping-outline</v-icon>
-          </v-btn>
+        <div class="header-actions">
+          <div class="whatsapp-block">
+            <div class="whatsapp-icon">
+              <v-icon>mdi-whatsapp</v-icon>
+            </div>
+            <div class="whatsapp-copy">
+              <span class="whatsapp-label">WhatsApp</span>
+              <a href="tel:+5233614891">Llámanos</a>
+            </div>
+          </div>
+
+          <div class="utility-icons">
+            <!-- <button class="utility-button" type="button">
+              <span>ES</span>
+              <v-icon size="17">mdi-chevron-down</v-icon>
+            </button>
+            <button class="utility-icon" type="button" aria-label="Mi cuenta">
+              <v-icon>mdi-account-outline</v-icon>
+            </button> -->
+            <button class="utility-icon cart-button" type="button" aria-label="Carrito">
+              <v-icon>mdi-cart-outline</v-icon>
+              <span class="cart-badge">0</span>
+            </button>
+          </div>
         </div>
 
         <!-- Mobile Menu -->
@@ -115,11 +96,11 @@
           prepend-icon="mdi-email-outline"
           title="Contacto"
         ></v-list-item>
-        <!-- <v-list-item
+        <v-list-item
           :to="{ name: 'CustomerOrders' }"
           prepend-icon="mdi-package-variant-closed"
           title="Mis pedidos"
-        ></v-list-item> -->
+        ></v-list-item>
         <v-list-item
           :to="{ name: 'Cart' }"
           prepend-icon="mdi-cart"
@@ -138,22 +119,17 @@
     </v-main>
 
     <!-- Botón flotante de WhatsApp -->
-    <v-tooltip text="Chatea con nosotros" location="start">
-      <template v-slot:activator="{ props }">
-        <v-btn
-          v-bind="props"
-          class="whatsapp-float"
-          color="#25D366"
-          size="x-large"
-          icon
-          elevation="8"
-          href="https://wa.me/5214445449888?text=Hola,%20estoy%20interesado%20en%20sus%20servicios"
-          target="_blank"
-        >
-          <v-icon size="32">mdi-whatsapp</v-icon>
-        </v-btn>
-      </template>
-    </v-tooltip>
+    <v-btn
+      class="whatsapp-float"
+      color="#25D366"
+      size="x-large"
+      icon
+      elevation="8"
+      href="https://wa.me/5580091558?text=Hola,%20me%20interesan%20sus%20productos"
+      target="_blank"
+    >
+      <v-icon size="32">mdi-whatsapp</v-icon>
+    </v-btn>
 
     <!-- Footer -->
     <v-footer class="footer">
@@ -163,25 +139,23 @@
             <div class="footer-brand mb-4">
               <div class="footer-brand-block">
                 <div class="footer-mark">
-                  <img :src="logoFooter" alt="Serviram Logo" />
+                  <img :src="logo" alt="IzaguirreQu Logo" />
                 </div>
-  
+                <div class="footer-brand-copy">
+                  <strong>IzaguirreQu</strong>
+                  <span>hecho con detalle y calma</span>
+                </div>
               </div>
             </div>
             <p class="footer-desc">
-              Distribuidor de equipos profesionales para cocina. Calidad, eficiencia y servicio técnico integral desde San Luis Potosí.
+              Joyería con tonos suaves, materiales nobles y una mirada contemporánea desde México.
             </p>
             <div class="social-links mt-4">
-              <v-btn icon variant="text" class="footer-social" size="small" href="https://www.instagram.com/serviram.com.mx" target="_blank">
+              <v-btn icon variant="text" class="footer-social" size="small" href="https://www.instagram.com/izaguirre.qu/" target="_blank">
                 <v-icon>mdi-instagram</v-icon>
               </v-btn>
-              <v-btn icon variant="text" class="footer-social" size="small" href="https://www.facebook.com/p/Serviram-soluciones-100067535923102/" target="_blank">
+              <v-btn icon variant="text" class="footer-social" size="small" href="https://www.facebook.com/IzaguirreQu" target="_blank">
                 <v-icon>mdi-facebook</v-icon>
-              </v-btn>
-              <v-btn icon variant="text" class="footer-social" size="small" href="https://www.tiktok.com/@serviram_kitchen_service" target="_blank">
-                <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
-                  <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.68v13.67a2.4 2.4 0 0 1-2.4 2.4 2.4 2.4 0 0 1-2.4-2.4 2.4 2.4 0 0 1 2.4-2.4c.34 0 .67.03 1 .1V9.66a5.86 5.86 0 0 0-1-.08A5.889 5.889 0 0 0 5 20.89a5.889 5.889 0 0 0 5.94-5.892v-3.28a7.47 7.47 0 0 0 4.85 1.82v-3.68a4.85 4.85 0 0 1-3.2-1.246z"/>
-                </svg>
               </v-btn>
             </div>
           </v-col>
@@ -192,7 +166,7 @@
               <router-link :to="{ name: 'About' }" class="footer-link">Nosotros</router-link>
               <router-link :to="{ name: 'ProductList' }" class="footer-link">Colección</router-link>
               <router-link :to="{ name: 'Contact' }" class="footer-link">Contacto</router-link>
-              <!-- <router-link :to="{ name: 'CustomerOrders' }" class="footer-link">Mis pedidos</router-link> -->
+              <router-link :to="{ name: 'CustomerOrders' }" class="footer-link">Mis pedidos</router-link>
             </div>
           </v-col>
           <!-- <v-col cols="12" md="3">
@@ -209,15 +183,15 @@
             <div class="footer-contact">
               <div class="contact-item">
                 <v-icon size="small" class="contact-icon">mdi-whatsapp</v-icon>
-                <span>+52 (1) 444 544 9888</span>
+                <span>+52 558 009 1558</span>
               </div>
               <div class="contact-item">
                 <v-icon size="small" class="contact-icon">mdi-email</v-icon>
-                <span>ventas@serviram.com.mx</span>
+                <span>Atencionaclientes@izaguirrequ.com</span>
               </div>
               <div class="contact-item">
                 <v-icon size="small" class="contact-icon">mdi-map-marker</v-icon>
-                <span>San Luis Potosí, SLP</span>
+                <span>México</span>
               </div>
             </div>
           </v-col>
@@ -225,7 +199,7 @@
         <v-divider class="footer-divider"></v-divider>
         <div class="text-center py-6">
           <p class="footer-copy text-body-2">
-            © {{ new Date().getFullYear() }} Serviram. Todos los derechos reservados.
+            © {{ new Date().getFullYear() }} IzaguirreQu. Todos los derechos reservados.
           </p>
         </div>
       </v-container>
@@ -244,7 +218,6 @@ let lastScrollTop = 0;
 let ticking = false;
 const scrollThreshold = 5;
 const logo = '/images/logo.webp';
-const logoFooter = '/images/logoFooter.webp';
 
 // Scroll behavior with requestAnimationFrame for smooth performance
 const handleScroll = () => {
@@ -298,18 +271,13 @@ onUnmounted(() => {
 <style>
 /* Brand Logo */
 
-
 html,
-html {
-  scroll-behavior: auto !important;
-}
-
 body,
 * {
   font-family: var(--font-brand), serif;
   margin: 0;
   padding: 0;
-  scroll-behavior: auto !important;
+  scroll-behavior: smooth;
 }
 
 header {
@@ -317,6 +285,14 @@ header {
   margin: 0;
   padding: 0;
   font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+button,
+input,
+.v-btn,
+.v-input {
+  font-family: var(--font-brand), sans-serif !important;
 }
 
 /* WhatsApp Float Button */
@@ -332,19 +308,6 @@ header {
 .whatsapp-float:hover {
   transform: scale(1.1);
   box-shadow: 0 6px 30px rgba(37, 211, 102, 0.6) !important;
-}
-
-/* Tooltip moderno */
-:deep(.v-tooltip__content) {
-  background: linear-gradient(135deg, #25D366 0%, #20ba5a 100%) !important;
-  color: white !important;
-  font-weight: 600 !important;
-  font-size: 14px !important;
-  letter-spacing: 0.5px !important;
-  padding: 10px 16px !important;
-  border-radius: 8px !important;
-  box-shadow: 0 8px 24px rgba(37, 211, 102, 0.35) !important;
-  backdrop-filter: blur(8px) !important;
 }
 
 @media (max-width: 600px) {
@@ -394,16 +357,31 @@ header {
   gap: 14px;
 }
 
+.brand-shell {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  flex: 1 1 0;
+}
+
+.brand-logo {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+}
+
 .brand-mark,
 .footer-mark {
   width: 100%;
-  height: 86px;
+  height: auto;
+  max-width: 246px;
+  max-height: 46px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   border-radius: 10%;
   margin: auto;
-
+  color: #fffaf4;
   font-size: 1rem;
   letter-spacing: 0.12em;
   box-shadow: 0 8px 20px rgba(239, 213, 190, 0.18);
@@ -414,7 +392,9 @@ header {
 .brand-mark img,
 .footer-mark img {
   width: 100%;
-  height: 100%;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
   object-fit: contain;
 }
 
@@ -440,6 +420,169 @@ header {
   margin-top: 0.3rem;
 }
 
+.search-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1 1 420px;
+  max-width: 620px;
+  min-width: 220px;
+  margin: 0 auto;
+  border: 1px solid rgba(102, 83, 67, 0.12);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.7);
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(96, 75, 59, 0.06);
+}
+
+.search-bar input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: #473a30;
+  font-size: 0.96rem;
+  padding: 0 18px;
+  height: 52px;
+}
+
+.search-bar input::placeholder {
+  color: #8f7b68;
+}
+
+.search-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  height: 52px;
+  padding: 0 20px;
+  border: none;
+  background: linear-gradient(135deg, #6a4c38 0%, #b57a4a 100%);
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.82rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.search-action:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.02);
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 20px;
+  flex: 0 0 auto;
+}
+
+.whatsapp-block {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.52);
+  border: 1px solid rgba(102, 83, 67, 0.08);
+}
+
+.whatsapp-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(37, 211, 102, 0.12);
+  color: #1ca84e;
+}
+
+.whatsapp-copy {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+.whatsapp-label {
+  color: #7a6858;
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.whatsapp-copy a {
+  color: #5f4737;
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.utility-icons {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.utility-button,
+.utility-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-width: 42px;
+  height: 42px;
+  border: 1px solid rgba(102, 83, 67, 0.12);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.52);
+  color: #5f4737;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.utility-button {
+  padding: 0 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  font-size: 0.76rem;
+}
+
+.utility-button:hover,
+.utility-icon:hover {
+  background: rgba(186, 143, 100, 0.08);
+  border-color: rgba(110, 82, 63, 0.18);
+}
+
+.cart-button {
+  position: relative;
+}
+
+.cart-badge {
+  position: absolute;
+  top: -6px;
+  right: -4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  font-size: 0.66rem;
+  font-weight: 700;
+  color: #fff;
+  background: #c0572a;
+  border: 2px solid #fff;
+}
+
+.mobile-nav-toggle {
+  color: #5f4737 !important;
+}
+
 @media (min-width: 600px) and (max-width: 959px) {
   .drawerapp {
     padding-top: 70px;
@@ -451,6 +594,45 @@ header {
     padding-top: 80px;
   }
 }
+/* Ajuste de v-main para compensar navbar */
+:deep(.v-main) {
+  margin-top: 0 !important;
+}
+
+@media (min-width: 960px) {
+  :deep(.v-main) {
+    margin-top: 0 !important;
+  }
+}
+
+@media (min-width: 600px) and (max-width: 959px) {
+  :deep(.v-main) {
+    margin-top: 0 !important;
+  }
+}
+
+@media (max-width: 600px) {
+  :deep(.v-main) {
+    margin-top: 0 !important;
+  }
+}
+
+@media (max-width: 960px) {
+  .header-actions {
+    display: none;
+  }
+
+  .navbar-container {
+    gap: 12px;
+  }
+
+  .search-bar {
+    min-width: 0;
+    max-width: none;
+    flex: 1 1 auto;
+  }
+}
+
 @media (max-width: 600px) {
   .brand-lockup {
     gap: 8px;
@@ -458,10 +640,12 @@ header {
 
   .brand-mark,
   .footer-mark {
-    width: 100%;
-    height: 52px;
+    width: 42px;
+    height: 42px;
     min-width: 42px;
     min-height: 42px;
+    max-width: 42px;
+    max-height: 42px;
     flex-shrink: 0;
   }
 
@@ -494,6 +678,19 @@ header {
 
   .nav-links {
     display: none !important;
+  }
+
+  .search-bar {
+    height: 46px;
+  }
+
+  .search-bar input,
+  .search-action {
+    height: 46px;
+  }
+
+  .search-action span {
+    display: none;
   }
 }
 
@@ -642,12 +839,6 @@ header {
 
 .footer-social:hover {
   background: rgba(184, 151, 120, 0.16) !important;
-}
-
-.footer-social svg {
-  width: 18px;
-  height: 18px;
-  color: #8c745f;
 }
 
 .contact-icon {
