@@ -358,6 +358,8 @@ input,
   box-shadow: 0 10px 35px rgba(140, 116, 95, 0.08);
   transition: transform 0.3s ease-in-out !important;
   will-change: transform;
+  position: relative !important;
+  z-index: 10;
 }
 
 .navbar-container {
@@ -762,6 +764,9 @@ input,
   border-top: 1px solid #1a1a1a;
   border-bottom: 1px solid #1a1a1a;
   width: 100%;
+  position: relative;
+  z-index: 9;
+  margin-top: 0;
 }
 
 .secondary-nav-container {
