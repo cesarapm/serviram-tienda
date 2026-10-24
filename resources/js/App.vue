@@ -75,11 +75,11 @@
         <div class="nav-links-primary">
           <a href="#" class="nav-link">TODAS LAS MARCAS</a>
           <a href="#" class="nav-link">ACERO INOXIDABLE</a>
-          
+
           <!-- Menú desplegable COCCIÓN -->
           <div class="nav-dropdown" :class="{ active: isMenuOpen('coccion') }">
             <button @mouseenter="toggleMenu('coccion')" class="nav-link dropdown-trigger">
-              COCCIÓN 
+              COCCIÓN
               <v-icon size="16" :class="{ 'rotate-icon': isMenuOpen('coccion') }">mdi-chevron-down</v-icon>
             </button>
             <div v-if="isMenuOpen('coccion')" class="dropdown-menu">
@@ -90,11 +90,11 @@
               <a href="#" class="dropdown-item">Parrillas</a>
             </div>
           </div>
-          
+
           <!-- Menú desplegable CAFETERAS -->
           <div class="nav-dropdown" :class="{ active: isMenuOpen('cafeteras') }">
             <button @mouseenter="toggleMenu('cafeteras')" class="nav-link dropdown-trigger">
-              CAFETERAS 
+              CAFETERAS
               <v-icon size="16" :class="{ 'rotate-icon': isMenuOpen('cafeteras') }">mdi-chevron-down</v-icon>
             </button>
             <div v-if="isMenuOpen('cafeteras')" class="dropdown-menu">
@@ -104,13 +104,13 @@
               <a href="#" class="dropdown-item">Accesorios</a>
             </div>
           </div>
-          
+
           <a href="#" class="nav-link">LAVADO</a>
-          
+
           <!-- Menú desplegable PREPARACIÓN DE ALIMENTOS -->
           <div class="nav-dropdown" :class="{ active: isMenuOpen('preparacion') }">
             <button @mouseenter="toggleMenu('preparacion')" class="nav-link dropdown-trigger">
-              PREPARACIÓN DE ALIMENTOS 
+              PREPARACIÓN DE ALIMENTOS
               <v-icon size="16" :class="{ 'rotate-icon': isMenuOpen('preparacion') }">mdi-chevron-down</v-icon>
             </button>
             <div v-if="isMenuOpen('preparacion')" class="dropdown-menu">
@@ -120,11 +120,11 @@
               <a href="#" class="dropdown-item">Amasadoras</a>
             </div>
           </div>
-          
+
           <!-- Menú desplegable REFRIGERACIÓN -->
           <div class="nav-dropdown" :class="{ active: isMenuOpen('refrigeracion') }">
             <button @mouseenter="toggleMenu('refrigeracion')" class="nav-link dropdown-trigger">
-              REFRIGERACIÓN 
+              REFRIGERACIÓN
               <v-icon size="16" :class="{ 'rotate-icon': isMenuOpen('refrigeracion') }">mdi-chevron-down</v-icon>
             </button>
             <div v-if="isMenuOpen('refrigeracion')" class="dropdown-menu">
@@ -134,13 +134,13 @@
               <a href="#" class="dropdown-item">Mesas Refrigeradas</a>
             </div>
           </div>
-          
+
           <a href="#" class="nav-link">EQUIPOS PARA HELADO</a>
-          
+
           <!-- Menú desplegable INSUMOS -->
           <div class="nav-dropdown" :class="{ active: isMenuOpen('insumos') }">
             <button @mouseenter="toggleMenu('insumos')" class="nav-link dropdown-trigger">
-              INSUMOS 
+              INSUMOS
               <v-icon size="16" :class="{ 'rotate-icon': isMenuOpen('insumos') }">mdi-chevron-down</v-icon>
             </button>
             <div v-if="isMenuOpen('insumos')" class="dropdown-menu">
@@ -150,18 +150,18 @@
               <a href="#" class="dropdown-item">Bebidas</a>
             </div>
           </div>
-          
+
           <a href="#" class="nav-link">CAFÉ EN GRANO</a>
         </div>
       </div>
-      
+
       <!-- Segunda fila: Enlaces secundarios (más oscura) -->
       <div class="secondary-nav-container secondary-row">
         <div class="nav-links-secondary">
           <!-- Menú desplegable MARCAS -->
           <div class="nav-dropdown" :class="{ active: isMenuOpen('marcas') }">
             <button @mouseenter="toggleMenu('marcas')" class="nav-link secondary dropdown-trigger">
-              MARCAS 
+              MARCAS
               <v-icon size="14" :class="{ 'rotate-icon': isMenuOpen('marcas') }">mdi-chevron-down</v-icon>
             </button>
             <div v-if="isMenuOpen('marcas')" class="dropdown-menu secondary-dropdown">
@@ -171,13 +171,13 @@
               <a href="#" class="dropdown-item">Marca D</a>
             </div>
           </div>
-          
+
           <a href="#" class="nav-link secondary">SOBRE NOSOTROS</a>
-          
+
           <!-- Menú desplegable UTENSILIOS -->
           <div class="nav-dropdown" :class="{ active: isMenuOpen('utensilios') }">
             <button @mouseenter="toggleMenu('utensilios')" class="nav-link secondary dropdown-trigger">
-              UTENSILIOS 
+              UTENSILIOS
               <v-icon size="14" :class="{ 'rotate-icon': isMenuOpen('utensilios') }">mdi-chevron-down</v-icon>
             </button>
             <div v-if="isMenuOpen('utensilios')" class="dropdown-menu secondary-dropdown">
@@ -264,16 +264,11 @@
                 <div class="footer-mark">
                   <img :src="logo" alt="IzaguirreQu Logo" />
                 </div>
-                <div class="footer-brand-copy">
-                  <strong>IzaguirreQu</strong>
-                  <span>hecho con detalle y calma</span>
-                </div>
+
               </div>
             </div>
-            <p class="footer-desc">
-              Equipo Profesional para Cocinas - Soluciones integrales de equipamiento gastronómico.
-            </p>
-            <div class="social-links mt-4">
+
+            <div class="social-links mt-10">
               <v-btn icon variant="text" class="footer-social" size="small" href="https://www.instagram.com/izaguirre.qu/" target="_blank">
                 <v-icon>mdi-instagram</v-icon>
               </v-btn>
@@ -310,7 +305,7 @@
               </div>
               <div class="contact-item">
                 <v-icon size="small" class="contact-icon">mdi-email</v-icon>
-                <span>Atencionaclientes@izaguirrequ.com</span>
+                <span>Atencionaclientes@RAMEXKITCHEN.com</span>
               </div>
               <div class="contact-item">
                 <v-icon size="small" class="contact-icon">mdi-map-marker</v-icon>
@@ -351,7 +346,7 @@ const toggleMenu = (menuKey) => {
     clearTimeout(menuCloseTimeout);
     menuCloseTimeout = null;
   }
-  
+
   // Always open the menu on hover - no toggle logic
   openMenuKey.value = menuKey;
 };
@@ -361,7 +356,7 @@ const closeMenu = () => {
   if (menuCloseTimeout) {
     clearTimeout(menuCloseTimeout);
   }
-  
+
   menuCloseTimeout = setTimeout(() => {
     openMenuKey.value = null;
     menuCloseTimeout = null;
@@ -504,7 +499,7 @@ input,
 .drawerapp {
   background: linear-gradient(180deg, #f9f7f4 0%, #efe8e0 100%) !important;
   font-family: var(--font-brand), serif;
-  padding-top: 100px;
+
 
 }
 
@@ -1208,5 +1203,11 @@ input,
 
 .footer-copy {
   color: #9a866f;
+}
+
+.main-content {
+  --v-layout-top: 0 !important;
+  --v-layout-bottom: 0 !important;
+  padding: 0 !important;
 }
 </style>
