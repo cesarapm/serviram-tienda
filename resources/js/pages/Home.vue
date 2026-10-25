@@ -259,33 +259,33 @@ onMounted(() => {
 /* Products Grid */
 .products-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 22px;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 28px;
   margin-top: 32px;
 }
 
 .product-card {
-  background: rgba(255, 255, 255, 0.9);
-  border: 1px solid var(--color-border);
-  border-radius: 22px;
+  background: white;
+  border: 1px solid #e5e5e7;
+  border-radius: 16px;
   overflow: hidden;
-  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 10px 16px rgba(17, 17, 25, 0.02);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   cursor: pointer;
 }
 
 .product-card:hover {
-  transform: translateY(-4px);
-  border-color: rgba(201, 92, 34, 0.25);
-  box-shadow: var(--shadow-card);
+  transform: translateY(-6px);
+  border-color: #d97d4d;
+  box-shadow: 0 12px 24px rgba(201, 92, 34, 0.15);
 }
 
 .product-card--status {
-  background: rgba(255, 255, 255, 0.95);
-  border: 2px dashed var(--color-border);
-  min-height: 300px;
+  background: white;
+  border: 2px dashed #e5e5e7;
+  min-height: 350px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -295,41 +295,42 @@ onMounted(() => {
 
 .product-card--status:hover {
   transform: none;
-  border-color: var(--color-border);
+  border-color: #e5e5e7;
 }
 
 .product-image {
   position: relative;
-  height: 220px;
-  background: linear-gradient(135deg, #f9f5f0 0%, #f1ece7 100%);
+  height: 280px;
+  background: #f5f5f7;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  padding: 18px;
+  padding: 16px;
+  border-bottom: 1px solid #e5e5e7;
 }
 
 .product-card__image {
   width: 100% !important;
   height: 100% !important;
   object-fit: contain;
-  transition: transform 0.25s ease;
+  transition: transform 0.3s ease;
 }
 
 .product-image:hover .product-card__image {
-  transform: scale(1.04);
+  transform: scale(1.08);
 }
 
 .placeholder-product {
   width: 100%;
   height: 100%;
-  background: linear-gradient(135deg, #e8ddd4 0%, #d4c4b0 100%);
+  background: #f5f5f7;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 3rem;
+  font-size: 3.5rem;
   font-weight: 800;
-  color: rgba(255, 255, 255, 0.4);
+  color: #d1d1d6;
 }
 
 .product-overlay {
@@ -340,7 +341,7 @@ onMounted(() => {
   align-items: center;
   justify-content: center;
   opacity: 0;
-  transition: opacity 0.25s ease;
+  transition: opacity 0.3s ease;
 }
 
 .product-image:hover .product-overlay {
@@ -349,65 +350,70 @@ onMounted(() => {
 
 .view-btn {
   color: white !important;
-  border-color: rgba(255, 255, 255, 0.6) !important;
-  font-weight: 700;
-  font-size: 0.85rem;
+  border-color: rgba(255, 255, 255, 0.7) !important;
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 10px 20px !important;
 }
 
 .view-btn:hover {
-  background: rgba(255, 255, 255, 0.15) !important;
+  background: rgba(255, 255, 255, 0.2) !important;
   border-color: white !important;
 }
 
 .product-info {
-  padding: 18px 16px 16px;
+  padding: 16px;
   flex-grow: 1;
   display: flex;
   flex-direction: column;
 }
 
 .product-brand {
-  font-size: 0.73rem;
-  color: var(--color-primary);
-  font-weight: 800;
+  font-size: 0.7rem;
+  color: #999;
+  font-weight: 600;
   margin-bottom: 8px;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.06em;
 }
 
 .product-name {
-  font-size: 1rem;
-  font-weight: 700;
-  margin-bottom: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-bottom: 12px;
   line-height: 1.4;
-  color: var(--color-dark);
-  min-height: 44px;
+  color: #1d1d1f;
+  min-height: auto;
+  flex-grow: 1;
 }
 
 .product-category {
-  font-size: 0.8rem;
-  color: var(--color-gray);
+  font-size: 0.75rem;
+  color: #999;
   margin-bottom: 12px;
-  font-style: italic;
+  font-style: normal;
 }
 
 .product-description {
-  font-size: 0.9rem;
-  color: var(--color-gray);
-  line-height: 1.5;
+  font-size: 0.85rem;
+  color: #999;
+  line-height: 1.4;
+  margin-bottom: 12px;
 }
 
 .product-price {
   margin-top: auto;
   display: flex;
-  align-items: center;
+  align-items: baseline;
   gap: 8px;
+  padding-top: 12px;
+  border-top: 1px solid #f5f5f7;
 }
 
 .price {
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   font-weight: 800;
-  color: var(--color-primary);
+  color: #1d1d1f;
 }
 
 /* Responsive */
