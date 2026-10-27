@@ -237,6 +237,42 @@
             </div>
           </div>
 
+          <!-- Menú desplegable TIPO -->
+          <div class="nav-dropdown" :class="{ active: isMenuOpen('tipo') }">
+            <button @mouseenter="toggleMenu('tipo')" class="nav-link dropdown-trigger">
+              TIPO
+              <v-icon size="14" :class="{ 'rotate-icon': isMenuOpen('tipo') }">mdi-chevron-down</v-icon>
+            </button>
+            <div v-if="isMenuOpen('tipo')" class="dropdown-menu">
+              <button
+                v-for="tipoItem in tipoOptions"
+                :key="tipoItem.value"
+                @click="navigateToType(tipoItem.value)"
+                class="dropdown-item"
+              >
+                {{ tipoItem.title }}
+              </button>
+            </div>
+          </div>
+
+          <!-- Menú desplegable INDUSTRIA -->
+          <div class="nav-dropdown" :class="{ active: isMenuOpen('industria') }">
+            <button @mouseenter="toggleMenu('industria')" class="nav-link dropdown-trigger">
+              INDUSTRIA
+              <v-icon size="14" :class="{ 'rotate-icon': isMenuOpen('industria') }">mdi-chevron-down</v-icon>
+            </button>
+            <div v-if="isMenuOpen('industria')" class="dropdown-menu">
+              <button
+                v-for="industriaItem in industriaOptions"
+                :key="industriaItem.value"
+                @click="navigateToIndustry(industriaItem.value)"
+                class="dropdown-item"
+              >
+                {{ industriaItem.title }}
+              </button>
+            </div>
+          </div>
+
           <router-link :to="{ name: 'About' }" class="nav-link">NOSOTROS</router-link>
         </div>
       </div>
@@ -520,6 +556,27 @@ const categoryGroups = ref({
     'Selladoras de Impulso'
   ]
 });
+
+// Opciones de Tipo
+const tipoOptions = ref([
+  { title: 'Equipos', value: 'equipos' },
+  { title: 'Refacciones', value: 'refaccione' },
+  { title: 'Accesorios', value: 'accesorios' },
+  { title: 'Consumibles', value: 'consumibles' }
+]);
+
+// Opciones de Industria
+const industriaOptions = ref([
+  { title: 'Restaurantes', value: 'restaurantes' },
+  { title: 'Pizzería', value: 'pizzeria' },
+  { title: 'Cafetería', value: 'cafetería' },
+  { title: 'Carnicería', value: 'carniceria' },
+  { title: 'Panadería', value: 'panadería' },
+  { title: 'Pastelería', value: 'pastelería' },
+  { title: 'Comedores Industrial', value: 'comedores industrial' },
+  { title: 'Bares / Centro Nocturnos', value: 'bares / centro nocturnos' },
+  { title: 'Hoteles', value: 'hoteles' }
+]);
 
 const navigateToCategory = (category) => {
   closeMenu();
