@@ -1,6 +1,6 @@
 <template>
   <div class="about-page">
-    <section class="about-hero">
+    <!-- <section class="about-hero">
       <div class="hero-background"></div>
       <v-container class="py-16 relative z-10">
         <v-row justify="center">
@@ -8,13 +8,13 @@
             <div class="hero-emblem" data-aos="fade-up" data-aos-duration="800">Sobre SERVIRAM</div>
             <h1 class="hero-title" data-aos="fade-up" data-aos-duration="800" data-aos-delay="100">Equipos para la Excelencia Gastronómica</h1>
             <p class="hero-text" data-aos="fade-up" data-aos-duration="800" data-aos-delay="200">
-             SERVIRAM es tu socio confiable en soluciones de equipos de cocina profesionales. 
+             SERVIRAM es tu socio confiable en soluciones de equipos de cocina profesionales.
               Con más de 45 años de experiencia, distribuimos las mejores marcas mundiales con soporte técnico completo.
             </p>
           </v-col>
         </v-row>
       </v-container>
-    </section>
+    </section> -->
 
     <section class="story-section">
       <v-container class="py-14">
@@ -27,18 +27,18 @@
             <div class="story-grid">
               <article class="story-card story-card--wide card-hover-lift" data-aos="fade-up" data-aos-duration="800" data-aos-delay="100">
                 <p>
-                  SERVIRAM es una empresa lider en la distribución de equipos gastronómicos profesionales en México. 
+                  SERVIRAM es una empresa lider en la distribución de equipos gastronómicos profesionales en México.
                   Durante casi 50 años, hemos construido relaciones sólidas con restaurantes, hoteles, colegios y empresas catering.
                 </p>
                 <p>
-                  Nuestro compromiso es proporcionar no solo productos de la más alta calidad, sino también 
+                  Nuestro compromiso es proporcionar no solo productos de la más alta calidad, sino también
                   asesoramiento técnico experto, soporte post-venta y garantía completa para asegurar el éxito de tu negocio.
                 </p>
               </article>
               <article class="story-card card-hover-lift" data-aos="fade-up" data-aos-duration="800" data-aos-delay="200">
                 <h3>Nuestro Compromiso</h3>
                 <p>
-                  Ofrecemos equipos de marcas internacionales reconocidas: Rational, Unox, Winterhalter, Euroquip y más. 
+                  Ofrecemos equipos de marcas internacionales reconocidas: Rational, Unox, Winterhalter, Euroquip y más.
                   Cada producto es seleccionado cuidadosamente para garantizar durabilidad, eficiencia y máximo rendimiento.
                 </p>
               </article>
@@ -48,60 +48,51 @@
       </v-container>
     </section>
 
-    <section class="purpose-section">
+    <section class="mission-vision-section">
       <v-container class="py-14">
         <v-row justify="center">
           <v-col cols="12" lg="10">
-            <div class="section-heading text-center mb-10" data-aos="fade-up" data-aos-duration="800">
-              <span class="section-kicker">Misión, Visión y Valores</span>
-              <h2>Lo que nos guía</h2>
+            <div class="section-heading text-center mb-12" data-aos="fade-up" data-aos-duration="800">
+              <span class="section-kicker">Misión y Visión</span>
+              <h2>Nuestro Rumbo</h2>
             </div>
 
-            <div class="purpose-grid mb-8">
-              <article class="purpose-card card-hover-lift" data-aos="fade-up" data-aos-duration="800" data-aos-delay="100">
-                <div class="purpose-icon">📍</div>
-                <h3>Misión</h3>
-                <p>
-                  Ser el distribuidor líder de equipos gastronómicos en México, proporcionando 
-                  soluciones innovadoras que maximicen la productividad y rentabilidad de nuestros clientes.
-                </p>
-              </article>
+            <v-row :gutter="8">
+              <!-- MISIÓN -->
+              <v-col cols="12" md="6">
+                <div class="mission-card card-hover-lift" data-aos="fade-up" data-aos-duration="800" data-aos-delay="100">
+                  <div class="mission-header">
+                    <div class="mission-icon">💼</div>
+                    <h3>Misión</h3>
+                  </div>
+                  <div class="mission-content">
+                    <p>
+                      Comercializar y desarrollar proyectos de equipamiento para cocinas comerciales e industriales,
+                      integrando las mejores marcas del mercado internacional con la fabricación especializada en acero
+                      inoxidable, instalación profesional y un soporte técnico certificado que garantiza la continuidad
+                      operativa de nuestros clientes.
+                    </p>
+                  </div>
+                </div>
+              </v-col>
 
-              <article class="purpose-card card-hover-lift" data-aos="fade-up" data-aos-duration="800" data-aos-delay="200">
-                <div class="purpose-icon">🎯</div>
-                <h3>Visión</h3>
-                <p>
-                  Ser el socio preferido de la industria gastronómica mexicana, reconocido por 
-                  nuestra experiencia, calidad de productos y excelencia en servicio técnico.
-                </p>
-              </article>
-            </div>
-
-            <div class="values-card card-hover-lift" data-aos="fade-up" data-aos-duration="800" data-aos-delay="300">
-              <h3>Valores</h3>
-              <div class="values-grid">
-                <div class="value-item value-hover" data-aos="fade-up" data-aos-duration="700" data-aos-delay="100">
-                  <strong>⭐ Excelencia</strong>
-                  <p>Solo distribuimos marcas de clase mundial con tecnología de punta.</p>
+              <!-- VISIÓN -->
+              <v-col cols="12" md="6">
+                <div class="vision-card card-hover-lift" data-aos="fade-up" data-aos-duration="800" data-aos-delay="200">
+                  <div class="vision-header">
+                    <div class="vision-icon">🎯</div>
+                    <h3>Visión</h3>
+                  </div>
+                  <div class="vision-content">
+                    <p>
+                      Posicionarnos como el distribuidor e integrador líder en equipamiento gastronómico e industrial
+                      en la región, siendo el aliado preferido de restaurantes, hoteles, comedores e industrias alimentarias
+                      por nuestra excelencia técnica, calidad de proyectos y respaldo postventa.
+                    </p>
+                  </div>
                 </div>
-                <div class="value-item value-hover" data-aos="fade-up" data-aos-duration="700" data-aos-delay="150">
-                  <strong>🛡️ Confiabilidad</strong>
-                  <p>Soporte técnico 24/7 y garantía completa en cada producto.</p>
-                </div>
-                <div class="value-item value-hover" data-aos="fade-up" data-aos-duration="700" data-aos-delay="200">
-                  <strong>💼 Profesionalismo</strong>
-                  <p>Equipo altamente capacitado con conocimiento profundo en equipos gastronómicos.</p>
-                </div>
-                <div class="value-item value-hover" data-aos="fade-up" data-aos-duration="700" data-aos-delay="250">
-                  <strong>🤝 Compromiso</strong>
-                  <p>Dedicados a potenciar el éxito de tu negocio gastronómico.</p>
-                </div>
-                <div class="value-item value-hover" data-aos="fade-up" data-aos-duration="700" data-aos-delay="300">
-                  <strong>🚀 Innovación</strong>
-                  <p>Constantemente actualizando nuestro catálogo con las últimas tecnologías.</p>
-                </div>
-              </div>
-            </div>
+              </v-col>
+            </v-row>
           </v-col>
         </v-row>
       </v-container>
@@ -184,8 +175,8 @@ export default {
   left: 0;
   right: 0;
   bottom: 0;
-  background: 
-    linear-gradient(135deg, rgba(11, 48, 102, 0.65), rgba(30, 90, 160, 0.60)), 
+  background:
+    linear-gradient(135deg, rgba(11, 48, 102, 0.65), rgba(30, 90, 160, 0.60)),
     url('/images/portadas/portadanosotros.webp');
   background-size: contain;
   background-position: center;
@@ -562,13 +553,104 @@ export default {
   .values-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .story-card,
   .founder-card,
   .purpose-card,
   .values-card {
     padding: 1.8rem;
   }
+}
+
+/* Estilos para la sección de Misión y Visión */
+.mission-vision-section {
+  background: linear-gradient(135deg, #f5f7fa 0%, #eef2f7 50%, #f0f4f8 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.mission-card,
+.vision-card {
+  padding: 3rem 2.4rem;
+  border-radius: 20px;
+  background: #ffffff;
+  border: 1px solid rgba(30, 90, 160, 0.1);
+  box-shadow: 0 8px 24px rgba(11, 48, 102, 0.08);
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+  min-height: 100%;
+}
+
+.mission-card::before,
+.vision-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(30, 90, 160, 0.04) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.mission-card:hover,
+.vision-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 48px rgba(11, 48, 102, 0.15);
+  border-color: rgba(30, 90, 160, 0.2);
+}
+
+.mission-header,
+.vision-header {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  margin-bottom: 1.6rem;
+}
+
+.mission-icon,
+.vision-icon {
+  font-size: 3rem;
+  flex-shrink: 0;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.mission-card:hover .mission-icon,
+.vision-card:hover .vision-icon {
+  transform: scale(1.2) rotate(5deg);
+}
+
+.mission-card h3,
+.vision-card h3 {
+  font-size: 1.8rem;
+  color: #0b3066;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  margin: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.mission-content,
+.vision-content {
+  position: relative;
+  z-index: 1;
+}
+
+.mission-content p,
+.vision-content p {
+  font-size: 1.05rem;
+  line-height: 1.95;
+  color: #4a5568;
+  margin: 0;
+  transition: all 0.3s ease;
+}
+
+.mission-card:hover .mission-content p,
+.vision-card:hover .vision-content p {
+  color: #2d3748;
 }
 
 @media (max-width: 600px) {
@@ -584,7 +666,9 @@ export default {
   .story-card,
   .founder-card,
   .purpose-card,
-  .values-card {
+  .values-card,
+  .mission-card,
+  .vision-card {
     padding: 1.5rem;
   }
 
@@ -595,9 +679,19 @@ export default {
   .hero-title {
     font-size: clamp(2rem, 5vw, 3rem);
   }
-  
+
   .section-heading h2 {
     font-size: clamp(1.6rem, 4vw, 2.4rem);
+  }
+
+  .mission-card h3,
+  .vision-card h3 {
+    font-size: 1.5rem;
+  }
+
+  .mission-icon,
+  .vision-icon {
+    font-size: 2.2rem;
   }
   .hero-background {
   position: absolute;
@@ -605,8 +699,8 @@ export default {
   left: 0;
   right: 0;
   bottom: 0;
-  background: 
-    linear-gradient(135deg, rgba(11, 48, 102, 0.65), rgba(30, 90, 160, 0.60)), 
+  background:
+    linear-gradient(135deg, rgba(11, 48, 102, 0.65), rgba(30, 90, 160, 0.60)),
     url('/images/portadas/portadanosotros.webp');
   background-size: cover;
   background-position: center;

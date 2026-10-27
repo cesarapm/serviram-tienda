@@ -370,7 +370,7 @@ watch([selectedCategory, selectedBrand, selectedIndustry, selectedType, sortBy, 
   }
   
   // Actualizar ruta sin recargar la página
-  router.replace({ path: '/productos', query });
+  router.push({ path: '/productos', query }, () => {})
   
   if (currentPage.value !== 1) {
     currentPage.value = 1;
@@ -378,7 +378,7 @@ watch([selectedCategory, selectedBrand, selectedIndustry, selectedType, sortBy, 
   }
 
   fetchProducts();
-});
+}, { debounce: 300 });
 
 // Debounce para la búsqueda
 watch(searchQuery, (newValue) => {
@@ -398,6 +398,41 @@ watch(currentPage, () => {
   window.scrollTo(0, 0);
   fetchProducts();
 });
+
+// Watch para cambios en route.query (cuando se navega desde el navbar)
+watch(() => route.query, (newQuery) => {
+  // Actualizar selectedCategory desde query params
+  if (newQuery.category) {
+    selectedCategory.value = newQuery.category;
+  } else {
+    selectedCategory.value = 'Todas';
+  }
+  
+  // Actualizar selectedBrand desde query params
+  if (newQuery.brand) {
+    selectedBrand.value = newQuery.brand;
+  } else {
+    selectedBrand.value = 'Todas';
+  }
+  
+  // Actualizar selectedIndustry desde query params
+  if (newQuery.industria) {
+    selectedIndustry.value = newQuery.industria;
+  } else {
+    selectedIndustry.value = 'Todas';
+  }
+  
+  // Actualizar selectedType desde query params
+  if (newQuery.tipo) {
+    selectedType.value = newQuery.tipo;
+  } else {
+    selectedType.value = 'Todas';
+  }
+  
+  // Reset página y cargar productos
+  currentPage.value = 1;
+  fetchProducts();
+}, { deep: true });
 
 const filteredProducts = computed(() => products.value);
 

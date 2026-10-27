@@ -19,16 +19,58 @@
       </div>
     </section>
 
+    <!-- Propuesta Única de Valor - SEO Section -->
+    <section class="usp-section py-16">
+      <v-container>
+        <v-row justify="center">
+          <v-col cols="12" md="10">
+            <h1 class="usp-h1">
+              Soluciones Integrales de Equipamiento Gastronómico Industrial
+            </h1>
+            
+            <h2 class="usp-h2">
+              Comercialización de Marcas Líderes Internacionales
+            </h2>
+            
+            <div class="usp-text">
+              <p>
+                Fabricación a medida en acero inoxidable, instalación profesional y respaldo técnico certificado por las marcas a través de SERVIRAM.
+              </p>
+              
+              <div class="usp-features">
+                <div class="feature-item">
+                  <v-icon class="feature-icon">mdi-check-circle-outline</v-icon>
+                  <span>Marcas líderes internacionales</span>
+                </div>
+                <div class="feature-item">
+                  <v-icon class="feature-icon">mdi-check-circle-outline</v-icon>
+                  <span>Fabricación a medida en acero inoxidable</span>
+                </div>
+                <div class="feature-item">
+                  <v-icon class="feature-icon">mdi-check-circle-outline</v-icon>
+                  <span>Instalación profesional</span>
+                </div>
+                <div class="feature-item">
+                  <v-icon class="feature-icon">mdi-check-circle-outline</v-icon>
+                  <span>Respaldo técnico certificado</span>
+                </div>
+              </div>
+            </div>
+          </v-col>
+        </v-row>
+      </v-container>
+    </section>
+
     <!-- Productos Destacados Section -->
-    <v-container class="featured-section py-20">
+    <v-container ref="productsSection" class="featured-section py-20">
       <v-row justify="center">
         <v-col cols="12" md="10" class="text-center">
           <h3 class="section-title mb-12">
             Productos Destacados
           </h3>
-          
+
           <div class="products-grid">
-            <div 
+            <div
               v-if="loadingProducts"
               class="product-card product-card--status"
             >
@@ -36,7 +78,7 @@
                 <h4 class="product-name">Cargando productos...</h4>
               </div>
             </div>
-            <div 
+            <div
               v-else-if="featuredProducts.length === 0"
               class="product-card product-card--status"
             >
@@ -46,9 +88,9 @@
               </div>
             </div>
             <template v-else>
-              <div 
-                v-for="product in featuredProducts" 
-                :key="product.id" 
+              <div
+                v-for="product in featuredProducts"
+                :key="product.id"
                 class="product-card"
               >
                 <div class="product-image">
@@ -64,9 +106,9 @@
                     {{ product.name.charAt(0) }}
                   </div>
                   <div class="product-overlay">
-                    <v-btn 
-                      class="view-btn" 
-                      variant="outlined" 
+                    <v-btn
+                      class="view-btn"
+                      variant="outlined"
                       @click="viewProduct(product.id)"
                     >
                       Ver Detalles
@@ -86,6 +128,17 @@
           </div>
         </v-col>
       </v-row>
+
+      <div v-if="!loading && featuredProducts.length > 0" class="pagination-shell">
+        <v-pagination
+          :model-value="currentPage"
+          @update:model-value="handlePageChange"
+          :length="totalPages"
+          :total-visible="$vuetify.display.smAndDown ? 4 : 7"
+          rounded="circle"
+          active-color="primary"
+        />
+      </div>
     </v-container>
 
 
@@ -97,8 +150,14 @@ import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
+const ITEMS_PER_PAGE = 4
+const currentPage = ref(1)
+const totalPages = ref(1)
 const loadingProducts = ref(false)
+const loadingFeatured = ref(false)
+const loading = loadingProducts
 const featuredProducts = ref([])
+const productsSection = ref(null)
 
 const currentCategory = ref({
   title: 'RAMEX KITCHEN',
@@ -117,23 +176,53 @@ const viewProduct = (productId) => {
   router.push({ name: 'ProductDetail', params: { id: productId } })
 }
 
-const fetchProducts = async () => {
-  loadingProducts.value = true
-  try {
-    const response = await fetch('/api/productos/destacado?limit=12')
-    if (response.ok) {
-      const data = await response.json()
-      featuredProducts.value = data.data || []
+const handlePageChange = (page) => {
+  if (page === currentPage.value) {
+    return
+  }
+
+  currentPage.value = page
+  fetchFeaturedProducts()
+  
+  // Scroll hacia la sección de productos
+  setTimeout(() => {
+    if (productsSection.value) {
+      productsSection.value.$el.scrollIntoView({ behavior: 'smooth', block: 'start' })
     }
+  }, 100)
+}
+
+const fetchFeaturedProducts = async () => {
+  loadingProducts.value = true
+  loadingFeatured.value = true
+
+  try {
+    const requestedPage = Number(currentPage.value) || 1
+    const params = new URLSearchParams()
+    params.append('page', requestedPage.toString())
+    params.append('per_page', ITEMS_PER_PAGE.toString())
+
+    const response = await fetch(`/api/productos/destacado?${params}`)
+
+    if (!response.ok) {
+      throw new Error('No se pudieron cargar los productos destacados')
+    }
+
+    const payload = await response.json()
+    featuredProducts.value = (payload.data ?? []).slice(0, ITEMS_PER_PAGE)
+    currentPage.value = Number(payload.current_page ?? requestedPage)
+    totalPages.value = Math.max(1, Number(payload.last_page ?? 1))
   } catch (error) {
-    console.error('Error cargando productos:', error)
+    console.error('Error al cargar productos destacados:', error)
+    featuredProducts.value = []
   } finally {
     loadingProducts.value = false
+    loadingFeatured.value = false
   }
 }
 
 onMounted(() => {
-  fetchProducts()
+  fetchFeaturedProducts()
 })
 </script>
 
@@ -457,6 +546,229 @@ onMounted(() => {
   .section-title {
     font-size: 1.4rem;
     margin-bottom: 24px;
+  }
+}
+
+/* USP Section - SEO con Estilos Premium */
+.usp-section {
+  background: linear-gradient(135deg, #f9f5f2 0%, #fffdfb 50%, #f9f5f2 100%);
+  border-top: 1px solid rgba(217, 125, 77, 0.2);
+  border-bottom: 1px solid rgba(217, 125, 77, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Elementos decorativos de fondo */
+.usp-section::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -10%;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(217, 125, 77, 0.08) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.usp-section::after {
+  content: '';
+  position: absolute;
+  bottom: -50%;
+  left: -5%;
+  width: 350px;
+  height: 350px;
+  background: radial-gradient(circle, rgba(217, 125, 77, 0.06) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.usp-h1 {
+  font-size: clamp(1.8rem, 5vw, 2.8rem);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+  color: #0a0a0c;
+  margin-bottom: 12px;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+  animation: slideUp 0.8s ease-out;
+}
+
+.usp-h1::before {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 4px;
+  background: linear-gradient(90deg, transparent, #d97d4d, transparent);
+  margin: 16px auto 0;
+}
+
+.usp-h2 {
+  font-size: clamp(1.2rem, 4vw, 1.8rem);
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  background: linear-gradient(135deg, #d97d4d 0%, #c96b39 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 28px;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+  animation: slideUp 0.8s ease-out 0.1s both;
+}
+
+.usp-text {
+  text-align: center;
+  margin-bottom: 32px;
+  position: relative;
+  z-index: 1;
+  animation: slideUp 0.8s ease-out 0.2s both;
+}
+
+.usp-text p {
+  font-size: clamp(0.95rem, 2vw, 1.1rem);
+  line-height: 1.8;
+  color: #424245;
+  margin-bottom: 24px;
+  position: relative;
+}
+
+.usp-text strong {
+  color: #d97d4d;
+  font-weight: 700;
+}
+
+.usp-features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 24px;
+  max-width: 1000px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+.feature-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 18px 20px;
+  font-size: 0.95rem;
+  color: #424245;
+  line-height: 1.5;
+  background: rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(217, 125, 77, 0.2);
+  border-radius: 14px;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  cursor: default;
+  animation: slideUp 0.8s ease-out forwards;
+  opacity: 0;
+}
+
+.feature-item:nth-child(1) { animation-delay: 0.3s; }
+.feature-item:nth-child(2) { animation-delay: 0.35s; }
+.feature-item:nth-child(3) { animation-delay: 0.4s; }
+.feature-item:nth-child(4) { animation-delay: 0.45s; }
+
+.feature-item:hover {
+  background: rgba(217, 125, 77, 0.08);
+  border-color: #d97d4d;
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(217, 125, 77, 0.15);
+}
+
+.feature-icon {
+  color: #d97d4d;
+  font-size: 1.4rem;
+  flex-shrink: 0;
+  margin-top: 2px;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.feature-item:hover .feature-icon {
+  transform: scale(1.2) rotate(10deg);
+}
+
+/* Animaciones */
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .usp-section {
+    padding: 40px 16px !important;
+  }
+
+  .usp-section::before,
+  .usp-section::after {
+    width: 250px;
+    height: 250px;
+  }
+
+  .usp-h1 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+  }
+
+  .usp-h1::before {
+    width: 40px;
+    height: 3px;
+    margin: 12px auto 0;
+  }
+
+  .usp-h2 {
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+  }
+
+  .usp-text p {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin-bottom: 16px;
+  }
+
+  .usp-features {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .feature-item {
+    padding: 14px 16px;
+    font-size: 0.9rem;
+  }
+
+  .feature-icon {
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .usp-section {
+    padding: 28px 12px !important;
+  }
+
+  .usp-h1 {
+    font-size: 1.3rem;
+  }
+
+  .usp-h2 {
+    font-size: 0.95rem;
+  }
+
+  .feature-item {
+    padding: 12px 12px;
   }
 }
 </style>

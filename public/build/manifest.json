@@ -16,7 +16,7 @@
     "src": "node_modules/@mdi/font/fonts/materialdesignicons-webfont.woff2"
   },
   "resources/css/app.css": {
-    "file": "assets/app-rID1OIXI.css",
+    "file": "assets/app-C7MVdyfD.css",
     "src": "resources/css/app.css",
     "isEntry": true,
     "name": "app",
@@ -24,17 +24,13 @@
       "app.css"
     ]
   },
-  "resources/fonts/sanke.otf": {
-    "file": "assets/sanke-CbXtgpfK.otf",
-    "src": "resources/fonts/sanke.otf"
-  },
   "resources/js/app.js": {
-    "file": "assets/app-ZO2hDI19.js",
+    "file": "assets/app-CRWBCGHK.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true,
     "css": [
-      "assets/app-DVc-yIUu.css"
+      "assets/app-CVs-f7wg.css"
     ],
     "assets": [
       "assets/materialdesignicons-webfont-CSr8KVlo.eot",

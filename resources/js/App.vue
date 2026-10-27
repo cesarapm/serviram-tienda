@@ -70,11 +70,10 @@
 
     <!-- Secondary Navigation (Black Menu) -->
     <nav class="secondary-navbar" @mouseleave="closeMenu">
-      <!-- Primera fila: Categorías principales -->
+      <!-- Todas las categorías en una sola sección -->
       <div class="secondary-nav-container primary-row">
         <div class="nav-links-primary">
-          <a href="#" class="nav-link">TODAS LAS MARCAS</a>
-          <a href="#" class="nav-link">ACERO INOXIDABLE</a>
+          <router-link to="/productos" class="nav-link">TODOS LOS PRODUCTOS</router-link>
 
           <!-- Menú desplegable COCCIÓN -->
           <div class="nav-dropdown" :class="{ active: isMenuOpen('coccion') }">
@@ -83,41 +82,14 @@
               <v-icon size="16" :class="{ 'rotate-icon': isMenuOpen('coccion') }">mdi-chevron-down</v-icon>
             </button>
             <div v-if="isMenuOpen('coccion')" class="dropdown-menu">
-              <a href="#" class="dropdown-item">Cocinas Industriales</a>
-              <a href="#" class="dropdown-item">Freidoras</a>
-              <a href="#" class="dropdown-item">Planchas</a>
-              <a href="#" class="dropdown-item">Hornos</a>
-              <a href="#" class="dropdown-item">Parrillas</a>
-            </div>
-          </div>
-
-          <!-- Menú desplegable CAFETERAS -->
-          <div class="nav-dropdown" :class="{ active: isMenuOpen('cafeteras') }">
-            <button @mouseenter="toggleMenu('cafeteras')" class="nav-link dropdown-trigger">
-              CAFETERAS
-              <v-icon size="16" :class="{ 'rotate-icon': isMenuOpen('cafeteras') }">mdi-chevron-down</v-icon>
-            </button>
-            <div v-if="isMenuOpen('cafeteras')" class="dropdown-menu">
-              <a href="#" class="dropdown-item">Cafeteras Automáticas</a>
-              <a href="#" class="dropdown-item">Máquinas de Espresso</a>
-              <a href="#" class="dropdown-item">Cafeteras de Filtro</a>
-              <a href="#" class="dropdown-item">Accesorios</a>
-            </div>
-          </div>
-
-          <a href="#" class="nav-link">LAVADO</a>
-
-          <!-- Menú desplegable PREPARACIÓN DE ALIMENTOS -->
-          <div class="nav-dropdown" :class="{ active: isMenuOpen('preparacion') }">
-            <button @mouseenter="toggleMenu('preparacion')" class="nav-link dropdown-trigger">
-              PREPARACIÓN DE ALIMENTOS
-              <v-icon size="16" :class="{ 'rotate-icon': isMenuOpen('preparacion') }">mdi-chevron-down</v-icon>
-            </button>
-            <div v-if="isMenuOpen('preparacion')" class="dropdown-menu">
-              <a href="#" class="dropdown-item">Cortadoras</a>
-              <a href="#" class="dropdown-item">Procesadoras</a>
-              <a href="#" class="dropdown-item">Mezcladores</a>
-              <a href="#" class="dropdown-item">Amasadoras</a>
+              <button
+                v-for="category in categoryGroups.coccion"
+                :key="category"
+                @click="navigateToCategory(category)"
+                class="dropdown-item"
+              >
+                {{ category }}
+              </button>
             </div>
           </div>
 
@@ -128,65 +100,144 @@
               <v-icon size="16" :class="{ 'rotate-icon': isMenuOpen('refrigeracion') }">mdi-chevron-down</v-icon>
             </button>
             <div v-if="isMenuOpen('refrigeracion')" class="dropdown-menu">
-              <a href="#" class="dropdown-item">Refrigeradores</a>
-              <a href="#" class="dropdown-item">Congeladores</a>
-              <a href="#" class="dropdown-item">Vitrinas</a>
-              <a href="#" class="dropdown-item">Mesas Refrigeradas</a>
+              <button
+                v-for="category in categoryGroups.refrigeracion"
+                :key="category"
+                @click="navigateToCategory(category)"
+                class="dropdown-item"
+              >
+                {{ category }}
+              </button>
             </div>
           </div>
 
-          <a href="#" class="nav-link">EQUIPOS PARA HELADO</a>
-
-          <!-- Menú desplegable INSUMOS -->
-          <div class="nav-dropdown" :class="{ active: isMenuOpen('insumos') }">
-            <button @mouseenter="toggleMenu('insumos')" class="nav-link dropdown-trigger">
-              INSUMOS
-              <v-icon size="16" :class="{ 'rotate-icon': isMenuOpen('insumos') }">mdi-chevron-down</v-icon>
+          <!-- Menú desplegable PREPARACIÓN -->
+          <div class="nav-dropdown" :class="{ active: isMenuOpen('preparacion') }">
+            <button @mouseenter="toggleMenu('preparacion')" class="nav-link dropdown-trigger">
+              PREPARACIÓN
+              <v-icon size="16" :class="{ 'rotate-icon': isMenuOpen('preparacion') }">mdi-chevron-down</v-icon>
             </button>
-            <div v-if="isMenuOpen('insumos')" class="dropdown-menu">
-              <a href="#" class="dropdown-item">Aceites y Grasas</a>
-              <a href="#" class="dropdown-item">Condimentos</a>
-              <a href="#" class="dropdown-item">Harinas</a>
-              <a href="#" class="dropdown-item">Bebidas</a>
+            <div v-if="isMenuOpen('preparacion')" class="dropdown-menu">
+              <button
+                v-for="category in categoryGroups.preparacion"
+                :key="category"
+                @click="navigateToCategory(category)"
+                class="dropdown-item"
+              >
+                {{ category }}
+              </button>
             </div>
           </div>
 
-          <a href="#" class="nav-link">CAFÉ EN GRANO</a>
-        </div>
-      </div>
+          <!-- Menú desplegable CAFETERÍA -->
+          <div class="nav-dropdown" :class="{ active: isMenuOpen('cafeteria') }">
+            <button @mouseenter="toggleMenu('cafeteria')" class="nav-link dropdown-trigger">
+              CAFETERÍA
+              <v-icon size="16" :class="{ 'rotate-icon': isMenuOpen('cafeteria') }">mdi-chevron-down</v-icon>
+            </button>
+            <div v-if="isMenuOpen('cafeteria')" class="dropdown-menu">
+              <button
+                v-for="category in categoryGroups.cafeteria"
+                :key="category"
+                @click="navigateToCategory(category)"
+                class="dropdown-item"
+              >
+                {{ category }}
+              </button>
+            </div>
+          </div>
 
-      <!-- Segunda fila: Enlaces secundarios (más oscura) -->
-      <div class="secondary-nav-container secondary-row">
-        <div class="nav-links-secondary">
           <!-- Menú desplegable MARCAS -->
           <div class="nav-dropdown" :class="{ active: isMenuOpen('marcas') }">
-            <button @mouseenter="toggleMenu('marcas')" class="nav-link secondary dropdown-trigger">
+            <button @mouseenter="toggleMenu('marcas')" class="nav-link dropdown-trigger">
               MARCAS
               <v-icon size="14" :class="{ 'rotate-icon': isMenuOpen('marcas') }">mdi-chevron-down</v-icon>
             </button>
-            <div v-if="isMenuOpen('marcas')" class="dropdown-menu secondary-dropdown">
-              <a href="#" class="dropdown-item">Marca A</a>
-              <a href="#" class="dropdown-item">Marca B</a>
-              <a href="#" class="dropdown-item">Marca C</a>
-              <a href="#" class="dropdown-item">Marca D</a>
+            <div v-if="isMenuOpen('marcas')" class="dropdown-menu">
+              <button
+                v-for="brand in categoryGroups.marcas"
+                :key="brand"
+                @click="navigateToBrand(brand)"
+                class="dropdown-item"
+              >
+                {{ brand }}
+              </button>
             </div>
           </div>
 
-          <a href="#" class="nav-link secondary">SOBRE NOSOTROS</a>
-
-          <!-- Menú desplegable UTENSILIOS -->
-          <div class="nav-dropdown" :class="{ active: isMenuOpen('utensilios') }">
-            <button @mouseenter="toggleMenu('utensilios')" class="nav-link secondary dropdown-trigger">
-              UTENSILIOS
-              <v-icon size="14" :class="{ 'rotate-icon': isMenuOpen('utensilios') }">mdi-chevron-down</v-icon>
+          <!-- Menú desplegable BÁSCULAS -->
+          <div class="nav-dropdown" :class="{ active: isMenuOpen('basculas') }">
+            <button @mouseenter="toggleMenu('basculas')" class="nav-link dropdown-trigger">
+              BÁSCULAS
+              <v-icon size="14" :class="{ 'rotate-icon': isMenuOpen('basculas') }">mdi-chevron-down</v-icon>
             </button>
-            <div v-if="isMenuOpen('utensilios')" class="dropdown-menu secondary-dropdown">
-              <a href="#" class="dropdown-item">Cuchillos</a>
-              <a href="#" class="dropdown-item">Tablas de Corte</a>
-              <a href="#" class="dropdown-item">Ollas y Sartenes</a>
-              <a href="#" class="dropdown-item">Bandejas</a>
+            <div v-if="isMenuOpen('basculas')" class="dropdown-menu">
+              <button
+                v-for="category in categoryGroups.basculas"
+                :key="category"
+                @click="navigateToCategory(category)"
+                class="dropdown-item"
+              >
+                {{ category }}
+              </button>
             </div>
           </div>
+
+          <!-- Menú desplegable MAQUINARIA -->
+          <div class="nav-dropdown" :class="{ active: isMenuOpen('maquinaria') }">
+            <button @mouseenter="toggleMenu('maquinaria')" class="nav-link dropdown-trigger">
+              MAQUINARIA
+              <v-icon size="14" :class="{ 'rotate-icon': isMenuOpen('maquinaria') }">mdi-chevron-down</v-icon>
+            </button>
+            <div v-if="isMenuOpen('maquinaria')" class="dropdown-menu">
+              <button
+                v-for="category in categoryGroups.maquinaria"
+                :key="category"
+                @click="navigateToCategory(category)"
+                class="dropdown-item"
+              >
+                {{ category }}
+              </button>
+            </div>
+          </div>
+
+          <!-- Menú desplegable SERVICIOS Y ACCESORIOS -->
+          <div class="nav-dropdown" :class="{ active: isMenuOpen('servicios') }">
+            <button @mouseenter="toggleMenu('servicios')" class="nav-link dropdown-trigger">
+              SERVICIOS
+              <v-icon size="14" :class="{ 'rotate-icon': isMenuOpen('servicios') }">mdi-chevron-down</v-icon>
+            </button>
+            <div v-if="isMenuOpen('servicios')" class="dropdown-menu">
+              <button
+                v-for="category in categoryGroups.servicios"
+                :key="category"
+                @click="navigateToCategory(category)"
+                class="dropdown-item"
+              >
+                {{ category }}
+              </button>
+            </div>
+          </div>
+
+          <!-- Menú desplegable ACCESORIOS -->
+          <div class="nav-dropdown" :class="{ active: isMenuOpen('accesorios') }">
+            <button @mouseenter="toggleMenu('accesorios')" class="nav-link dropdown-trigger">
+              ACCESORIOS
+              <v-icon size="14" :class="{ 'rotate-icon': isMenuOpen('accesorios') }">mdi-chevron-down</v-icon>
+            </button>
+            <div v-if="isMenuOpen('accesorios')" class="dropdown-menu">
+              <button
+                v-for="category in categoryGroups.accesorios"
+                :key="category"
+                @click="navigateToCategory(category)"
+                class="dropdown-item"
+              >
+                {{ category }}
+              </button>
+            </div>
+          </div>
+
+          <router-link :to="{ name: 'About' }" class="nav-link">NOSOTROS</router-link>
         </div>
       </div>
     </nav>
@@ -202,28 +253,33 @@
         <v-list-item
           :to="{ name: 'Home' }"
           prepend-icon="mdi-home"
-          title="Inicio"
-        ></v-list-item>
+        >
+          <v-list-item-title>Inicio</v-list-item-title>
+        </v-list-item>
         <v-list-item
           :to="{ name: 'About' }"
           prepend-icon="mdi-heart-outline"
-          title="Nosotros"
-        ></v-list-item>
+        >
+          <v-list-item-title>Nosotros</v-list-item-title>
+        </v-list-item>
         <v-list-item
           :to="{ name: 'ProductList' }"
           prepend-icon="mdi-shopping"
-          title="Colección"
-        ></v-list-item>
+        >
+          <v-list-item-title>Colección</v-list-item-title>
+        </v-list-item>
         <v-list-item
           :to="{ name: 'Contact' }"
           prepend-icon="mdi-email-outline"
-          title="Contacto"
-        ></v-list-item>
+        >
+          <v-list-item-title>Contacto</v-list-item-title>
+        </v-list-item>
         <v-list-item
           :to="{ name: 'CustomerOrders' }"
           prepend-icon="mdi-package-variant-closed"
-          title="Mis pedidos"
-        ></v-list-item>
+        >
+          <v-list-item-title>Mis pedidos</v-list-item-title>
+        </v-list-item>
         <v-list-item
           :to="{ name: 'Cart' }"
           prepend-icon="mdi-cart"
@@ -268,12 +324,17 @@
               </div>
             </div>
 
-            <div class="social-links mt-10">
-              <v-btn icon variant="text" class="footer-social" size="small" href="https://www.instagram.com/izaguirre.qu/" target="_blank">
+     <div class="social-links mt-10">
+              <v-btn icon variant="text" class="footer-social" size="small" href="https://www.instagram.com/serviram.com.mx" target="_blank">
                 <v-icon>mdi-instagram</v-icon>
               </v-btn>
-              <v-btn icon variant="text" class="footer-social" size="small" href="https://www.facebook.com/IzaguirreQu" target="_blank">
+              <v-btn icon variant="text" class="footer-social" size="small" href="https://www.facebook.com/p/Serviram-soluciones-100067535923102/" target="_blank">
                 <v-icon>mdi-facebook</v-icon>
+              </v-btn>
+              <v-btn icon variant="text" class="footer-social" size="small" href="https://www.tiktok.com/@serviram_kitchen_service" target="_blank">
+                <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                  <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.68v13.67a2.4 2.4 0 0 1-2.4 2.4 2.4 2.4 0 0 1-2.4-2.4 2.4 2.4 0 0 1 2.4-2.4c.34 0 .67.03 1 .1V9.66a5.86 5.86 0 0 0-1-.08A5.889 5.889 0 0 0 5 20.89a5.889 5.889 0 0 0 5.94-5.892v-3.28a7.47 7.47 0 0 0 4.85 1.82v-3.68a4.85 4.85 0 0 1-3.2-1.246z"/>
+                </svg>
               </v-btn>
             </div>
           </v-col>
@@ -326,9 +387,11 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue';
+import { ref, onMounted, onUnmounted, nextTick } from 'vue';
+import { useRouter } from 'vue-router';
 import { useCart } from './composables/useCart';
 
+const router = useRouter();
 const { itemCount } = useCart();
 const drawer = ref(false);
 const navbar = ref(null);
@@ -340,19 +403,195 @@ const scrollThreshold = 5;
 
 let menuCloseTimeout = null;
 
+// Categorías agrupadas por subcategoría
+const categoryGroups = ref({
+  coccion: [
+    'Estufas',
+    'Planchas',
+    'Parrillas',
+    'Asadores',
+    'Combinados',
+    'Estufones',
+    'Salamandra',
+    'Hornos',
+    'Freidoras',
+    'Hornos de convención',
+    'Panineras',
+    'Wafflera',
+    'Creperas',
+    'Rolador de Hot Dog',
+    'Baños Marías'
+  ],
+  refrigeracion: [
+    'Congeladores tapa de cofre',
+    'Congeladores tapa de cofre de acero inoxidable',
+    'Congeladores puerta de cristal',
+    'Refrigerador vertical',
+    'Refrigerador cervecero',
+    'Congelador vertical',
+    'Vitrina',
+    'Conservador de congelados tapa cofre',
+    'Conservador de congelados puerta de vidrio',
+    'Reach In',
+    'Conservador de Comida a Temperatura de Servicio',
+    'Refrigerador'
+  ],
+  preparacion: [
+    'Mesas para ensaladas',
+    'Mesas para pizzas',
+    'Contra barra',
+    'Bajo barra',
+    'Mesas de trabajo',
+    'Bases para modulares',
+    'Molinos de Carne',
+    'Rebanadoras',
+    'Sierras Carniceras',
+    'Templadora de Chocolate',
+    'Turbolicuadores'
+  ],
+  cafeteria: [
+    'Cafeteras Automáticas',
+    'Máquinas de Espresso',
+    'Cafeteras de Filtro',
+    'Dispensadores de Bebidas Frías',
+    'CAFÉ EN GRANO'
+  ],
+  marcas: [
+    'Unox',
+    'Midea',
+    'Bellini',
+    'King',
+    'Ugolini',
+    'Blendtec',
+    'DANPA',
+    'Rational'
+  ],
+  basculas: [
+    'Accesorios para Básculas',
+    'Aplicaciones para Básculas Inteligentes',
+    'Báscula Contadora',
+    'Báscula de Paquetería',
+    'Básculas de Plataforma',
+    'Báscula para Bebés',
+    'Báscula para Maletas',
+    'Básculas a Prueba de Agua',
+    'Básculas Colgantes',
+    'Básculas de Cocina',
+    'Básculas de Pesaje Corporal',
+    'Básculas de Precisión',
+    'Básculas Etiquetadoras',
+    'Básculas Peso-Precio',
+    'Básculas Porcionadoras',
+    'Bascula de Plataforma Inalámbrica'
+  ],
+  maquinaria: [
+    'Amasadoras',
+    'Accesorios para Maquinaria',
+    'Batidoras Planetarias',
+    'Empacadoras al Vacío',
+    'Emplayadora de Alimentos',
+    'Fábricas de Hielo',
+    'Hidrolavadora',
+    'Máquina de Helados',
+    'ICombi Pro',
+    'ICombi Classic',
+    'Combi-Duo',
+    'IVario',
+    'IVario Pro'
+  ],
+  servicios: [
+    'Campanas y filtros',
+    'Extractores',
+    'Bases',
+    'Bases Drago',
+    'MANGUERAS DE PRELAVADO',
+    'REGULADORES & CONVERTIDORES',
+    'Productos de Limpieza y cuidado ICombi',
+    'Productos de Limpieza y cuidado IVario',
+    'Accesorios para Básculas',
+    'DETERGENTES'
+  ],
+  accesorios: [
+    'Utensilios para Cocina y Restaurante',
+    'Insertos y Tapas de Acero Inoxidable',
+    'Insertos, Tapas y Drenador de Policarbonato',
+    'Material Punto de Venta',
+    'Cuchillería Profesional',
+    'Selladoras de Impulso'
+  ]
+});
+
+const navigateToCategory = (category) => {
+  closeMenu();
+  router.push({ 
+    name: 'ProductList', 
+    query: { category } 
+  }).then(() => {
+    // Esperar a que la página se renderice completamente
+    nextTick(() => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+  });
+};
+
+const navigateToBrand = (brand) => {
+  closeMenu();
+  router.push({ 
+    name: 'ProductList', 
+    query: { brand } 
+  }).then(() => {
+    // Esperar a que la página se renderice completamente
+    nextTick(() => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+  });
+};
+
+const navigateToType = (tipo) => {
+  closeMenu();
+  router.push({ 
+    name: 'ProductList', 
+    query: { tipo } 
+  }).then(() => {
+    nextTick(() => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+  });
+};
+
+const navigateToIndustry = (industria) => {
+  closeMenu();
+  router.push({ 
+    name: 'ProductList', 
+    query: { industria } 
+  }).then(() => {
+    nextTick(() => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+  });
+};
+
 const toggleMenu = (menuKey) => {
-  // Clear any pending close timeout when entering a new menu
   if (menuCloseTimeout) {
     clearTimeout(menuCloseTimeout);
     menuCloseTimeout = null;
   }
-
-  // Always open the menu on hover - no toggle logic
   openMenuKey.value = menuKey;
 };
 
 const closeMenu = () => {
-  // Add minimal delay to prevent flickering when quickly moving between items
   if (menuCloseTimeout) {
     clearTimeout(menuCloseTimeout);
   }
@@ -367,32 +606,26 @@ const isMenuOpen = (menuKey) => {
   return openMenuKey.value === menuKey;
 };
 
-// Scroll behavior with requestAnimationFrame for smooth performance
 const handleScroll = () => {
   if (!navbar.value) return;
 
   const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
   const scrollDifference = Math.abs(scrollTop - lastScrollTop);
 
-  // Only process if we've scrolled enough
   if (scrollDifference < scrollThreshold) {
     ticking = false;
     return;
   }
 
-  // Don't hide navbar if drawer is open
   if (drawer.value) {
     navbar.value.$el.classList.remove('hidden');
     ticking = false;
     return;
   }
 
-  // Hide/show navbar based on scroll direction
   if (scrollTop > lastScrollTop && scrollTop > 150) {
-    // Scrolling down & past threshold -> hide navbar
     navbar.value.$el.classList.add('hidden');
   } else if (scrollTop < lastScrollTop || scrollTop <= 100) {
-    // Scrolling up OR at top -> show navbar
     navbar.value.$el.classList.remove('hidden');
   }
 
@@ -896,9 +1129,10 @@ input,
 }
 
 .secondary-row {
-  background: #1a1a1a;
+  background: #3a3a3a;
   padding: 0 !important;
-  border-top: 1px solid #0a0a0a;
+  border-top: none;
+  display: none;
 }
 
 .secondary-nav-container {
@@ -914,13 +1148,15 @@ input,
   flex-wrap: wrap;
   gap: 0;
   align-items: center;
-  padding: 14px 20px;
+  padding: 12px 20px;
   width: 100%;
+  justify-content: flex-start;
 }
 
 .nav-dropdown {
   position: relative;
   display: inline-block;
+  flex: 0 0 auto;
 }
 
 .nav-link {
@@ -928,16 +1164,17 @@ input,
   font-weight: 500;
   letter-spacing: 0.05em;
   margin: 0;
-  padding: 14px 16px;
+  padding: 12px 10px;
   border-radius: 0 !important;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   text-decoration: none;
   transition: background 0.2s ease, color 0.2s ease;
   white-space: nowrap;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 4px;
   background: transparent;
+  flex-shrink: 0;
 }
 
 .nav-link:hover {
@@ -970,10 +1207,11 @@ input,
   align-items: center;
   padding: 12px 20px;
   width: 100%;
+  justify-content: flex-start;
 }
 
 .nav-link.secondary {
-  padding: 12px 16px;
+  padding: 12px 14px;
   font-size: 0.85rem;
   font-weight: 600;
 }
@@ -1023,6 +1261,11 @@ input,
   transition: all 0.2s ease;
   white-space: nowrap;
   font-weight: 400;
+  border: none;
+  background: none;
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
 }
 
 .dropdown-item:hover {
@@ -1054,32 +1297,37 @@ input,
 @media (max-width: 960px) {
   .nav-links-primary,
   .nav-links-secondary {
-    gap: 8px;
-    padding: 12px 16px;
-  }
-
-  .nav-link {
-    padding: 10px 12px;
-    font-size: 0.8rem;
-  }
-
-  .nav-link.secondary {
-    padding: 10px 12px;
-  }
-}
-
-@media (max-width: 768px) {
-  .nav-links-primary {
-    overflow-x: auto;
-    scroll-behavior: smooth;
-    padding: 12px 16px;
-    flex-wrap: nowrap;
+    gap: 0;
+    padding: 12px 12px;
   }
 
   .nav-link {
     padding: 10px 10px;
     font-size: 0.75rem;
+  }
+
+  .nav-link.secondary {
+    padding: 10px 10px;
+  }
+}
+
+@media (max-width: 768px) {
+  .nav-links-primary,
+  .nav-links-secondary {
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding: 12px 12px;
+    flex-wrap: nowrap;
+  }
+
+  .nav-link {
+    padding: 10px 8px;
+    font-size: 0.7rem;
     flex-shrink: 0;
+  }
+
+  .nav-link.secondary {
+    padding: 10px 8px;
   }
 }
 

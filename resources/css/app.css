@@ -1,5 +1,6 @@
 @import 'tailwindcss';
 @import './ramex-theme.css';
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap');
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
@@ -7,21 +8,12 @@
 @source '../**/*.js';
 
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+    --font-sans: 'Montserrat', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
 }
 
-
-@font-face {
-  font-family: 'Sanke';
-  src: url('../fonts/sanke.otf') format('opentype');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
 :root {
-  --font-brand: 'Sanke', 'Times New Roman', serif;
+  --font-brand: 'Montserrat', 'Segoe UI', sans-serif;
 }
 
 html,
@@ -30,5 +22,5 @@ body,
 .v-application,
 .v-application * {
   font-family: var(--font-brand) !important;
-   letter-spacing: 1px;
+  letter-spacing: 0.01em;
 }
