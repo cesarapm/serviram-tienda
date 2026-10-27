@@ -48,17 +48,12 @@
           </div>
 
           <div class="utility-icons">
-            <!-- <button class="utility-button" type="button">
-              <span>ES</span>
-              <v-icon size="17">mdi-chevron-down</v-icon>
-            </button>
-            <button class="utility-icon" type="button" aria-label="Mi cuenta">
-              <v-icon>mdi-account-outline</v-icon>
-            </button> -->
-            <button class="utility-icon cart-button" type="button" aria-label="Carrito">
-              <v-icon>mdi-cart-outline</v-icon>
-              <span class="cart-badge">0</span>
-            </button>
+      
+            <router-link :to="{ name: 'Cart' }" class="utility-icon cart-button" aria-label="Carrito">
+              <v-badge :content="itemCount" color="#8c745f" text-color="white">
+                <v-icon>mdi-cart-outline</v-icon>
+              </v-badge>
+            </router-link>
           </div>
         </div>
 
