@@ -43,12 +43,12 @@
             </div>
             <div class="whatsapp-copy">
               <span class="whatsapp-label">WhatsApp</span>
-              <a href="tel:+5233614891">Llámanos</a>
+              <a href="tel:+5214445449888">Llámanos</a>
             </div>
           </div>
 
           <div class="utility-icons">
-      
+
             <router-link :to="{ name: 'Cart' }" class="utility-icon cart-button" aria-label="Carrito">
               <v-badge :content="itemCount" color="#8c745f" text-color="white">
                 <v-icon>mdi-cart-outline</v-icon>
@@ -337,7 +337,7 @@
       size="x-large"
       icon
       elevation="8"
-      href="https://wa.me/5580091558?text=Hola,%20me%20interesan%20sus%20productos"
+    href="https://wa.me/5214445449888?text=Hola,%20estoy%20interesado%20en%20sus%20servicios"
       target="_blank"
     >
       <v-icon size="32">mdi-whatsapp</v-icon>
@@ -395,7 +395,11 @@
             <div class="footer-contact">
               <div class="contact-item">
                 <v-icon size="small" class="contact-icon">mdi-whatsapp</v-icon>
-                <span>+52 558 009 1558</span>
+                <span>+52 444 544 9888</span>
+              </div>
+              <div class="contact-item">
+                <v-icon size="small" class="contact-icon">mdi-phone</v-icon>
+                <span>+52 444 536 7613</span>
               </div>
               <div class="contact-item">
                 <v-icon size="small" class="contact-icon">mdi-email</v-icon>
@@ -578,9 +582,9 @@ const industriaOptions = ref([
 
 const navigateToCategory = (category) => {
   closeMenu();
-  router.push({ 
-    name: 'ProductList', 
-    query: { category } 
+  router.push({
+    name: 'ProductList',
+    query: { category }
   }).then(() => {
     // Esperar a que la página se renderice completamente
     nextTick(() => {
@@ -594,9 +598,9 @@ const navigateToCategory = (category) => {
 
 const navigateToBrand = (brand) => {
   closeMenu();
-  router.push({ 
-    name: 'ProductList', 
-    query: { brand } 
+  router.push({
+    name: 'ProductList',
+    query: { brand }
   }).then(() => {
     // Esperar a que la página se renderice completamente
     nextTick(() => {
@@ -610,9 +614,9 @@ const navigateToBrand = (brand) => {
 
 const navigateToType = (tipo) => {
   closeMenu();
-  router.push({ 
-    name: 'ProductList', 
-    query: { tipo } 
+  router.push({
+    name: 'ProductList',
+    query: { tipo }
   }).then(() => {
     nextTick(() => {
       window.scrollTo({
@@ -625,9 +629,9 @@ const navigateToType = (tipo) => {
 
 const navigateToIndustry = (industria) => {
   closeMenu();
-  router.push({ 
-    name: 'ProductList', 
-    query: { industria } 
+  router.push({
+    name: 'ProductList',
+    query: { industria }
   }).then(() => {
     nextTick(() => {
       window.scrollTo({
@@ -641,9 +645,9 @@ const navigateToIndustry = (industria) => {
 const navigateToSearch = () => {
   if (searchQuery.value.trim()) {
     closeMenu();
-    router.push({ 
-      name: 'ProductList', 
-      query: { search: searchQuery.value.trim() } 
+    router.push({
+      name: 'ProductList',
+      query: { search: searchQuery.value.trim() }
     }).then(() => {
       nextTick(() => {
         window.scrollTo({
