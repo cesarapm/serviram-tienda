@@ -24,11 +24,13 @@
 
         <div class="search-bar">
           <input
+            v-model="searchQuery"
             type="text"
             placeholder="Buscar productos"
             aria-label="Buscar productos"
+            @keyup.enter="navigateToSearch"
           />
-          <button class="search-action" type="button">
+          <button class="search-action" type="button" @click="navigateToSearch">
             <v-icon size="22">mdi-magnify</v-icon>
             <span>Búsqueda</span>
           </button>
@@ -433,6 +435,7 @@ const drawer = ref(false);
 const navbar = ref(null);
 const logo = '/images/logo.webp';
 const openMenuKey = ref(null);
+const searchQuery = ref('');
 let lastScrollTop = 0;
 let ticking = false;
 const scrollThreshold = 5;
@@ -638,6 +641,24 @@ const navigateToIndustry = (industria) => {
       });
     });
   });
+};
+
+const navigateToSearch = () => {
+  if (searchQuery.value.trim()) {
+    closeMenu();
+    router.push({ 
+      name: 'ProductList', 
+      query: { search: searchQuery.value.trim() } 
+    }).then(() => {
+      nextTick(() => {
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+      });
+    });
+    searchQuery.value = '';
+  }
 };
 
 const toggleMenu = (menuKey) => {
