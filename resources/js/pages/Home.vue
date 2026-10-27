@@ -13,7 +13,7 @@
           <p>{{ currentCategory.description }}</p>
           <div class="banner-actions">
             <router-link to="/productos" class="primary-btn">Ver catálogo</router-link>
-            <a href="tel:+5233614891" class="secondary-btn">Cotizar ahora</a>
+            <a href="tel:+5214442151913" class="secondary-btn">Cotizar ahora</a>
           </div>
         </div>
       </div>
@@ -27,16 +27,16 @@
             <h1 class="usp-h1">
               Soluciones Integrales de Equipamiento Gastronómico Industrial
             </h1>
-            
+
             <h2 class="usp-h2">
               Comercialización de Marcas Líderes Internacionales
             </h2>
-            
+
             <div class="usp-text">
               <p>
                 Fabricación a medida en acero inoxidable, instalación profesional y respaldo técnico certificado por las marcas a través de SERVIRAM.
               </p>
-              
+
               <div class="usp-features">
                 <div class="feature-item">
                   <v-icon class="feature-icon">mdi-check-circle-outline</v-icon>
@@ -183,7 +183,7 @@ const handlePageChange = (page) => {
 
   currentPage.value = page
   fetchFeaturedProducts()
-  
+
   // Scroll hacia la sección de productos
   setTimeout(() => {
     if (productsSection.value) {

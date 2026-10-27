@@ -43,7 +43,7 @@
             </div>
             <div class="whatsapp-copy">
               <span class="whatsapp-label">WhatsApp</span>
-              <a href="tel:+5214445449888">Llámanos</a>
+              <a href="tel:+5214442151913">Llámanos</a>
             </div>
           </div>
 
@@ -337,7 +337,7 @@
       size="x-large"
       icon
       elevation="8"
-    href="https://wa.me/5214445449888?text=Hola,%20estoy%20interesado%20en%20sus%20servicios"
+    href="https://wa.me/5214442151913?text=Hola,%20estoy%20interesado%20en%20sus%20servicios"
       target="_blank"
     >
       <v-icon size="32">mdi-whatsapp</v-icon>
@@ -361,7 +361,7 @@
               <v-btn icon variant="text" class="footer-social" size="small" href="https://www.instagram.com/serviram.com.mx" target="_blank">
                 <v-icon>mdi-instagram</v-icon>
               </v-btn>
-              <v-btn icon variant="text" class="footer-social" size="small" href="https://www.facebook.com/p/Serviram-soluciones-100067535923102/" target="_blank">
+              <v-btn icon variant="text" class="footer-social" size="small" href="https://www.facebook.com/RamexKitchen" target="_blank">
                 <v-icon>mdi-facebook</v-icon>
               </v-btn>
               <v-btn icon variant="text" class="footer-social" size="small" href="https://www.tiktok.com/@serviram_kitchen_service" target="_blank">
@@ -377,7 +377,7 @@
               <router-link to="/" class="footer-link">Inicio</router-link>
               <router-link :to="{ name: 'About' }" class="footer-link">Nosotros</router-link>
               <router-link :to="{ name: 'ProductList' }" class="footer-link">Colección</router-link>
-              <router-link :to="{ name: 'Contact' }" class="footer-link">Contacto</router-link>
+              <!-- <router-link :to="{ name: 'Contact' }" class="footer-link">Contacto</router-link> -->
               <router-link :to="{ name: 'CustomerOrders' }" class="footer-link">Mis pedidos</router-link>
             </div>
           </v-col>
@@ -395,7 +395,7 @@
             <div class="footer-contact">
               <div class="contact-item">
                 <v-icon size="small" class="contact-icon">mdi-whatsapp</v-icon>
-                <span>+52 444 544 9888</span>
+                <span>+52 444 215 1913</span>
               </div>
               <div class="contact-item">
                 <v-icon size="small" class="contact-icon">mdi-phone</v-icon>
@@ -1418,7 +1418,7 @@ input,
 .footer {
   color: #6b5b47;
   background:
-    radial-gradient(circle at top left, rgba(217, 200, 181, 0.4), transparent 30%),
+    radial-gradient(circle at top left, rgba(186, 186, 186), transparent 30%),
     linear-gradient(180deg, #f5f1ec 0%, #ebe4dc 100%) !important;
   border-top: 1px solid rgba(184, 151, 120, 0.18);
 }
